@@ -1,0 +1,50 @@
+@extends('admin.layout')
+@section('content')
+    <script type="text/javascript" src="{{ asset("/js/tinymce/tinymce/tinymce.min.js") }}"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste",
+
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            paste_data_images: true,
+            relative_urls :false,
+            convert_urls: true
+        });
+    </script>
+    @if (count($errors))
+            @foreach($errors->all() as $error)
+                <div class="alert alert-warning">{{ $error }}</div>
+            @endforeach
+    @endif
+    <form id="addpost-form" class="container large left" action="/admin/posts/update/{{ $post->post_id }}/{{ $post->title }}" method="post">
+        {{ method_field('PATCH') }}
+        {{ csrf_field() }}
+        <input type="hidden" name="id" value="{{$post->post_id}}"/>
+        <input type="text" name="title" placeholder="Title" value="{{ $post->title }}"><br />
+        <input type="text" name="post_desc" placeholder="Post Description (max 160 characters)" value="{{$post->description}}"/><br />
+        <label for="select">Category</label>
+        <select id="categories" name="cat_name">
+            <option name="none" value="None">None</option>
+        </select>
+
+        <input type="text" name="category" placeholder="Category"/><br />
+        <input type="hidden" name="cat_type" value="post"/><br />
+        <textarea type="text" name="content" placeholder="Content">{{ $post->content }}</textarea><br />
+
+
+        <p>Are you sure you want to edit the following post?</p>
+        <input type="radio" name="confirm" value="true" /> Yes
+        <input type="radio" name="confirm" value="false" checked="checked" /> No <br />
+        <button type="submit" name="submit">Submit</button>
+    </form>
+    <div id="return" class="container medium left">
+     
+        {{--@require('blocks/include-files-tinymce.php')--}}
+        
+    </div>
+@stop
