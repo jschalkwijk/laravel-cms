@@ -15,8 +15,21 @@ class PostsController extends Controller
     }
 
     public function index(){
-        $posts = Post::all()->load('category','user');
+        $posts = Post::with('category','user')->orderBy('post_id', 'desc')->get();
+        //$posts = Post::all()->load('category','user');
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts]);
+    }
+
+    public function add(Request $r)
+    {
+        $this->validate($r, [
+            'title' => 'required|min:4',
+            'content' => 'required|min:5',
+        ]);
+        $post = new Post($r->all());
+        $post->user_id = Auth::user()->user_id;
+        $post->save();
+        return back();
     }
 
     public function edit(Post $post)
@@ -34,7 +47,9 @@ class PostsController extends Controller
 
             $post->user_id = Auth::user()->user_id;
             $post->update($r->all());
+            return back();
         }
-        return back();
+
     }
+
 }

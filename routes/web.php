@@ -11,24 +11,38 @@
 |
 */
 
-Route::group(['middleware'=> ['web']], function (){
+Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     // Authentication Routes...
-    $this->get('/admin/login', 'Auth\LoginController@showLoginForm')->name('login');
-    $this->post('/admin/login', 'Auth\LoginController@login');
-    $this->post('/admin/logout', 'Auth\LoginController@logout')->name('logout');
+    $this->get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+    $this->post('/login', 'Auth\LoginController@login');
+    $this->post('/logout', 'Auth\LoginController@logout')->name('logout');
     // Registration Routes...
 //    $this->get('register', 'Auth\RegisterController@showRegistrationForm');
 //    $this->post('register', 'Auth\RegisterController@register');
     // Password Reset Routes...
-    $this->get('/admin/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-    $this->post('/admin/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    $this->get('/admin/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-    $this->post('/admin/password/reset', 'Auth\ResetPasswordController@reset');
+    $this->get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+    $this->post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    $this->get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+    $this->post('/password/reset', 'Auth\ResetPasswordController@reset');
 
-    Route::get('/admin', 'AdminController@index');
-    Route::get('/admin/posts','Admin\PostsController@index');
-    Route::get('/admin/posts/edit/{post}/{title}','Admin\PostsController@edit');
-    Route::patch('/admin/posts/update/{post}/{title}','Admin\PostsController@update');
+    Route::get('/', 'Admin\AdminController@index');
+    Route::group(['prefix' => '/posts'], function()
+    {
+        Route::get('/', 'Admin\PostsController@index');
+        Route::get('/edit/{post}/{title}', 'Admin\PostsController@edit');
+        Route::patch('/update/{post}/{title}', 'Admin\PostsController@update');
+        Route::get('/new', 'Admin\PostsController@edit');
+        Route::put('/add', 'Admin\PostsController@add');
+    });
+
+    Route::group(['prefix' => '/categories'], function() {
+        Route::get('/', 'Admin\CategoriesController@index');
+        Route::put('/add', 'Admin\CategoriesController@add');
+        Route::get('/new', 'Admin\CategoriesController@edit');
+        Route::get('/edit/{category}/{title}','Admin\CategoriesController@edit');
+        Route::patch('/update/{category}/{title}','Admin\CategoriesController@update');
+    });
+
     Route::get('/cards', 'Cards@index');
     Route::get('/cards/{card}', 'Cards@show');
 
