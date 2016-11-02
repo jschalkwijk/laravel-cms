@@ -13,17 +13,17 @@
 
 Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     // Authentication Routes...
-    $this->get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-    $this->post('/login', 'Auth\LoginController@login');
-    $this->post('/logout', 'Auth\LoginController@logout')->name('logout');
+    $this->get('/login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
+    $this->post('/login', 'Admin\Auth\LoginController@login');
+    $this->post('/logout', 'Admin\Auth\LoginController@logout')->name('logout');
     // Registration Routes...
 //    $this->get('register', 'Auth\RegisterController@showRegistrationForm');
 //    $this->post('register', 'Auth\RegisterController@register');
     // Password Reset Routes...
-    $this->get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-    $this->post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    $this->get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-    $this->post('/password/reset', 'Auth\ResetPasswordController@reset');
+    $this->get('/password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm');
+    $this->post('/password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail');
+    $this->get('/password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm');
+    $this->post('/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
     Route::get('/', 'Admin\AdminController@index');
     Route::group(['prefix' => '/posts'], function()
@@ -41,6 +41,14 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::get('/new', 'Admin\CategoriesController@edit');
         Route::get('/edit/{category}/{title}','Admin\CategoriesController@edit');
         Route::patch('/update/{category}/{title}','Admin\CategoriesController@update');
+    });
+
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('/', 'Admin\UsersController@index');
+        Route::put('/add', 'Admin\UsersController@add');
+        Route::get('/new', 'Admin\UsersController@edit');
+        Route::get('/edit/{user}','Admin\UsersController@edit');
+        Route::patch('/update/{user}/{username}','Admin\UsersController@update');
     });
 
     Route::get('/cards', 'Cards@index');

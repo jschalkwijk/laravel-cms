@@ -33,7 +33,7 @@
                 @else
                     <?php $action = '/admin/posts/add'; $method = 'PUT'; ?>
                 @endif
-                <form id="addpost-form" class="container large left" action="{{$action}}" method="post">
+                <form id="addpost-form" class="container large" action="{{$action}}" method="post">
                     {{ method_field($method) }}
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$post->post_id}}"/>
