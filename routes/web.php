@@ -51,6 +51,13 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::patch('/update/{user}/{username}','Admin\UsersController@update');
     });
 
+    Route::group(['prefix' => 'pages'], function(){
+       Route::get('/','Admin\PagesController@index');
+       Route::get('/add','Admin\PagesController@add');
+       Route::get('/new','Admin\PagesController@edit');
+       Route::get('/edit/{page}/{title}','Admin\PagesController@edit');
+       Route::get('/update/{page}/{title}','Admin\PagesController@update');
+    });
     Route::get('/cards', 'Cards@index');
     Route::get('/cards/{card}', 'Cards@show');
 
