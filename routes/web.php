@@ -58,6 +58,15 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
        Route::get('/edit/{page}/{title}','Admin\PagesController@edit');
        Route::get('/update/{page}/{title}','Admin\PagesController@update');
     });
+
+    Route::group(['prefix' => 'files'], function(){
+        Route::get('/','Admin\FilesController@index');
+        Route::get('/add','Admin\FilesController@add');
+        Route::get('/new','Admin\FilesController@edit');
+        Route::get('/edit/{file}/{name}','Admin\FilesController@edit');
+        Route::get('/update/{file}/{name}','Admin\FilesController@update');
+    });
+
     Route::get('/cards', 'Cards@index');
     Route::get('/cards/{card}', 'Cards@show');
 
