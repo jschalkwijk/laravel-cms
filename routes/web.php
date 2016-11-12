@@ -26,7 +26,8 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     $this->post('/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
     Route::get('/', 'Admin\AdminController@index');
-    Route::group(['prefix' => '/posts'], function()
+
+    Route::group(['prefix' => '/posts','middleware' => 'auth'], function()
     {
         Route::get('/', 'Admin\PostsController@index');
         Route::get('/edit/{post}/{title}', 'Admin\PostsController@edit');
@@ -35,7 +36,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::put('/add', 'Admin\PostsController@add');
     });
 
-    Route::group(['prefix' => '/categories'], function() {
+    Route::group(['prefix' => '/categories','middleware' => 'auth'], function() {
         Route::get('/', 'Admin\CategoriesController@index');
         Route::put('/add', 'Admin\CategoriesController@add');
         Route::get('/new', 'Admin\CategoriesController@edit');
@@ -43,7 +44,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::patch('/update/{category}/{title}','Admin\CategoriesController@update');
     });
 
-    Route::group(['prefix' => 'users'], function(){
+    Route::group(['prefix' => 'users','middleware' => 'auth'], function(){
         Route::get('/', 'Admin\UsersController@index');
         Route::put('/add', 'Admin\UsersController@add');
         Route::get('/new', 'Admin\UsersController@edit');
@@ -51,7 +52,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::patch('/update/{user}/{username}','Admin\UsersController@update');
     });
 
-    Route::group(['prefix' => 'pages'], function(){
+    Route::group(['prefix' => 'pages','middleware' => 'auth'], function(){
        Route::get('/','Admin\PagesController@index');
        Route::get('/add','Admin\PagesController@add');
        Route::get('/new','Admin\PagesController@edit');
@@ -59,12 +60,13 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
        Route::get('/update/{page}/{title}','Admin\PagesController@update');
     });
 
-    Route::group(['prefix' => 'files'], function(){
+    Route::group(['prefix' => 'files','middleware' => 'auth'], function(){
         Route::get('/','Admin\FilesController@index');
         Route::get('/add','Admin\FilesController@add');
         Route::get('/new','Admin\FilesController@edit');
         Route::get('/edit/{file}/{name}','Admin\FilesController@edit');
         Route::get('/update/{file}/{name}','Admin\FilesController@update');
+        Route::auth();
     });
 
     Route::get('/cards', 'Cards@index');
@@ -73,6 +75,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     Route::post('/cards/{card}/notes', 'Notes@store');
     Route::get('/notes/{note}/edit','Notes@edit');
     Route::patch('/notes/{note}','Notes@update');
+
 });
 
 Route::get('/', 'pages@home');
