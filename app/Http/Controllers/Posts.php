@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Post;
+namespace CMS\Http\Controllers;
+use CMS\Post;
 
 class Posts extends Controller
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace CMS\Http\Controllers\Admin;
 
-use App\User;
+use CMS\User;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller;
+use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;

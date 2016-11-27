@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace CMS\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use CMS\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {

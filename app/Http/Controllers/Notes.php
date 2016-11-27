@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CMS\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth;
 
-use App\Note;
-use App\Card;
+use CMS\Note;
+use CMS\Card;
 
 class Notes extends Controller
 {

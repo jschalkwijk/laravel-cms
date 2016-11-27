@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CMS\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use CMS\Http\Requests;
 
-use App\Category;
+use CMS\Category;
 
 class Categories extends Controller
 {

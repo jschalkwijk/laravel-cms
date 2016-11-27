@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CMS\Http\Controllers;
 
-use App\Card;
+use CMS\Card;
 
 class Cards extends Controller{
     public function index(){

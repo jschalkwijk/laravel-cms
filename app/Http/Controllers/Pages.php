@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CMS\Http\Controllers;
 
 class Pages extends Controller
 {

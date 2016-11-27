@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace CMS\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\File;
-use App\Folder;
+use CMS\File;
+use CMS\Folder;
 
 class FilesController extends Controller
 {

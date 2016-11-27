@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace CMS\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
 
-use App\Http\Controllers\Controller;
-use App\Folder;
-use App\File;
+use CMS\Http\Controllers\Controller;
+use CMS\Folder;
+use CMS\File;
 
 class FoldersController extends Controller
 {
