@@ -6,18 +6,22 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Post;
+use CMS\UserActions;
 
 class PostsController extends Controller
 {
+    use UserActions;
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index(Request $r){
+
         $posts = Post::with('category','user')->orderBy('post_id', 'desc')->get();
         //$posts = Post::all()->load('category','user');
-        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts]);
+        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
     }
 
     public function add(Request $r)
@@ -52,4 +56,9 @@ class PostsController extends Controller
 
     }
 
+    public function action(Request $r)
+    {
+        $this->Actions($r,'posts');
+        return back();
+    }
 }

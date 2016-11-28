@@ -34,6 +34,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::patch('/update/{post}/{title}', 'Admin\PostsController@update');
         Route::get('/new', 'Admin\PostsController@edit');
         Route::put('/add', 'Admin\PostsController@add');
+        Route::post('/action', 'Admin\PostsController@action');
     });
 
     Route::group(['prefix' => '/categories','middleware' => 'auth'], function() {
