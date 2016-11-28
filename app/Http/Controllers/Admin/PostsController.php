@@ -17,11 +17,14 @@ class PostsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $r){
-
-        $posts = Post::with('category','user')->orderBy('post_id', 'desc')->get();
-        //$posts = Post::all()->load('category','user');
+    public function index(){
+        $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id', 'desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
+    }
+
+    public function deleted(){
+        $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id', 'desc')->get();
+        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
 
     public function add(Request $r)
