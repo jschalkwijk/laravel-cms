@@ -31,7 +31,7 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     {
         Route::get('/', 'Admin\PostsController@index');
         Route::get('/deleted-posts', 'Admin\PostsController@deleted');
-        Route::get('/edit/{post}/{title}', 'Admin\vagarPostsController@edit');
+        Route::get('/edit/{post}/{title}', 'Admin\PostsController@edit');
         Route::patch('/update/{post}/{title}', 'Admin\PostsController@update');
         Route::get('/new', 'Admin\PostsController@edit');
         Route::put('/add', 'Admin\PostsController@add');
