@@ -28,36 +28,23 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                @if (isset($post->post_id))
-                    <?php $action = '/admin/posts/update/'.$post->post_id.'/'.$post->title; $method = 'PATCH'; ?>
-                @else
-                    <?php $action = '/admin/posts/add'; $method = 'PUT'; ?>
-                @endif
+                    <?php $action = '/admin/posts/store'; $method = 'PUT'; ?>
                 <form id="addpost-form" class="large" action="{{$action}}" method="post">
                     {{ method_field($method) }}
                     {{ csrf_field() }}
-                    <input type="hidden" name="id" value="{{$post->post_id}}"/>
-                    <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}"><br />
-                    <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description',$post->description)}}"/><br />
+                    <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
+                    <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />
                     <label for="select">Category</label>
                     <select id="categories" name="category_id">
                         <option value="None">None</option>
                         @foreach($categories as $category)
-                            @if($post->category['category_id'] == $category->category_id)
-                                <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
-                            @else
-                                <option value="{{$category->category_id}}">{{$category->title}}</option>
-                            @endif
+                            <option value="{{$category->category_id}}">{{$category->title}}</option>
                         @endforeach
                     </select>
 
                     <input type="text" name="category" placeholder="Category"/><br />
                     <input type="hidden" name="cat_type" value="post"/><br />
-                    <textarea type="text" name="content" placeholder="Content">{{ old('content',$post->content) }}</textarea><br />
-
-                    <p>Are you sure you want to edit the following post?</p>
-                    <input type="radio" name="confirm" value="true" /> Yes
-                    <input type="radio" name="confirm" value="false" checked="checked" /> No <br />
+                    <textarea type="text" name="content" placeholder="Content">{{ old('content') }}</textarea><br />
                     <button type="submit" name="submit">Submit</button>
                 </form>
                 <div id="return" class="container medium left">

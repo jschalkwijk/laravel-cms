@@ -23,6 +23,9 @@ trait UserActions
 
             Action::restore($r,$table);
         }
+        if(isset($r['delete-selected'])){
+            Action::remove($r,$table);
+        }
     }
 
 }

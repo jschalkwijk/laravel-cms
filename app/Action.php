@@ -2,11 +2,10 @@
 
 namespace CMS;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Action extends Model
+class Action
 {
     public static function trash(Request $r,$table)
     {
@@ -27,5 +26,11 @@ class Action extends Model
     {
         $key = substr($table, 0, -1).'_id';
         DB::table($table)->whereIn($key, $r['checkbox'])->update(['approved' => 1]);
+    }
+
+    public static function remove(Request $r,$table)
+    {
+        $key = substr($table, 0, -1).'_id';
+        DB::table($table)->whereIn($key,$r['checkbox'])->delete();
     }
 }

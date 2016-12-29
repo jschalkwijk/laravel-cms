@@ -1,10 +1,9 @@
 <?php
 
-namespace CMS\Http\Controllers\Admin\Auth;
+namespace CMS\Http\Controllers\Auth;
 
 use CMS\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -20,13 +19,6 @@ class ResetPasswordController extends Controller
     */
 
     use ResetsPasswords;
-    // overwrite trait function to set right admin view path
-    public function showResetForm(Request $request, $token = null)
-    {
-        return view('admin.auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
-    }
 
     /**
      * Create a new controller instance.

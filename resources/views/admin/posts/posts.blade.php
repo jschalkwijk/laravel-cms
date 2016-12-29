@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <a href="/admin/posts/new" class="link-btn">Add Post</a>
+                <a href="/admin/posts/create" class="link-btn">Add Post</a>
                 <a href="/admin/posts/deleted-posts" class="link-btn">Deleted posts</a>
                 <a href="/admin/categories" class="link-btn">Categories</a>
                 <a href="/admin/categories/new" class="link-btn">Add Category</a>

@@ -26,16 +26,33 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
     $this->post('/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
     Route::get('/', 'Admin\AdminController@index');
+//
 
-    Route::group(['prefix' => '/posts','middleware' => 'auth'], function()
+    Route::group(['middleware' => 'auth'], function()
     {
+    /*
+     * Artisan route:list makes the controller routes and then you only have to use one Route function.
+     *  Route::resource('posts','Admin\PostsController');
+     * Later kijken hoe ik dit ga toepassen
+         posts.store
+         posts.index
+         posts.destroy
+         posts.update
+         posts.show
+         posts.edit
+     * These routes get created automaticlly after route:list
         Route::get('/', 'Admin\PostsController@index');
-        Route::get('/deleted-posts', 'Admin\PostsController@deleted');
-        Route::get('/edit/{post}/{title}', 'Admin\PostsController@edit');
-        Route::patch('/update/{post}/{title}', 'Admin\PostsController@update');
-        Route::get('/new', 'Admin\PostsController@edit');
-        Route::put('/add', 'Admin\PostsController@add');
-        Route::post('/action', 'Admin\PostsController@action');
+        Route::get('/create', 'Admin\PostsController@create');
+        Route::put('/store', 'Admin\PostsController@store');
+        Route::get('/edit/{post}', 'Admin\PostsController@edit');
+        Route::patch('/update/{post}', 'Admin\PostsController@upgitdate');
+    */
+        Route::resource('posts','Admin\PostsController');
+
+        Route::group(['prefix' => '/posts'],function(){
+            Route::get('/deleted-posts', 'Admin\PostsController@deleted');
+            Route::post('/action', 'Admin\PostsController@action');
+        });
     });
 
     Route::group(['prefix' => '/categories','middleware' => 'auth'], function() {
@@ -92,3 +109,15 @@ Route::get('/categories', 'Categories@index');
 Route::get('/categories/{category}', 'Categories@show');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

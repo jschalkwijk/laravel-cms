@@ -1,6 +1,6 @@
 <?php
 
-namespace CMS\Http\Controllers\Admin\Auth;
+namespace CMS\Http\Controllers\Auth;
 
 use CMS\User;
 use Validator;
@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.

@@ -10,21 +10,23 @@ class Category extends Model
 	protected $fillable = ['title','description'];
 	public $table = "categories";
 
+	# Relations
 	public function posts() {
 		return $this->hasMany(Post::class);
     }
 
-	public function getLink(){
-		return preg_replace("/[\s-]+/", "-", $this->title);
+	public function user()
+	{
+		return $this->belongsTo(User::class);
 	}
 
+	# Getters
 	public function id()
 	{
 		return $this->category_id;
 	}
 
-	public function user()
-	{
-		return $this->belongsTo(User::class);
+	public function getLink(){
+		return preg_replace("/[\s-]+/", "-", $this->title);
 	}
 }

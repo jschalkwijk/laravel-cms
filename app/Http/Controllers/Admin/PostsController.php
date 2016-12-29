@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Post;
+use CMS\Category;
 use CMS\UserActions;
 
 class PostsController extends Controller
@@ -18,16 +19,23 @@ class PostsController extends Controller
     }
 
     public function index(){
-        $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id', 'desc')->get();
+        $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
     }
 
     public function deleted(){
-        $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id', 'desc')->get();
+        $posts = Post::with('category','user')->where('posts.trashed',1)->get();
+
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
 
-    public function add(Request $r)
+    public function create()
+    {
+        $categories = Category::all();
+        return view('admin.posts.create')->with(['categories' => $categories,'template'=>$this->adminTemplate()]);
+    }
+
+    public function store(Request $r)
     {
         $this->validate($r, [
             'title' => 'required|min:4',
@@ -41,7 +49,9 @@ class PostsController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin.posts.edit')->with(['post' => $post,'template'=>$this->adminTemplate()]);
+        $post->load('category.user');
+        $categories = Category::all();
+        return view('admin.posts.edit')->with(['post' => $post,'categories' => $categories,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Post $post)
@@ -59,6 +69,10 @@ class PostsController extends Controller
 
     }
 
+    public function show()
+    {
+        return "show";
+    }
     public function action(Request $r)
     {
         $this->Actions($r,'posts');
