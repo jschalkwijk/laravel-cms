@@ -3,6 +3,7 @@
 namespace CMS\Http\Controllers\Admin;
 
 use CMS\User;
+use CMS\UserActions;
 use Illuminate\Http\Request;
 
 use CMS\Http\Controllers\Controller;
@@ -12,19 +13,31 @@ use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    use UserActions;
     public function index()
     {
-        $users = User::all();
+        $users = User::with('created_by')->where('users.trashed',0)->orderBy('user_id','desc')->get();
         return view('admin.users.users')->with(
         [
             'users' => $users,
+            'trashed' => 0,
             'template' => $this->adminTemplate()
         ]);
+    }
+
+    public function deleted()
+    {
+        $users = User::with('created_by')->where('users.trashed',1)->orderBy('user_id','desc')->get();
+        return view('admin.users.users')->with(
+            [
+                'users' => $users,
+                'trashed' => 1,
+                'template' => $this->adminTemplate()
+            ]);
+    }
+    public function create()
+    {
+        return view('admin.users.create')->with(['template'=>$this->adminTemplate()]);
     }
     /**
      * Create a new user instance after a valid registration.
@@ -32,7 +45,7 @@ class UsersController extends Controller
      * @param  array  $data
      * @return User
      */
-    public function add(Request $r)
+    public function store(Request $r)
     {
         $this->validator($r->all())->validate();
 
@@ -65,6 +78,12 @@ class UsersController extends Controller
         $user->update($r->all());
 
         return redirect()->action('Admin\UsersController@index');
+    }
+
+    public function action(Request $r)
+    {
+        $this->Actions($r,'users');
+        return back();
     }
 
     /**

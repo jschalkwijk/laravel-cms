@@ -3,19 +3,32 @@
 namespace CMS\Http\Controllers\Admin;
 
 use CMS\Category;
+use CMS\UserActions;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
+    use UserActions;
+
     public function index()
     {
-        $categories = Category::with('user')->orderBy('category_id', 'desc')->get();
-        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories]);
+        $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
+        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 
-    public function add(Request $r)
+    public function deleted(){
+        $categories = Category::with('user')->where('categories.trashed',1)->get();
+
+        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories'=>$categories,'trashed' => 1]);
+    }
+
+    public function create()
+    {
+        return view('admin.categories.create')->with(['template' => $this->adminTemplate()]);
+    }
+    public function store(Request $r)
     {
         $this->validate($r,[
             'title' => 'required|min:3'
@@ -43,5 +56,11 @@ class CategoriesController extends Controller
             $category->update($r->all());
             return back();
         }
+    }
+
+    public function action(Request $r)
+    {
+        $this->Actions($r,'categories');
+        return back();
     }
 }

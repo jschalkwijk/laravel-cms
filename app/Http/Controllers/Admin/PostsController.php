@@ -13,18 +13,13 @@ class PostsController extends Controller
 {
     use UserActions;
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(){
         $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
     }
 
     public function deleted(){
-        $posts = Post::with('category','user')->where('posts.trashed',1)->get();
+        $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
 
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
@@ -44,7 +39,7 @@ class PostsController extends Controller
         $post = new Post($r->all());
         $post->user_id = Auth::user()->user_id;
         $post->save();
-        return back();
+        return redirect()->action('Admin\PostsController@index');
     }
 
     public function edit(Post $post)
@@ -69,10 +64,7 @@ class PostsController extends Controller
 
     }
 
-    public function show()
-    {
-        return "show";
-    }
+
     public function action(Request $r)
     {
         $this->Actions($r,'posts');

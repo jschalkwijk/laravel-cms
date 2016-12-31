@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
+Route::group(['prefix' => '/admin'], function (){
     // Authentication Routes...
     $this->get('/login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
     $this->post('/login', 'Admin\Auth\LoginController@login');
@@ -47,28 +47,27 @@ Route::group(['prefix' => '/admin','middleware'=> ['web']], function (){
         Route::get('/edit/{post}', 'Admin\PostsController@edit');
         Route::patch('/update/{post}', 'Admin\PostsController@upgitdate');
     */
-        Route::resource('posts','Admin\PostsController');
-
         Route::group(['prefix' => '/posts'],function(){
             Route::get('/deleted-posts', 'Admin\PostsController@deleted');
             Route::post('/action', 'Admin\PostsController@action');
         });
+        Route::resource('posts','Admin\PostsController');
     });
 
-    Route::group(['prefix' => '/categories','middleware' => 'auth'], function() {
-        Route::get('/', 'Admin\CategoriesController@index');
-        Route::put('/add', 'Admin\CategoriesController@add');
-        Route::get('/new', 'Admin\CategoriesController@edit');
-        Route::get('/edit/{category}/{title}','Admin\CategoriesController@edit');
-        Route::patch('/update/{category}/{title}','Admin\CategoriesController@update');
+    Route::group(['middleware' => 'auth'], function() {
+        Route::group(['prefix' => '/categories'],function(){
+            Route::get('/deleted-categories','Admin\CategoriesController@deleted');
+            Route::post('/action', 'Admin\CategoriesController@action');
+        });
+        Route::resource('categories','Admin\CategoriesController');
     });
 
-    Route::group(['prefix' => 'users','middleware' => 'auth'], function(){
-        Route::get('/', 'Admin\UsersController@index');
-        Route::put('/add', 'Admin\UsersController@add');
-        Route::get('/new', 'Admin\UsersController@edit');
-        Route::get('/edit/{user}','Admin\UsersController@edit');
-        Route::patch('/update/{user}/{username}','Admin\UsersController@update');
+    Route::group(['middleware' => 'auth'], function(){
+        Route::group(['prefix' => '/users'],function(){
+            Route::get('/deleted-users', 'Admin\UsersController@deleted');
+            Route::post('/action', 'Admin\UsersController@action');
+        });
+        Route::resource('users','Admin\UsersController');
     });
 
     Route::group(['prefix' => 'pages','middleware' => 'auth'], function(){

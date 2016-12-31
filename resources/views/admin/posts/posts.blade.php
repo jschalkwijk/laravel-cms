@@ -7,7 +7,7 @@
                 <a href="/admin/posts/create" class="link-btn">Add Post</a>
                 <a href="/admin/posts/deleted-posts" class="link-btn">Deleted posts</a>
                 <a href="/admin/categories" class="link-btn">Categories</a>
-                <a href="/admin/categories/new" class="link-btn">Add Category</a>
+                <a href="/admin/categories/create" class="link-btn">Add Category</a>
             </div>
         </div>
         <div class="row">

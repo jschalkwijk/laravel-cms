@@ -28,9 +28,8 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                    <?php $action = '/admin/posts/store'; $method = 'PUT'; ?>
+                    <?php $action = '/admin/posts';?>
                 <form id="addpost-form" class="large" action="{{$action}}" method="post">
-                    {{ method_field($method) }}
                     {{ csrf_field() }}
                     <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />

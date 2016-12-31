@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
                 @if (isset($post->post_id))
-                    <?php $action = '/admin/posts/update/'.$post->post_id.'/'.$post->title; $method = 'PATCH'; ?>
+                    <?php $action = '/admin/posts/'.$post->post_id; $method = 'PATCH'; ?>
                 @else
                     <?php $action = '/admin/posts/add'; $method = 'PUT'; ?>
                 @endif
