@@ -2,8 +2,8 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Category;
-use CMS\UserActions;
+use CMS\Models\Category;
+use CMS\Models\UserActions;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

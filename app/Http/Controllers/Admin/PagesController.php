@@ -5,7 +5,7 @@ namespace CMS\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Page;
+use CMS\Models\Page;
 
 
 class PagesController extends Controller

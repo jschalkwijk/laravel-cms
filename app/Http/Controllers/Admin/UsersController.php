@@ -2,8 +2,8 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\User;
-use CMS\UserActions;
+use CMS\Models\User;
+use CMS\Models\UserActions;
 use Illuminate\Http\Request;
 
 use CMS\Http\Controllers\Controller;

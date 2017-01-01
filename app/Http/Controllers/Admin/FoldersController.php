@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 
 use CMS\Http\Controllers\Controller;
-use CMS\Folder;
-use CMS\File;
+use CMS\Models\Folder;
+use CMS\Models\File;
 
 class FoldersController extends Controller
 {

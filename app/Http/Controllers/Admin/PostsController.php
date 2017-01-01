@@ -5,9 +5,9 @@ namespace CMS\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Post;
-use CMS\Category;
-use CMS\UserActions;
+use CMS\Models\Post;
+use CMS\Models\Category;
+use CMS\Models\UserActions;
 
 class PostsController extends Controller
 {

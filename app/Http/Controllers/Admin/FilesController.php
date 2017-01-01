@@ -5,8 +5,8 @@ namespace CMS\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\File;
-use CMS\Folder;
+use CMS\Models\File;
+use CMS\Models\Folder;
 
 class FilesController extends Controller
 {

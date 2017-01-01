@@ -21,7 +21,8 @@
             "database"
         ],
         "psr-4": {
-            "CMS\\": "app/"
+            "CMS\\": "app/",
+            "CMS\\Models\\": "app/Models/"
         }
     },
     "autoload-dev": {

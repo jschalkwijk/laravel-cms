@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers\Auth;
 
-use CMS\User;
+use CMS\Models\User;
 use Validator;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
