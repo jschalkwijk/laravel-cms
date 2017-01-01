@@ -28,11 +28,12 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <?php $action = '/admin/posts';?>
+                <?php $action = '/admin/products';?>
                 <form id="addpost-form" class="large" action="{{$action}}" method="post">
                     {{ csrf_field() }}
-                    <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
-                    <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />
+                    <input type="text" name="name" placeholder="Name" value="{{ old('name')}}"><br />
+                    <input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price') }}">
+                    <input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity') }}"/>
                     <label for="select">Category</label>
                     <select id="categories" name="category_id">
                         <option value="None">None</option>
@@ -42,8 +43,8 @@
                     </select>
 
                     <input type="text" name="category" placeholder="Category"/><br />
-                    <input type="hidden" name="cat_type" value="post"/><br />
-                    <textarea type="text" name="content" placeholder="Content">{{ old('content') }}</textarea><br />
+                    <input type="hidden" name="cat_type" value="product"/><br />
+                    <textarea type="text" name="description" placeholder="Description">{{ old('description') }}</textarea><br />
                     <button type="submit" name="submit">Submit</button>
                 </form>
                 <div id="return" class="container medium left">

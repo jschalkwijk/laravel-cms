@@ -30,44 +30,37 @@ Route::group(['prefix' => '/admin'], function (){
 
     Route::group(['middleware' => 'auth'], function()
     {
-    /*
-     * Artisan route:list makes the controller routes and then you only have to use one Route function.
-     *  Route::resource('posts','Admin\PostsController');
-     * Later kijken hoe ik dit ga toepassen
+        Route::resource('posts','Admin\PostsController',['except' => ['show']]);
+        Route::group(['prefix' => '/posts'],function(){
+            Route::get('/deleted-posts', 'Admin\PostsController@deleted');
+            Route::post('/action', 'Admin\PostsController@action');
+        });
+        /*
+         * Artisan route:list makes the controller routes and then you only have to use one Route function.
+         *  Route::resource('posts','Admin\PostsController');
          posts.store
          posts.index
          posts.destroy
          posts.update
          posts.show
          posts.edit
-     * These routes get created automaticlly after route:list
-        Route::get('/', 'Admin\PostsController@index');
-        Route::get('/create', 'Admin\PostsController@create');
-        Route::put('/store', 'Admin\PostsController@store');
-        Route::get('/edit/{post}', 'Admin\PostsController@edit');
-        Route::patch('/update/{post}', 'Admin\PostsController@upgitdate');
-    */
-        Route::group(['prefix' => '/posts'],function(){
-            Route::get('/deleted-posts', 'Admin\PostsController@deleted');
-            Route::post('/action', 'Admin\PostsController@action');
-        });
-        Route::resource('posts','Admin\PostsController');
+        */
     });
 
     Route::group(['middleware' => 'auth'], function() {
+        Route::resource('categories','Admin\CategoriesController',['except' => ['show']]);
         Route::group(['prefix' => '/categories'],function(){
             Route::get('/deleted-categories','Admin\CategoriesController@deleted');
             Route::post('/action', 'Admin\CategoriesController@action');
         });
-        Route::resource('categories','Admin\CategoriesController');
     });
 
     Route::group(['middleware' => 'auth'], function(){
+        Route::resource('users','Admin\UsersController',['except' => ['show']]);
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');
             Route::post('/action', 'Admin\UsersController@action');
         });
-        Route::resource('users','Admin\UsersController');
     });
 
     Route::group(['prefix' => 'pages','middleware' => 'auth'], function(){
@@ -85,6 +78,13 @@ Route::group(['prefix' => '/admin'], function (){
         Route::get('/edit/{file}/{name}','Admin\FilesController@edit');
         Route::get('/update/{file}/{name}','Admin\FilesController@update');
         Route::auth();
+    });
+
+    Route::group(['middleware' => 'auth'], function(){
+        Route::resource('products','Admin\ProductsController',['except' => ['show']]);
+        Route::group(['prefix' => '/products'],function(){
+            Route::get('/deleted-products','Admin\ProductsController@deleted');
+        });
     });
 
     Route::get('/cards', 'Cards@index');

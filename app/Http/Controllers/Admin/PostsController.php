@@ -26,7 +26,7 @@ class PostsController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('type','post')->get();
         return view('admin.posts.create')->with(['categories' => $categories,'template'=>$this->adminTemplate()]);
     }
 
@@ -45,7 +45,7 @@ class PostsController extends Controller
     public function edit(Post $post)
     {
         $post->load('category.user');
-        $categories = Category::all();
+        $categories = Category::where('type','post')->get();
         return view('admin.posts.edit')->with(['post' => $post,'categories' => $categories,'template'=>$this->adminTemplate()]);
     }
 
