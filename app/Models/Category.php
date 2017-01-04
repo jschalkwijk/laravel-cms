@@ -9,7 +9,6 @@ class Category extends Model
     protected $primaryKey = 'category_id';
 	protected $fillable = ['title','description'];
 	public $table = "categories";
-
 	# Relations
 	public function posts() {
 		return $this->hasMany(Post::class);
