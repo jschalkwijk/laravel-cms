@@ -4,11 +4,17 @@ namespace CMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Upload extends Model
 {
-    protected $primaryKey = 'file_id';
-    public $table = 'files';
-    protected $fillable = [];
+    protected $primaryKey = 'upload_id';
+    public $table = 'uploads';
+    protected $fillable = [
+        'name',
+        'type',
+        'size',
+        'file_name',
+        'file_path'
+    ];
 
     public function user()
     {

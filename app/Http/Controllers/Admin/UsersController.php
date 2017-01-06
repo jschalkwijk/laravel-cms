@@ -14,9 +14,18 @@ use Illuminate\Support\Facades\Validator;
 class UsersController extends Controller
 {
     use UserActions;
+    protected $user;
+    protected $permissions;
+
     public function index()
     {
-        $users = User::with('created_by')->where('users.trashed',0)->orderBy('user_id','desc')->get();
+        foreach(Auth::user()->permission as $perm){
+            $this->permissions[] = $perm->name;
+        };
+
+        if(!in_array("Create Post",$this->permissions)){ return "not allowed"; }
+        $users = User::with('created_by','permission')->where('users.trashed',0)->orderBy('user_id','desc')->get();
+
         return view('admin.users.users')->with(
         [
             'users' => $users,

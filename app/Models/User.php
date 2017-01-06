@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    public $permissions = [];
+
     public $table = 'users';
 
     protected $primaryKey = 'user_id';
@@ -39,6 +41,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function permission()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
     public function created_by()
     {
         return $this->belongsTo(User::class);

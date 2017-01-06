@@ -56,7 +56,7 @@ Route::group(['prefix' => '/admin'], function (){
     });
 
     Route::group(['middleware' => 'auth'], function(){
-        Route::resource('users','Admin\UsersController',['except' => ['show']]);
+        Route::resource('users','Admin\UsersController',['except' => ['show','destroy']]);
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');
             Route::post('/action', 'Admin\UsersController@action');
@@ -71,13 +71,12 @@ Route::group(['prefix' => '/admin'], function (){
        Route::get('/update/{page}/{title}','Admin\PagesController@update');
     });
 
-    Route::group(['prefix' => 'files','middleware' => 'auth'], function(){
-        Route::get('/','Admin\FilesController@index');
-        Route::get('/add','Admin\FilesController@add');
-        Route::get('/new','Admin\FilesController@edit');
-        Route::get('/edit/{file}/{name}','Admin\FilesController@edit');
-        Route::get('/update/{file}/{name}','Admin\FilesController@update');
-        Route::auth();
+    Route::group(['middleware' => 'auth'], function(){
+        Route::resource('uploads','Admin\UploadsController',['except' => 'show','destroy']);
+        Route::group(['prefix'=>'/files'],function(){
+            Route::get('/deleted-files', 'Admin\UploadsController@deleted');
+            Route::post('/action', 'Admin\UploadsController@action');
+        });
     });
 
     Route::group(['middleware' => 'auth'], function(){
@@ -108,14 +107,6 @@ Route::get('/categories', 'Categories@index');
 Route::get('/categories/{category}', 'Categories@show');
 
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 

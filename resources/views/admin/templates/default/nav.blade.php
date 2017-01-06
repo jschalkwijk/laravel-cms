@@ -4,7 +4,7 @@
 		<li><a href="/admin">Dashboard</a></li>
 		<li><a href="/admin/posts">Posts</a></li>
 		<li><a href="/admin/pages">Pages</a></li>
-		<li><a href="/admin/files">Files</a></li>
+		<li><a href="/admin/uploads">Files</a></li>
 		<li><a href="/admin/contacts">Contacts</a></li>
 		<li><a href="/admin/users">Users</a></li>
 		<li><a href="/admin/products">Products</a></li>
