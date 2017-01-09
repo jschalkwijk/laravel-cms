@@ -44,9 +44,12 @@ class PostsController extends Controller
 
     public function edit(Post $post)
     {
-        $post->load('category.user');
+        $post->load('categories.user');
         $categories = Category::where('type','post')->get();
-        return view('admin.posts.edit')->with(['post' => $post,'categories' => $categories,'template'=>$this->adminTemplate()]);
+        foreach($post->categories as $cat){
+            $selectedCat[] = $cat->category_id;
+        };
+        return view('admin.posts.edit')->with(['post' => $post,'categories' => $categories,'selectedCat' => $selectedCat,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Post $post)

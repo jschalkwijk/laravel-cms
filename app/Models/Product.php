@@ -33,6 +33,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function categories()
+    {
+        return $this->morphToMany('CMS\Models\Category', 'categoryable');
+    }
+
     # Getters
     public function id()
     {

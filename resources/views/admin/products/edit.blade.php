@@ -42,13 +42,21 @@
                     <label for="select">Category</label>
                     <select id="categories" name="category_id">
                         <option value="None">None</option>
-                        @foreach($categories as $category)
-                            @if($product->category['category_id'] == $category->category_id)
-                                <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
-                            @else
-                                <option value="{{$category->category_id}}">{{$category->title}}</option>
-                            @endif
+                        {{--@foreach($categories as $category)--}}
+                            {{--@if($product->category['category_id'] == $category->category_id)--}}
+                                {{--<option value="{{$category->category_id}}" selected>{{$category->title}}</option>--}}
+                            {{--@else--}}
+                                {{--<option value="{{$category->category_id}}">{{$category->title}}</option>--}}
+                            {{--@endif--}}
+                        {{--@endforeach--}}
+                        @foreach($product->categories as $cat)
+                            <option value="{{$cat->category_id}}" selected>{{$cat->title}}</option>
                         @endforeach
+                        {{--@foreach($categories as $category)--}}
+                            {{--@if(!in_array($category->category_id,$selectedCat) )--}}
+                                {{--<option value="{{$category->category_id}}">{{$category->title}}</option>--}}
+                            {{--@endif--}}
+                        {{--@endforeach--}}
                     </select>
                     <input type="text" name="category" placeholder="Category"/><br />
                     <input type="hidden" name="cat_type" value="product"/><br />

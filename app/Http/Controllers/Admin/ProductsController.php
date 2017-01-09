@@ -59,8 +59,12 @@ class ProductsController extends Controller
 
     public function edit(Product $product)
     {
+
         $categories = Category::where('type','product')->get();
-        return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'template'=>$this->adminTemplate()]);
+        foreach($product->categories as $cat){
+            $selectedCat[] = $cat->category_id;
+        };
+        return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'selectedCat' => $selectedCat,'template'=>$this->adminTemplate()]);
     }
 
     public function action()
