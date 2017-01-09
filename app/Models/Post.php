@@ -10,16 +10,12 @@ class Post extends Model
 	protected $fillable = [
         'title',
         'content',
-        'category_id',
         'description',
         'keywords'
     ];
     public $table = "posts";
 
     # Relations
-	public function category(){
-		return $this->belongsTo(Category::class,"category_id","category_id");
-	}
 
     public function user()
     {

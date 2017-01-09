@@ -43,16 +43,8 @@
                     <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description',$post->description)}}"/><br />
                     <label for="select">Category</label>
-                    <select id="categories" name="category_id" multiple size="3">
+                    <select id="categories" name="category_ids[]" multiple size="3">
                         <option value="None">None</option>
-
-                        {{--@foreach($categories as $category)--}}
-                            {{--@if($post->category['category_id'] == $category->category_id)--}}
-                                {{--<option value="{{$category->category_id}}" selected>{{$category->title}}</option>--}}
-                            {{--@else--}}
-                                {{--<option value="{{$category->category_id}}">{{$category->title}}</option>--}}
-                            {{--@endif--}}
-                        {{--@endforeach--}}
                         @foreach($post->categories as $cat)
                             <option value="{{$cat->category_id}}" selected>{{$cat->title}}</option>
                         @endforeach

@@ -17,6 +17,10 @@ class Category extends Model
 //	public function products() {
 //		return $this->hasMany(Product::class);
 //	}
+	public function categoryable()
+	{
+		return $this->morphTo();
+	}
 	public function user()
 	{
 		return $this->belongsTo(User::class);

@@ -9,7 +9,6 @@ class Product extends Model
     protected $primaryKey = "product_id";
     protected $fillable = [
         'name',
-        'category_id',
         'price',
         'description',
         'discount_price',
@@ -19,14 +18,12 @@ class Product extends Model
         'total',
         'img_path',
         'folder_id',
+        'quantity',
     ];
 
     public $table = "products";
 
     # Relations
-    public function category(){
-        return $this->belongsTo(Category::class,"category_id","category_id");
-    }
 
     public function user()
     {
