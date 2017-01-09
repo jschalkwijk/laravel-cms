@@ -10,7 +10,7 @@ class Folder extends Model
     public $table = 'folders';
 
     public function files() {
-        return $this->hasMany(File::class);
+        return $this->hasMany(Upload::class);
     }
 
     public function id()
