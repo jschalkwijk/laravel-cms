@@ -54,9 +54,24 @@
                             @endif
                         @endforeach
                     </select>
+                    <select id="tags" name="tag_ids[]" multiple size="3">
+                        <option value="None">None</option>
+                        @foreach($post->tags as $tag)
+                            <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
+                        @endforeach
+                        @foreach($tags as $tag)
+                            @if(!in_array($tag->tag_id,$selectedTag) )
+                                    <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                            @endif
+                        @endforeach
+                    </select>
 
                     <input type="text" name="category" placeholder="Category"/><br />
                     <input type="hidden" name="cat_type" value="post"/><br />
+
+                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
+                    <input type="hidden" name="tag_type" value="post"/><br />
+
                     <textarea type="text" name="content" placeholder="Content">{{ old('content',$post->content) }}</textarea><br />
 
                     <p>Are you sure you want to edit the following post?</p>

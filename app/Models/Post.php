@@ -27,6 +27,10 @@ class Post extends Model
         return $this->morphToMany('CMS\Models\Category', 'categoryable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany('CMS\Models\Tag', 'taggable');
+    }
     # Getters
     public function id()
     {
