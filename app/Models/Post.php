@@ -10,22 +10,27 @@ class Post extends Model
 	protected $fillable = [
         'title',
         'content',
-        'category_id',
         'description',
         'keywords'
     ];
     public $table = "posts";
 
     # Relations
-	public function category(){
-		return $this->belongsTo(Category::class,"category_id","category_id");
-	}
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function categories()
+    {
+        return $this->morphToMany('CMS\Models\Category', 'categoryable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany('CMS\Models\Tag', 'taggable');
+    }
     # Getters
     public function id()
     {

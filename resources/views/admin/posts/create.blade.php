@@ -34,15 +34,27 @@
                     <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />
                     <label for="select">Category</label>
-                    <select id="categories" name="category_id">
+                    <select id="categories" name="category_ids[]" multiple size="3">
                         <option value="None">None</option>
                         @foreach($categories as $category)
                             <option value="{{$category->category_id}}">{{$category->title}}</option>
                         @endforeach
                     </select>
 
+                    <label for="select">Tags</label>
+                    <select id="categories" name="tag_ids[]" multiple size="3">
+                        <option value="None">None</option>
+                        @foreach($tags as $tag)
+                            <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                        @endforeach
+                    </select>
+
                     <input type="text" name="category" placeholder="Category"/><br />
-                    <input type="hidden" name="cat_type" value="post"/><br />
+                    <input type="hidden" name="cat_type" value="product"/><br />
+
+                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
+                    <input type="hidden" name="tag_type" value="product"/><br />
+
                     <textarea type="text" name="content" placeholder="Content">{{ old('content') }}</textarea><br />
                     <button type="submit" name="submit">Submit</button>
                 </form>

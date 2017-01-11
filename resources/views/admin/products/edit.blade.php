@@ -40,18 +40,35 @@
                     <input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price',$product->price) }}">
                     <input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity',$product->quantity) }}"/>
                     <label for="select">Category</label>
-                    <select id="categories" name="category_id">
+                    <select id="categories" name="category_ids[]" multiple size="3">
                         <option value="None">None</option>
+                        @foreach($product->categories as $cat)
+                            <option value="{{$cat->category_id}}" selected>{{$cat->title}}</option>
+                        @endforeach
                         @foreach($categories as $category)
-                            @if($product->category['category_id'] == $category->category_id)
-                                <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
-                            @else
+                            @if(!in_array($category->category_id,$selectedCat) )
                                 <option value="{{$category->category_id}}">{{$category->title}}</option>
                             @endif
                         @endforeach
                     </select>
+                    <select id="tags" name="tag_ids[]" multiple size="3">
+                        <option value="None">None</option>
+                        @foreach($product->tags as $tag)
+                            <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
+                        @endforeach
+                        @foreach($tags as $tag)
+                            @if(!in_array($tag->tag_id,$selectedTag) )
+                                <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+
                     <input type="text" name="category" placeholder="Category"/><br />
                     <input type="hidden" name="cat_type" value="product"/><br />
+
+                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
+                    <input type="hidden" name="tag_type" value="product"/><br />
+
                     <textarea type="text" name="description" placeholder="Description">{{ old('description',$product->description) }}</textarea><br />
                     <p>Are you sure you want to edit the following product?</p>
                     <input type="radio" name="confirm" value="true" /> Yes

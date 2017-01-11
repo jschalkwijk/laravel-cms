@@ -36,23 +36,42 @@
                 <form id="addpost-form" class="large" action="{{$action}}" method="post">
                     {{ method_field($method) }}
                     {{ csrf_field() }}
+                    @foreach($post->categories as $cat)
+                        {{ 'polymorphic related category:'.$cat->title}}
+                    @endforeach
                     <input type="hidden" name="id" value="{{$post->post_id}}"/>
                     <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description',$post->description)}}"/><br />
                     <label for="select">Category</label>
-                    <select id="categories" name="category_id">
+                    <select id="categories" name="category_ids[]" multiple size="3">
                         <option value="None">None</option>
+                        @foreach($post->categories as $cat)
+                            <option value="{{$cat->category_id}}" selected>{{$cat->title}}</option>
+                        @endforeach
                         @foreach($categories as $category)
-                            @if($post->category['category_id'] == $category->category_id)
-                                <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
-                            @else
-                                <option value="{{$category->category_id}}">{{$category->title}}</option>
+                            @if(!in_array($category->category_id,$selectedCat) )
+                                    <option value="{{$category->category_id}}">{{$category->title}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <select id="tags" name="tag_ids[]" multiple size="3">
+                        <option value="None">None</option>
+                        @foreach($post->tags as $tag)
+                            <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
+                        @endforeach
+                        @foreach($tags as $tag)
+                            @if(!in_array($tag->tag_id,$selectedTag) )
+                                    <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
                             @endif
                         @endforeach
                     </select>
 
                     <input type="text" name="category" placeholder="Category"/><br />
                     <input type="hidden" name="cat_type" value="post"/><br />
+
+                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
+                    <input type="hidden" name="tag_type" value="post"/><br />
+
                     <textarea type="text" name="content" placeholder="Content">{{ old('content',$post->content) }}</textarea><br />
 
                     <p>Are you sure you want to edit the following post?</p>

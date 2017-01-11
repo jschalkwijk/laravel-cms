@@ -12,7 +12,7 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $pages = Page::with('category','user')->orderBy('page_id', 'desc')->get();
+        $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
         return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages]);
     }
 

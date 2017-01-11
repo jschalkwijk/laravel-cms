@@ -56,6 +56,13 @@ Route::group(['prefix' => '/admin'], function (){
     });
 
     Route::group(['middleware' => 'auth'], function(){
+        Route::resource('tags','Admin\TagsController',['except' => ['show']]);
+        Route::group(['prefix' => '/tags'],function(){
+            Route::post('/action', 'Admin\TagsController@action');
+        });
+    });
+
+    Route::group(['middleware' => 'auth'], function(){
         Route::resource('users','Admin\UsersController',['except' => ['show','destroy']]);
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');

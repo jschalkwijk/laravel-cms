@@ -9,9 +9,7 @@ class Page extends Model
     protected $primaryKey = 'page_id';
     public $table = 'pages';
     protected $fillable = ['title','description','content','created_at','updated_at'];
-    public function category(){
-        return $this->belongsTo(Category::class,"category_id","category_id");
-    }
+
     public function getLink(){
         return preg_replace("/[\s-]+/", "-", $this->title);
     }

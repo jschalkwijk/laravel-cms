@@ -16,7 +16,7 @@
                     <form class="backend-form" method="post" action="/admin/products/action">
                         {{ csrf_field() }}
                         <table class="backend-table title">
-                            <tr><th>Name</th><th>Price</th><th>Category</th><th>Date / Time</th><th>Edit</th><th>View</th><th><button type="button" id="check-all"><img class="glyph-small" alt="check-all-items" src="check.png"/></button></th></tr>
+                            <tr><th>Name</th><th>Price</th><th>Categories</th><th>Date / Time</th><th>Edit</th><th>View</th><th><button type="button" id="check-all"><img class="glyph-small" alt="check-all-items" src="check.png"/></button></th></tr>
                             @each('admin.content.products-table',$products,'single')
                         </table>
                         <table>
