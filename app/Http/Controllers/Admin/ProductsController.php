@@ -81,8 +81,8 @@ class ProductsController extends Controller
                 $lastInsertID = $category->category_id;
                 $category_ids[] = $lastInsertID;
             }
-            // Save selected categories
-            $product->categories()->sync($category_ids);
+            // Save selected categories, if all are deselected , detach all relations else sync selected
+            (!is_array($category_ids)) ? $product->categories()->detach() : $product->categories()->sync($category_ids);
             return back();
         }
     }

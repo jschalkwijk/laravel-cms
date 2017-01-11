@@ -82,9 +82,8 @@ class PostsController extends Controller
                 $category_ids[] = $lastInsertID;
             }
             $post->update($r->all());
-            // Save selected categories
-            // Save selected categories
-            $post->categories()->sync($category_ids);
+            // Save selected categories, if all are deselected , detach all relations else sync selected
+            (!is_array($category_ids)) ? $post->categories()->detach() : $post->categories()->sync($category_ids);
             return back();
         }
 
