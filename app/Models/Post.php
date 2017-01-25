@@ -11,7 +11,8 @@ class Post extends Model
         'title',
         'content',
         'description',
-        'keywords'
+        'keywords',
+        'category_id',
     ];
     public $table = "posts";
 
@@ -22,9 +23,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->morphToMany('CMS\Models\Category', 'categoryable');
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()

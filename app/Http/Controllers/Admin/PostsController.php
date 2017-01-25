@@ -15,12 +15,12 @@ class PostsController extends Controller
     use UserActions;
 
     public function index(){
-        $posts = Post::with('categories','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
+        $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
     }
 
     public function deleted(){
-        $posts = Post::with('categories','user')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
+        $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
 
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
@@ -43,8 +43,6 @@ class PostsController extends Controller
 
         $post = new Post($r->all());
         $post->user_id = Auth::user()->user_id;
-        // create new ID array to add a possible new category, otherwise it wont work by adding to te $r['category_ids'] directly.
-        $category_ids = $r['category_ids'];
 
         $post->save($r->all());
 
@@ -57,9 +55,6 @@ class PostsController extends Controller
             $lastInsertID = $category->category_id;
             $category_ids[] = $lastInsertID;
         }
-
-        // Save selected tags
-        $post->categories()->sync($category_ids);
 
         $tag_ids = $r['tag_ids'];
 
@@ -102,8 +97,6 @@ class PostsController extends Controller
                 $category_ids[] = $lastInsertID;
             }
             $post->update($r->all());
-            // Save selected categories, if all are deselected , detach all relations else sync selected
-            (!is_array($category_ids)) ? $post->categories()->detach() : $post->categories()->sync($category_ids);
 
             $tag_ids = $r['tag_ids'];
 
@@ -127,21 +120,16 @@ class PostsController extends Controller
 
     public function edit(Post $post)
     {
-        $post->load('categories.user');
+        $post->load('category.user');
         // Get all the categories associated with Post
-        $categories = Category::where('type', 'post')->get();
+        $categories = $categories = Category::where('type','post')->get();
         $tags = Tag::where('type', 'post')->get();
         $selectedTag = [];
         foreach ($post->tags as $tag) {
             $selectedTag[] = $tag->tag_id;
         };
 
-        $selectedCat = [];
-        foreach($post->categories as $cat){
-            $selectedCat[] = $cat->category_id;
-        };
-
-        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'selectedCat' => $selectedCat,'template'=>$this->adminTemplate()]);
+        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
     }
 
     public function action(Request $r)

@@ -14,13 +14,13 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        $products = Product::with('categories')->where('trashed',0)->orderBy('product_id','desc')->get();
+        $products = Product::with('category')->where('trashed',0)->orderBy('product_id','desc')->get();
         return view('admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 0]);
     }
 
     public function deleted()
     {
-        $products = Product::with('categories')->where('trashed',1)->orderBy('product_id','desc')->get();
+        $products = Product::with('category')->where('trashed',1)->orderBy('product_id','desc')->get();
         return view('admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 1]);
     }
 
@@ -45,7 +45,6 @@ class ProductsController extends Controller
 //        $product->user_id = Auth::user()->user_id;
         $product->save();
 
-        $category_ids = $r['category_ids'];
 
         if(!empty($r['category'])){
             $category = new Category();
@@ -56,8 +55,6 @@ class ProductsController extends Controller
             $lastInsertID = $category->category_id;
             $category_ids[] = $lastInsertID;
         }
-        // Save selected categories
-        $product->categories()->sync($category_ids);
 
         $tag_ids = $r['tag_ids'];
 
@@ -74,7 +71,7 @@ class ProductsController extends Controller
             }
         }
         // Save selected categories, if all are deselected , detach all relations else sync selected
-        $product->tags()->sync($tag_ids);
+        (!is_array($tag_ids)) ? $product->tags()->detach() : $product->tags()->sync($tag_ids);
 
         return redirect()->action('Admin\ProductsController@index');
     }
@@ -90,8 +87,6 @@ class ProductsController extends Controller
             ]);
             $product->update($r->all());
 
-            $category_ids = $r['category_ids'];
-
             if(!empty($r['category'])){
                 $category = new Category();
                 $category->title = $r['category'];
@@ -101,8 +96,6 @@ class ProductsController extends Controller
                 $lastInsertID = $category->category_id;
                 $category_ids[] = $lastInsertID;
             }
-
-            (!is_array($category_ids)) ? $product->tags()->detach() : $product->tags()->sync($category_ids);
 
             $tag_ids = $r['tag_ids'];
 
@@ -135,11 +128,7 @@ class ProductsController extends Controller
         foreach ($product->tags as $tag) {
             $selectedTag[] = $tag->tag_id;
         };
-        $selectedCat = [];
-        foreach($product->categories as $cat){
-            $selectedCat[] = $cat->category_id;
-        };
-        return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'selectedCat' => $selectedCat,'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
+        return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
     }
 
     public function action()

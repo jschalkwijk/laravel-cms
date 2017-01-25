@@ -9,6 +9,7 @@ class Product extends Model
     protected $primaryKey = "product_id";
     protected $fillable = [
         'name',
+        'category_id',
         'price',
         'description',
         'discount_price',
@@ -30,9 +31,9 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->morphToMany('CMS\Models\Category', 'categoryable');
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()

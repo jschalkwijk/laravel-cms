@@ -34,10 +34,10 @@
                     <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />
                     <label for="select">Category</label>
-                    <select id="categories" name="category_ids[]" multiple size="3">
+                    <select id="categories" name="category_id">
                         <option value="None">None</option>
                         @foreach($categories as $category)
-                            <option value="{{$category->category_id}}">{{$category->title}}</option>
+                                <option value="{{$category->category_id}}">{{$category->title}}</option>
                         @endforeach
                     </select>
 

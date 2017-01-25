@@ -40,13 +40,12 @@
                     <input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price',$product->price) }}">
                     <input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity',$product->quantity) }}"/>
                     <label for="select">Category</label>
-                    <select id="categories" name="category_ids[]" multiple size="3">
+                    <select id="categories" name="category_id">
                         <option value="None">None</option>
-                        @foreach($product->categories as $cat)
-                            <option value="{{$cat->category_id}}" selected>{{$cat->title}}</option>
-                        @endforeach
                         @foreach($categories as $category)
-                            @if(!in_array($category->category_id,$selectedCat) )
+                            @if($category->category_id == $product->category_id)
+                                <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
+                            @else
                                 <option value="{{$category->category_id}}">{{$category->title}}</option>
                             @endif
                         @endforeach

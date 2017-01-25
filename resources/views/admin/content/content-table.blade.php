@@ -1,15 +1,18 @@
 <tr>
     <td class="td-title"><p>{{ $single->title }}</p></td>
     <td>{{ $single->user['username']}}</td>
-    @if($single->categories)
-        <td class="td-category">
-            <p>
-                @foreach($single->categories as $category)
-                    {{ " | " .$category->title}}
-                @endforeach
-            </p>
-        </td>
-    @endif
+    <td class="td-category">
+                {{ $single->category['title']}}
+    </td>
+    {{--@if($single->tags)--}}
+        {{--<td class="td-category">--}}
+            {{--<p>--}}
+                {{--@foreach($single->tags as $tag)--}}
+                    {{--{{ " | " .$tag->title}}--}}
+                {{--@endforeach--}}
+            {{--</p>--}}
+        {{--</td>--}}
+    {{--@endif--}}
 
     <td><p>{{ $single->created_at }}</p></td>
     <td class="td-btn"><a href="{{ $single->table.'/'.$single->id().'/edit/'}}"><img class="glyph-small link-btn" alt="edit-item" src="edit.png"/></a></td>
