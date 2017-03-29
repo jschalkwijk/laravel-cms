@@ -93,6 +93,14 @@ Route::group(['prefix' => '/admin'], function (){
         });
     });
 
+    Route::group(['middleware' => 'auth'], function(){
+        Route::resource('contacts','Admin\ContactsController',['except' => ['show']]);
+        Route::group(['prefix' => '/contacts'],function(){
+            Route::get('/deleted-contacts','Admin\ContactsController@deleted');
+            Route::post('/action', 'Admin\ContactsController@action');
+        });
+    });
+
     Route::get('/cards', 'Cards@index');
     Route::get('/cards/{card}', 'Cards@show');
 

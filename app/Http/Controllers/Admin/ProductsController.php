@@ -1,6 +1,6 @@
 <?php
 
-namespace CMS\Http\Controllers\admin;
+namespace CMS\Http\Controllers\Admin;
 
 use CMS\Models\Category;
 use CMS\Models\Product;
