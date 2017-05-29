@@ -1,11 +1,12 @@
 <tr>
+    <th scope="row">1</th>
     <td class="td-title"><p>{{ $single->title }}</p></td>
-    <td>{{ $single->user['username']}}</td>
+    <td class="hidden-xs-down">{{ $single->user['username']}}</td>
     <td class="td-category">
                 {{ $single->category['title']}}
     </td>
     @if($single->tags)
-        <td class="td-category">
+        <td class="hidden-sm-down">
             <p>
                 @foreach($single->tags as $tag)
                     {{ " | " .$tag->title}}
@@ -14,7 +15,7 @@
         </td>
     @endif
 
-    <td><p>{{ $single->created_at }}</p></td>
+    <td class="hidden-md-down"><p>{{ $single->created_at }}</p></td>
     <td class="td-btn"><a href="{{ $single->table.'/'.$single->id().'/edit/'}}"><img class="glyph-small link-btn" alt="edit-item" src="edit.png"/></a></td>
     @if ($single->approved == 0 )
         <td class="td-btn"><img class="glyph-small" alt="item-hidden-from-front-end-user" src="hide.png"/></td>

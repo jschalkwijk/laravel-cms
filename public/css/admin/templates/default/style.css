@@ -62,6 +62,9 @@ The CSS, XHTML and design is released under GPL: http://www.opensource.org/licen
 
 /* Blog / Pages / Blocks overview styling */
 
+.backend-form {
+	width: max-content;
+}
 .backend-form img:hover  {
 	background-color: black;
 }
@@ -154,12 +157,6 @@ table {
 .td-title, .td-author, .td-category, .td-date {
 	max-width: 200px;
 	overflow: hidden;
-}
-
-@media (min-width: 768px) and (max-width : 993px) {
-	.td-author, .td-date {
-		display: none;
-	}
 }
 
 @media (min-width: 768px) and (max-width : 993px) {
