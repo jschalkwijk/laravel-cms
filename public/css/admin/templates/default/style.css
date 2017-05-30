@@ -413,7 +413,7 @@ button:hover  {
 }
 
 /* if a link needs to look like a button  */
-.link-btn {
+.btn-primary {
 	padding: 6px;
 	margin: 2px;
 	float: none;
@@ -429,11 +429,22 @@ button:hover  {
 	vertical-align:auto;
 }
 
-.link-btn:hover {
+.btn-primary:hover {
 	color: white;
 	text-decoration: none;
 	background-color: black;
 }
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 220px)
+and (max-device-width : 480px) {
+	.button-block a{
+		width: 100%;
+		display: block;
+	}
+}
+
 /* Wrapper */
 
 #wrapper {

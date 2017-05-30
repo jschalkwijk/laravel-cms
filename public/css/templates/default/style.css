@@ -392,6 +392,7 @@ button {
 	height: auto;
 	padding: 5px;
 	margin: 0 auto;
+	display: flex;
 }
 
 /* Button Styling */

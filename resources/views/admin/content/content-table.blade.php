@@ -2,7 +2,7 @@
     <th scope="row">1</th>
     <td class="td-title"><p>{{ $single->title }}</p></td>
     <td class="hidden-xs-down">{{ $single->user['username']}}</td>
-    <td class="td-category">
+    <td class="hidden-xs-down">
                 {{ $single->category['title']}}
     </td>
     @if($single->tags)
