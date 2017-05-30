@@ -33,7 +33,9 @@
                             </th>
                         </tr>
                         <tbody>
-                            @each('admin.content.content-table',$posts,'single')
+                        @foreach($posts as $single)
+                            @include('admin.content.content-table')
+                        @endforeach
                         </tbody>
                     </table>
                     <table>

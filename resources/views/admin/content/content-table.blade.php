@@ -1,5 +1,5 @@
 <tr>
-    <th scope="row">1</th>
+    <th scope="row">{{ $loop->iteration }}</th>
     <td class="td-title"><p>{{ $single->title }}</p></td>
     <td class="hidden-xs-down">{{ $single->user['username']}}</td>
     <td class="hidden-xs-down">
