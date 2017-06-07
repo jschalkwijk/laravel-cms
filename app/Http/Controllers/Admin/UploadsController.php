@@ -15,7 +15,7 @@ class UploadsController extends Controller
     use UserActions;
     public function index()
     {
-        $folders = Folder::all();
+        $folders = Folder::all()->where('parent_id',0);
         $files = Upload::all();
 
         return view('admin.uploads.uploads')->with(['template' => $this->adminTemplate(), 'folders' => $folders, 'files' => $files]);

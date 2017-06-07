@@ -85,6 +85,9 @@ Route::group(['prefix' => '/admin'], function (){
             Route::post('/action', 'Admin\UploadsController@action');
         });
     });
+    Route::group(['middleware' => 'auth'],function(){
+        Route::resource('folders','Admin\FoldersController',['except' => 'destroy']);
+    });
 
     Route::group(['middleware' => 'auth'], function(){
         Route::resource('products','Admin\ProductsController',['except' => ['show']]);

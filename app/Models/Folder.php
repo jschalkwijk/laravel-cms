@@ -8,6 +8,9 @@ class Folder extends Model
 {
     protected $primaryKey = 'folder_id';
     public $table = 'folders';
+    protected $fillable = [
+        'name',
+    ];
 
     public function files() {
         return $this->hasMany(Upload::class);
