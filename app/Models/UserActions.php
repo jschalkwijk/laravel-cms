@@ -26,6 +26,9 @@ trait UserActions
         if(isset($r['delete-selected'])){
             Action::remove($r,$table);
         }
+        if(isset($r['delete-one'])){
+            Action::dest($r,$table);
+        }
     }
 
 }

@@ -7,14 +7,15 @@
                     {{ csrf_field() }}
                     <table class="table table-sm table-striped">
                         <thead class="thead-default">
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Size(MB)</th>
-                            <th>
-                                <button type="button" id="check-all"><img class="glyph-small" src="/images/check.png"/></button>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Size(MB)</th>
+                                <th></th>
+                                <th>
+                                    <button type="button" id="check-all"><img class="glyph-small" src="/images/check.png"/></button>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($folders as $folder)
@@ -22,6 +23,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a href="/files/{{ $folder->id() }}/{{ $folder->name }}">{{ $folder->name }}</a></td>
                                 <td>Size</td>
+                                <td><a class="btn btn-sm btn-danger" href="{{ route('folders.destroy',$folder->folder_id) }}">Delete</a></td>
                                 <td><input class="checkbox" type="checkbox" name="checkbox[]" value="{{ $folder->id() }}"/></td>
                                 <td><input type="hidden" name="name" value="{{ $folder->name }}"/></td>
                             </tr>

@@ -25,6 +25,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+            <h1 class="center">{{$current->name}}</h1>
             <form id="check-folders" method="post" action="/admin/uploads/action">
                 {{ csrf_field() }}
                 <table class="table table-sm table-striped">

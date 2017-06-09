@@ -27,7 +27,7 @@ class FoldersController extends Controller
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
         $files = Upload::all()->where('folder_id',$folder->folder_id);;
 
-        return view('admin.uploads.uploads')->with(['template' => $this->adminTemplate(), 'folders' => $folders, 'files' => $files]);
+        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'current' => $folder,'folders' => $folders, 'files' => $files]);
     }
     public function create()
     {
@@ -54,16 +54,40 @@ class FoldersController extends Controller
 
     }
 
-    public function edit()
+    public function edit(Folder $folder)
     {
-
+        return view("admin.uploads.folders.edit")->with(['template'=>$this->adminTemplate(),'folder' => $folder]);
     }
 
-    public function update()
+    public function update(Request $r, Folder $folder)
     {
+        if(isset($r['submit'])){
+            $this->validate($r, [
+                'name' => 'required|min:3',
+            ]);
 
+            $folder->user_id = Auth::user()->user_id;
+            $result = Storage::move('/public/uploads/'.$folder->name, '/public/uploads/'.$r['name']);
+            if($result){
+                $folder->update($r->all());
+                $folder->path = "public/uploads/".$r['name'];
+                if($folder->save($r->all())){
+                    return redirect()->action('Admin\FoldersController@index');
+                } else {
+                    echo "error";
+                }
+            }
+        }
     }
 
+    public function destroy($id)
+    {
+        $folder = Folder::findOrFail($id);
+        Storage::deleteDirectory($folder->path);
+        Folder::destroy($folder->folder_id);
+
+        return redirect()->action('Admin\FoldersController@index');
+    }
     public function action()
     {
 
