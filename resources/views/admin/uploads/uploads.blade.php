@@ -8,15 +8,8 @@
                     <input type="hidden" name="MAX_FILE_SIZE" value="43500000" />
                     <label for="files[]">Choose File(max size: 3.5 MB): </label><br />
                     <input type="file" name="files[]" multiple/><br />
-                    <input type="checkbox" name="public" value="public"/>
-                    <label for='public'>Public</label>
-                    <input type="checkbox" name="secure" value="secure"/>
-                    <label for='secure'>Secure</label>
-
-                    <input type="text" name="new_album_name" placeholder="Create New Album" maxlength="60"/>
-
+                    <input type="text" name="name" placeholder="New Folder" maxlength="60"/>
                     {{--<input type="text" name="new_album_name" placeholder="Create New Sub Folder" maxlength="60"/>--}}
-
                     <button type="submit" name="submit">Add File('s)</button>
                 </form></div>
             </div>
@@ -52,7 +45,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <button type="submit" name="delete-albums" id="delete-albums">Delete Albums</button>
+                <button type="submit" name="delete-selected" id="delete-selected">Delete Folders</button>
             </form>
         </div>
     </div>

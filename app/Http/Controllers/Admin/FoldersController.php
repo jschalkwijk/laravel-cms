@@ -27,7 +27,7 @@ class FoldersController extends Controller
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
         $files = Upload::all()->where('folder_id',$folder->folder_id);;
 
-        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'current' => $folder,'folders' => $folders, 'files' => $files]);
+        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => $folder,'folders' => $folders, 'files' => $files]);
     }
     public function create()
     {
@@ -42,7 +42,7 @@ class FoldersController extends Controller
 
         $folder = new Folder($r->all());
         $folder->user_id = Auth::user()->user_id;
-        $folder->path = "public/uploads/".$folder->name;
+        $folder->path = "/public/uploads/".$folder->name;
         $result = Storage::makeDirectory('/public/uploads/'.$folder->name, 0775);
         if($result){
             if($folder->save($r->all())){
@@ -51,7 +51,6 @@ class FoldersController extends Controller
              echo "error";
             }
         }
-
     }
 
     public function edit(Folder $folder)
@@ -70,7 +69,7 @@ class FoldersController extends Controller
             $result = Storage::move('/public/uploads/'.$folder->name, '/public/uploads/'.$r['name']);
             if($result){
                 $folder->update($r->all());
-                $folder->path = "public/uploads/".$r['name'];
+                $folder->path = "uploads/".$r['name'];
                 if($folder->save($r->all())){
                     return redirect()->action('Admin\FoldersController@index');
                 } else {
@@ -88,8 +87,9 @@ class FoldersController extends Controller
 
         return redirect()->action('Admin\FoldersController@index');
     }
-    public function action()
+    public function action(Request $r)
     {
-
+        $this->Actions($r,'folders');
+        return back();
     }
 }

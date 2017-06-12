@@ -89,6 +89,7 @@ Route::group(['prefix' => '/admin'], function (){
         Route::resource('folders','Admin\FoldersController',['except' => 'destroy']);
         Route::group(['prefix'=>'/folders'],function(){
             Route::get('/{id}/destroy', 'Admin\FoldersController@destroy')->name('folders.destroy');
+            Route::post('/action', 'Admin\FoldersController@action')->name('folders.action');
         });
     });
 

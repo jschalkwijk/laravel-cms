@@ -4,6 +4,8 @@ namespace CMS\Models;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Pluralizer;
+use Illuminate\Support\Facades\Storage;
 
 class Action
 {
@@ -30,7 +32,13 @@ class Action
 
     public static function remove(Request $r,$table)
     {
-        $key = Action::createKey($table);
+        $key = Pluralizer::singular($table).'_id';
+        if($table == 'folders'){
+            foreach($r['checkbox'] as $id){
+                $folder = Folder::findOrFail($id);
+                Storage::deleteDirectory($folder->path);
+            }
+        }
         DB::table($table)->whereIn($key,$r['checkbox'])->delete();
     }
 
