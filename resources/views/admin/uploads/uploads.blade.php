@@ -36,7 +36,7 @@
                     @foreach($folders as $folder)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a href="/files/{{ $folder->id() }}/{{ $folder->name }}">{{ $folder->name }}</a></td>
+                            <td><a href="{{ route('folders.show',$folder->id()) }}">{{ $folder->name }}</a></td>
                             <td>Size</td>
                             <td><a class="btn btn-sm btn-danger" href="{{ route('folders.destroy',$folder->folder_id) }}">Delete</a></td>
                             <td><input class="checkbox" type="checkbox" name="checkbox[]" value="{{ $folder->id() }}"/></td>

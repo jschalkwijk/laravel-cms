@@ -84,7 +84,7 @@ class FoldersController extends Controller
         $folder = Folder::findOrFail($id);
         Storage::deleteDirectory($folder->path);
         Folder::destroy($folder->folder_id);
-
+        Upload::where('folder_id',$folder->folder_id)->delete();
         return redirect()->action('Admin\FoldersController@index');
     }
     public function action(Request $r)
