@@ -42,7 +42,7 @@ class Action
             }
         }
 
-        Folder::delete_recursive($parents,$table,$key);
+        Folder::delete_recursive($parents,$key);
        
     }
 }

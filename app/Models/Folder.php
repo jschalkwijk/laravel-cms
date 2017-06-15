@@ -5,7 +5,6 @@ namespace CMS\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
 class Folder extends Model
 {
     protected $primaryKey = 'folder_id';
@@ -26,7 +25,7 @@ class Folder extends Model
         return preg_replace("/[\s-]+/", "-", $this->name);
     }
 
-    public static function delete_recursive(array $parents,string $table,string $key)
+    public static function delete_recursive(array $parents)
     {
         //(!empty($row['folder_id']))? $folders_id = [$id,$row['folder_id']] : $folders_id = [$id];
         // checks if the row from the db is not empty,
@@ -47,22 +46,22 @@ class Folder extends Model
         }
 
         while(sizeof($parents) > 0){
-            $folder = DB::table($table)->whereIn('parent_id',$parents)->get();
+            $folder = Folder::whereIn('parent_id',$parents)->get();
             $parents = array();
             // because we now have a new row[folder_id], we need to check again if its empty,
             // if it is not, push it to the array.
             //if it is, don't push it, en the loop will end with the while clause.
             if(!$folder->isEmpty()){
                 foreach($folder as $f) {
-                    // For each rows doen! multiple albims ids might be returned
+                    // For each rows doen! multiple albums ids might be returned
                     $folders[] = $f->folder_id;
                     $parents[] = $f->folder_id;
                 }
             }
         }
 
-        DB::table($table)->whereIn($key,$folders)->delete();
+        Folder::destroy($folders);
         // Remove possible uploaded files in the removed folders from the database
-        DB::table('uploads')->whereIn($key,$folders)->delete();
+        Upload::whereIn('folder_id',$folders)->delete();
     }
 }
