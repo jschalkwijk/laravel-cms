@@ -49,7 +49,7 @@
             </form>
         </div>
     </div>
-
+    @if(!$files->isEmpty())
     <div class="row">
         <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
             <form id="check-files" method="post" action="/admin/uploads/action">
@@ -82,5 +82,6 @@
             </form>
         </div>
     </div>
+    @endif
 </div>
 @stop

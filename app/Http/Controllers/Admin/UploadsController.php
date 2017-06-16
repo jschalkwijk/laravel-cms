@@ -19,7 +19,7 @@ class UploadsController extends Controller
         $folders = Folder::all()->where('parent_id',0);
         $files = Upload::all();
 
-        return view('admin.uploads.uploads')->with(['template' => $this->adminTemplate(), 'folders' => $folders, 'files' => $files]);
+        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => null,'folders' => $folders, 'files' => $files]);
     }
 
     public function create()
@@ -31,13 +31,14 @@ class UploadsController extends Controller
     {
         $this->validate($r, [
             'name' => 'required|min:3',
-            'parent_folder' => 'numeric'
+            'parent' => 'numeric',
+            'destination' => 'numeric'
         ]);
 
         $folder = new Folder($r->all());
         $folder->user_id = Auth::user()->user_id;
-        if(!empty($r['parent_folder'])){
-            $parent = Folder::findOrFail($r['parent_folder']);
+        if(isset($r['parent'])){
+            $parent = Folder::findOrFail($r['parent']);
             $folder->path = $parent->path.'/'.$folder->name;
             $folder->parent_id = $parent->id();
         } else {
@@ -57,7 +58,7 @@ class UploadsController extends Controller
                 $type = $upload->getClientOriginalExtension();
                 $size = $upload->getClientSize();
                 $file_name = $upload->hashName();
-                $file_path = $folder->path.'/'.$file_name;
+                $file_path = str_replace('/public/','',$folder->path).'/'.$file_name;
                 if($upload->store($folder->path)){
                     $file = new Upload();
                     $file->name = $original_name;
