@@ -1,9 +1,20 @@
 @extends('admin.layout')
 @section('content')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
-                <div class="center"><form class="small" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
+                @if (count($errors))
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-warning">{{ $error }}</div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                <div class="center">
+                    <form class="small" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="MAX_FILE_SIZE" value="43500000" />
                         <label for="files[]">Choose File(max size: 3.5 MB): </label><br />
@@ -21,14 +32,15 @@
                         @endif
                         {{--<input type="text" name="new_album_name" placeholder="Create New Sub Folder" maxlength="60"/>--}}
                         <button type="submit" name="submit">Add File('s)</button>
-                    </form></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
-                <form id="check-folders" method="post" action="/admin/uploads/action">
+                <form id="check-folders" method="post" action="{{ route('folders.action') }}">
                     {{ csrf_field() }}
                     <table class="table table-sm table-striped">
                         <thead class="thead-default">
@@ -59,7 +71,7 @@
                 </form>
             </div>
         </div>
-        @if(!$files->isEmpty())
+        @if(isset($files))
             <div class="row">
                 <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
                     <form id="check-files" method="post" action="/admin/uploads/action">

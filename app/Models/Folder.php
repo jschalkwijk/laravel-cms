@@ -3,7 +3,9 @@
 namespace CMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Storage;
 
 class Folder extends Model
 {
@@ -25,6 +27,53 @@ class Folder extends Model
         return preg_replace("/[\s-]+/", "-", $this->name);
     }
 
+    /**
+     * @param Request $r
+     * @return Folder
+     */
+    public static function create(Request $r): Folder {
+        $create = false;
+        $folder = new Folder($r->all());
+        $folder->user_id = Auth::user()->user_id;
+        if(!isset($r['parent']) && !empty($r['name'])) {
+            $create = true;
+            $folder->path = "/public/uploads/".$folder->name;
+        } else if(!isset($r['parent']) && empty($r['name']) && $r['destination'] == 0){
+            return back();
+        }
+        // if: upload to destination folder instead of current parent folder.
+        // else: upload to new folder inside the destination folder.
+        if($r['destination'] != 0 && !empty($r['name']) ){
+            $create = true;
+            $parent = Folder::findOrFail($r['destination']);
+            $folder->path = $parent->path.'/'.$folder->name;
+            $folder->parent_id = $parent->id();
+        } else if($r['destination'] != 0 && empty($r['name'])){
+            $folder = Folder::findOrFail($r['destination']);
+        } else if($r['destination'] == 0 && empty($r['name']) && isset($r['parent'])){
+            $folder = Folder::findOrFail($r['parent']);
+        }  else if($r['destination'] == 0 && isset($r['parent']) && !empty($r['name'])){
+            $create = true;
+            $parent = Folder::findOrFail($r['parent']);
+            $folder->path = $parent->path.'/'.$folder->name;
+            $folder->parent_id = $parent->id();
+        }
+
+
+        if ($create) {
+            $result = Storage::makeDirectory($folder->path, 0775);
+            if ($result) {
+                $folder->save($r->all());
+            } else {
+                echo "Folder not created";
+            }
+        }
+        return $folder;
+    }
+
+    /**
+     * @param array $parents
+     */
     public static function delete_recursive(array $parents)
     {
         //(!empty($row['folder_id']))? $folders_id = [$id,$row['folder_id']] : $folders_id = [$id];
