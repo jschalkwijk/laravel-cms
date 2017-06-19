@@ -80,9 +80,9 @@ Route::group(['prefix' => '/admin'], function (){
 
     Route::group(['middleware' => 'auth'], function(){
         Route::resource('uploads','Admin\UploadsController',['except' => 'show','destroy']);
-        Route::group(['prefix'=>'/files'],function(){
+        Route::group(['prefix'=>'/uploads'],function(){
             Route::get('/deleted-files', 'Admin\UploadsController@deleted');
-            Route::post('/action', 'Admin\UploadsController@action');
+            Route::post('/action', 'Admin\FoldersController@action');
         });
     });
     Route::group(['middleware' => 'auth'],function(){
