@@ -26,7 +26,7 @@ class Upload extends Model
     }
     public function id()
     {
-        return $this->file_id;
+        return $this->upload_id;
     }
     public function getLink(){
         return preg_replace("/[\s-]+/", "-", $this->name);

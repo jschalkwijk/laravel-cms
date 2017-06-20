@@ -66,10 +66,10 @@ class UploadsController extends Controller
     {
 
     }
-
-    public function action()
+    public function action(Request $r)
     {
-
+        $this->Actions($r,'uploads');
+        return back();
     }
 }
 
