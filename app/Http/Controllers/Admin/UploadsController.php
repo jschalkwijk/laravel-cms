@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use CMS\Models\Upload;
 use CMS\Models\Folder;
+use Illuminate\Support\Facades\Storage;
 
 class UploadsController extends Controller
 {
@@ -65,6 +66,14 @@ class UploadsController extends Controller
     public function update()
     {
 
+    }
+
+    public function destroy($id)
+    {
+        $file = Upload::findOrFail($id);
+        Storage::delete('public/'.$file->file_path);
+        Upload::destroy($file->id());
+        return back();
     }
     public function action(Request $r)
     {

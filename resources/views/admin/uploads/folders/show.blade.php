@@ -94,6 +94,7 @@
                                     @elseif ($file->approved == 1 )
                                         <td class="td-btn"><img class="glyph-small" alt="item-visible-for-front-end-user" src="'show.png"/></td>
                                     @endif
+                                    <td><a class="btn btn-sm btn-danger" href="{{ route('uploads.destroy',$file->id()) }}">Delete</a></td>
                                     <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $file->id() }}"/></p></td>
                                 </tr>
                             @endforeach
