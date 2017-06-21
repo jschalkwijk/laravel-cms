@@ -9,6 +9,8 @@ use CMS\Http\Controllers\Controller;
 use CMS\Models\Upload;
 use CMS\Models\Folder;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Input;
 
 class UploadsController extends Controller
 {
@@ -41,18 +43,24 @@ class UploadsController extends Controller
             $type = $upload->getClientOriginalExtension();
             $size = $upload->getClientSize();
             $file_name = $upload->hashName();
+            $thumb_name = 'thumb_'.$upload->hashName();
             $file_path = str_replace('/public/','',$folder->path).'/'.$file_name;
+            $thumb_path = str_replace('/public/','',$folder->path).'/thumbs/'.$thumb_name;
             if($upload->store($folder->path)){
                 $file = new Upload();
                 $file->name = $original_name;
                 $file->file_name = $file_name;
+                $file->thumb_name = $thumb_name;
                 $file->size = $size;
                 $file->type = $type;
                 $file->file_path = $file_path;
+                $file->thumb_path = $thumb_path;
                 $file->user_id = Auth::user()->user_id;
                 $file->folder_id = $folder->id();
                 $file->save();
             };
+            $img = Image::make($upload->getRealPath());
+            $img->fit(100,100)->save(storage_path('app'.$folder->path.'/thumbs/'.'thumb_'.$file_name));
         }
         return back();
 
@@ -72,6 +80,7 @@ class UploadsController extends Controller
     {
         $file = Upload::findOrFail($id);
         Storage::delete('public/'.$file->file_path);
+        Storage::delete('public/'.$file->thumb_path);
         Upload::destroy($file->id());
         return back();
     }

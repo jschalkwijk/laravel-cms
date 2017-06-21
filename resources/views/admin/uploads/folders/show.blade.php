@@ -83,7 +83,7 @@
                             <tbody>
                             @foreach ($files as $file)
                                 <tr class="meta">
-                                    <td class="media"><a class="image_link" href="{{ asset('storage/'.$file->file_path) }}"><img class="ADMIN" src="{{ asset('storage/'.$file->thumb_path) }}"/></a></td>
+                                    <td class="media"><a class="image_link" href="{{ asset('storage/'.$file->file_path) }}"><img src="{{ asset('storage/'.$file->thumb_path) }}"/></a></td>
                                     <td class="td-title">{{ $file->name }}</td>
                                     <td>{{ $file->user['username']}}</td>
                                     <td class="td-category"><p>{{ $file->type }}</p></td>

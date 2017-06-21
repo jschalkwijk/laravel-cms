@@ -62,6 +62,7 @@ class Folder extends Model
 
         if ($create) {
             $result = Storage::makeDirectory($folder->path, 0775);
+            $result = Storage::makeDirectory($folder->path.'/thumbs', 0775);
             if ($result) {
                 $folder->save($r->all());
             } else {
