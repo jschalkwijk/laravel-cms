@@ -77,24 +77,19 @@
                     <form id="check-files" method="post" action="/admin/uploads/action">
                         {{ csrf_field() }}
                         <table class="table table-sm table-striped">
-                            <thead>
-
+                            <thead class="thead-default">
+                                <tr><th>#</th><th>Name</th><th>User</th><th>Type</th><th>Date</th><th>Edit</th><th>Del</th><th></th></tr>
                             </thead>
                             <tbody>
                             @foreach ($files as $file)
-                                <tr class="meta">
+                                <tr>
                                     <td class="media"><a class="image_link" href="{{ asset('storage/'.$file->file_path) }}"><img src="{{ asset('storage/'.$file->thumb_path) }}"/></a></td>
                                     <td class="td-title">{{ $file->name }}</td>
-                                    <td>{{ $file->user['username']}}</td>
+                                    <td>{{ $file->user}}</td>
                                     <td class="td-category"><p>{{ $file->type }}</p></td>
                                     <td>{{ $file->created_at }}</td>
-                                    <td class="td-btn"><a href="{{ route('uploads.edit',$file->upload_id) }}"><img class="glyph-small link-btn" alt="edit-item" src="edit.png"/></a></td>
-                                    @if ($file->approved == 0 )
-                                        <td class="td-btn"><img class="glyph-small" alt="item-hidden-from-front-end-user" src="hide.png"/></td>
-                                    @elseif ($file->approved == 1 )
-                                        <td class="td-btn"><img class="glyph-small" alt="item-visible-for-front-end-user" src="'show.png"/></td>
-                                    @endif
-                                    <td><a class="btn btn-sm btn-danger" href="{{ route('uploads.destroy',$file->id()) }}">Delete</a></td>
+                                    <td class="td-btn"><a href="{{ route('uploads.edit',$file->upload_id) }}">Edit</a></td>
+                                    <td><a class="btn btn-sm btn-danger form-action" href="{{ route('uploads.destroy',$file->id()) }}"></a></td>
                                     <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $file->id() }}"/></p></td>
                                 </tr>
                             @endforeach

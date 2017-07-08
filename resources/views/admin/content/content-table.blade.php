@@ -16,11 +16,22 @@
     @endif
 
     <td class="hidden-md-down"><p>{{ $single->created_at }}</p></td>
-    <td class="td-btn"><a href="{{ $single->table.'/'.$single->id().'/edit/'}}"><img class="glyph-small link-btn" alt="edit-item" src="edit.png"/></a></td>
-    @if ($single->approved == 0 )
-        <td class="td-btn"><img class="glyph-small" alt="item-hidden-from-front-end-user" src="hide.png"/></td>
-    @elseif ($single->approved == 1 )
-        <td class="td-btn"><img class="glyph-small" alt="item-visible-for-front-end-user" src="'show.png"/></td>
+    <td class="td-btn"><p><a href="{{ $single->table.'/'.$single->id().'/edit/'}}">Edit</a></p></td>
+    {{--@if ($single->approved == 0 )--}}
+        {{--<td class="td-btn"><img class="glyph-small" alt="item-hidden-from-front-end-user" src="hide.png"/></td>--}}
+    {{--@elseif ($single->approved == 1 )--}}
+        {{--<td class="td-btn"><img class="glyph-small" alt="item-visible-for-front-end-user" src="'show.png"/></td>--}}
+    {{--@endif--}}
+    @if ($single->approved == 0)
+    <td><a class="form-action btn btn-sm btn-info" href="{{ route('posts.approve', $single->id()) }}"></a></td>
+    @elseif ($single->approved == 1)
+    <td><a class="form-action btn btn-sm btn-success" href="{{ route('posts.hide', $single->id()) }}"></a></td>
+    @endif
+    @if ($single->trashed == 0)
+    <td><a href="{{route('posts.trash',$single->id())}}" class="form-action btn btn-sm btn-danger"></a></td>
+    @elseif ($single->trashed == 1)
+    <td><a href="{{route('posts.destroy',$single->id())}}" class="form-action btn btn-sm btn-danger"><img
+                    class="glyph-small" alt="destroy-item" src=""/></a></td>
     @endif
     <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $single->id() }}"/></p></td>
 </tr>

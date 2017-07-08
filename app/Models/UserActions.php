@@ -6,28 +6,25 @@ use Illuminate\Http\Request;
 
 trait UserActions
 {
-    private function Actions(Request $r,$table)
+    private function Actions($model,Request $r)
     {
         if(isset($r['trash-selected'])){
-            Action::trash($r,$table);
+            Action::trash($model,$r['checkbox']);
         }
         if(isset($r['approve-selected'])){
 
-            Action::approve($r,$table);
+            Action::approve($model,$r['checkbox']);
         }
         if(isset($r['hide-selected'])){
 
-            Action::hide($r,$table);
+            Action::hide($model,$r['checkbox']);
         }
         if(isset($r['restore-selected'])){
 
-            Action::restore($r,$table);
+            Action::restore($model,$r['checkbox']);
         }
         if(isset($r['delete-selected'])){
-            Action::remove($r,$table);
-        }
-        if(isset($r['delete-one'])){
-            Action::dest($r,$table);
+            Action::remove($model,$r['checkbox']);
         }
     }
 

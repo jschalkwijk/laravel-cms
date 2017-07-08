@@ -68,8 +68,9 @@ The CSS, XHTML and design is released under GPL: http://www.opensource.org/licen
 .backend-form img:hover  {
 	background-color: black;
 }
-.backend-form a {
+.form-action {
 	height: 28px;
+	width: 28px;
 }
 /* Blog / Pages / Trashed overview styling*/
 .title {

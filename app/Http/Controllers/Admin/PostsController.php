@@ -2,6 +2,7 @@
 
 namespace CMS\Http\Controllers\Admin;
 
+use CMS\Models\Action;
 use CMS\Models\Tag;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
@@ -16,7 +17,7 @@ class PostsController extends Controller
 
     public function index(){
         $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
-        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 0]);
+        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
     }
 
     public function deleted(){
@@ -134,7 +135,33 @@ class PostsController extends Controller
 
     public function action(Request $r)
     {
-        $this->Actions($r,'posts');
+        $this->Actions(new Post(),$r);
+        return back();
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        Post::destroy($post->id());
+
+        return back();
+    }
+
+    public function hide($id)
+    {
+        Action::hide(new Post(),$id);
+        return back();
+    }
+
+    public function approve($id)
+    {
+        Action::approve(new Post(),$id);
+        return back();
+    }
+
+    public function trash($id)
+    {
+        Action::trash(new Post(),$id);
         return back();
     }
 }

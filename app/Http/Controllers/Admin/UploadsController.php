@@ -10,7 +10,6 @@ use CMS\Models\Upload;
 use CMS\Models\Folder;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Input;
 
 class UploadsController extends Controller
 {
@@ -86,7 +85,7 @@ class UploadsController extends Controller
     }
     public function action(Request $r)
     {
-        $this->Actions($r,'uploads');
+        $this->Actions(new Upload(),$r);
         return back();
     }
 }

@@ -13,7 +13,9 @@
                         {{ csrf_field() }}
                         <table class="backend-table title">
                             <tr><th>Name</th><th>Author</th><th>Sub</th><th>Date/Time</th><th>Edit</th><th>View</th></tr>
-                            @each('admin.content.content-table',$categories,'single')
+                            @foreach($categories as $single)
+                                @include('admin.content.content-table')
+                            @endforeach
                         </table>
                         <table>
                             <?php if($trashed === 0){ ?>

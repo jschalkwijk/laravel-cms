@@ -66,12 +66,7 @@
                                 <td>{{ $file->user['username']}}</td>
                                 <td class="td-category"><p>{{ $file->type }}</p></td>
                                 <td>{{ $file->created_at }}</td>
-                                <td class="td-btn"><a href="{{ route('uploads.edit',$file->upload_id) }}"><img class="glyph-small link-btn" alt="edit-item" src="edit.png"/></a></td>
-                                @if ($file->approved == 0 )
-                                    <td class="td-btn"><img class="glyph-small" alt="item-hidden-from-front-end-user" src="hide.png"/></td>
-                                @elseif ($file->approved == 1 )
-                                    <td class="td-btn"><img class="glyph-small" alt="item-visible-for-front-end-user" src="'show.png"/></td>
-                                @endif
+                                <td><a href="{{ route('uploads.edit',$file->upload_id) }}">Edit</a></td>
                                 <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $file->id() }}"/></p></td>
                             </tr>
                         @endforeach

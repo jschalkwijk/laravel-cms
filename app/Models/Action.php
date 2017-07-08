@@ -9,26 +9,35 @@ use Illuminate\Support\Facades\Storage;
 
 class Action
 {
-    public static function trash(Request $r,$table)
+    public static function trash($model,$keys)
     {
-        $key = Pluralizer::singular($table).'_id';
-        DB::table($table)->whereIn($key, $r['checkbox'])->update(['trashed' => 1]);
+        $key = Pluralizer::singular($model->table).'_id';
+        $keys = (!is_array($keys)) ? [(int)$keys] : $keys;
+
+        $model->whereIn($key, $keys)->update(['trashed' => 1,'approved' => 0]);
     }
-    public static function restore(Request $r,$table)
+    public static function restore($model,$keys)
     {
-        $key = Pluralizer::singular($table).'_id';
-        DB::table($table)->whereIn($key, $r['checkbox'])->update(['trashed' => 0]);
+        $key = Pluralizer::singular($model->table).'_id';
+        $keys = (!is_array($keys)) ? [(int)$keys] : $keys;
+
+        $model->whereIn($key, $keys)->update(['trashed' => 0]);
     }
-    public static function hide(Request $r,$table)
+    public static function hide($model,$keys)
     {
-        $key = Pluralizer::singular($table).'_id';
-        DB::table($table)->whereIn($key, $r['checkbox'])->update(['approved' => 0]);
+        $key = Pluralizer::singular($model->table).'_id';
+        $keys = (!is_array($keys)) ? [(int)$keys] : $keys;
+
+        $model->whereIn($key, $keys)->update(['approved' => 0]);
     }
-    public static function approve(Request $r,$table)
+    public static function approve($model,$keys)
     {
-        $key = Pluralizer::singular($table).'_id';
-        DB::table($table)->whereIn($key, $r['checkbox'])->update(['approved' => 1]);
+        $key = Pluralizer::singular($model->table).'_id';
+        $keys = (!is_array($keys)) ? [(int)$keys] : $keys;
+
+        $model->whereIn($key, $keys)->update(['approved' => 1]);
     }
+
 
     public static function remove(Request $r,$table)
     {

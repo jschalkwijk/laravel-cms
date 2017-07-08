@@ -34,6 +34,10 @@ Route::group(['prefix' => '/admin'], function (){
         Route::group(['prefix' => '/posts'],function(){
             Route::get('/deleted-posts', 'Admin\PostsController@deleted');
             Route::post('/action', 'Admin\PostsController@action');
+            Route::get('/{id}/approve','Admin\PostsController@approve')->name('posts.approve');
+            Route::get('/{id}/hide','Admin\PostsController@hide')->name('posts.hide');
+            Route::get('/{id}/destroy', 'Admin\PostsController@destroy')->name('posts.destroy');
+            Route::get('/{id}/trash', 'Admin\PostsController@trash')->name('posts.trash');
         });
         /*
          * Artisan route:list makes the controller routes and then you only have to use one Route function.
