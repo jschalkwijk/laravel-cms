@@ -20,7 +20,7 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function category()
@@ -30,7 +30,7 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->morphToMany('CMS\Models\Tag', 'taggable');
+        return $this->morphToMany('CMS\Models\Tag', 'taggable',null,null,'tag_id');
     }
     # Getters
     public function id()

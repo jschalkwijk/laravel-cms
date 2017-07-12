@@ -41,6 +41,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function id()
+    {
+        return $this->user_id;
+    }
     public function permission()
     {
         return $this->belongsToMany(Permission::class);

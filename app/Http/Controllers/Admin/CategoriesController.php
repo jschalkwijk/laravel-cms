@@ -7,6 +7,7 @@ use CMS\Models\UserActions;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use CMS\Models\Action;
 
 class CategoriesController extends Controller
 {
@@ -36,7 +37,7 @@ class CategoriesController extends Controller
 
         $category = new Category($r->all());
         $category->user_id = Auth::user()->user_id;
-        $category->type = 'post';
+        $category->type = 'category';
         $category->save();
         return redirect()->action('Admin\CategoriesController@index');
     }
@@ -60,7 +61,33 @@ class CategoriesController extends Controller
 
     public function action(Request $r)
     {
-        $this->Actions($r,'categories');
+        $this->Actions(new Category(),$r);
+        return back();
+    }
+
+    public function destroy($id)
+    {
+        $category = category::findOrFail($id);
+        Category::destroy($category->id());
+
+        return back();
+    }
+
+    public function hide($id)
+    {
+        Action::hide(new Category(),$id);
+        return back();
+    }
+
+    public function approve($id)
+    {
+        Action::approve(new Category(),$id);
+        return back();
+    }
+
+    public function trash($id)
+    {
+        Action::trash(new Category(),$id);
         return back();
     }
 }

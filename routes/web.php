@@ -56,6 +56,10 @@ Route::group(['prefix' => '/admin'], function (){
         Route::group(['prefix' => '/categories'],function(){
             Route::get('/deleted-categories','Admin\CategoriesController@deleted');
             Route::post('/action', 'Admin\CategoriesController@action');
+            Route::get('/{id}/approve','Admin\CategoriesController@approve')->name('categories.approve');
+            Route::get('/{id}/hide','Admin\CategoriesController@hide')->name('categories.hide');
+            Route::get('/{id}/destroy', 'Admin\CategoriesController@destroy')->name('categories.destroy');
+            Route::get('/{id}/trash', 'Admin\CategoriesController@trash')->name('categories.trash');
         });
     });
 
@@ -71,6 +75,10 @@ Route::group(['prefix' => '/admin'], function (){
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');
             Route::post('/action', 'Admin\UsersController@action');
+            Route::get('/{id}/approve','Admin\UsersController@approve')->name('users.approve');
+            Route::get('/{id}/hide','Admin\UsersController@hide')->name('users.hide');
+            Route::get('/{id}/destroy', 'Admin\UsersController@destroy')->name('users.destroy');
+            Route::get('/{id}/trash', 'Admin\UsersController@trash')->name('users.trash');
         });
     });
 

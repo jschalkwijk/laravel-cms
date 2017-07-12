@@ -5,6 +5,7 @@ namespace CMS\Http\Controllers\Admin;
 use CMS\Models\User;
 use CMS\Models\UserActions;
 use Illuminate\Http\Request;
+use CMS\Models\Action;
 
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -91,7 +92,33 @@ class UsersController extends Controller
 
     public function action(Request $r)
     {
-        $this->Actions($r,'users');
+        $this->Actions(new User(),$r);
+        return back();
+    }
+
+    public function destroy($id)
+    {
+        $users = User::findOrFail($id);
+        User::destroy($users->id());
+
+        return back();
+    }
+
+    public function hide($id)
+    {
+        Action::hide(new User(),$id);
+        return back();
+    }
+
+    public function approve($id)
+    {
+        Action::approve(new User(),$id);
+        return back();
+    }
+
+    public function trash($id)
+    {
+        Action::trash(new User(),$id);
         return back();
     }
 
