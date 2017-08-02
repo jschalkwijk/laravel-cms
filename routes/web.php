@@ -109,6 +109,11 @@ Route::group(['prefix' => '/admin'], function (){
         Route::resource('products','Admin\ProductsController',['except' => ['show']]);
         Route::group(['prefix' => '/products'],function(){
             Route::get('/deleted-products','Admin\ProductsController@deleted');
+            Route::post('/action', 'Admin\ProductsController@action');
+            Route::get('/{id}/approve','Admin\ProductsController@approve')->name('products.approve');
+            Route::get('/{id}/hide','Admin\ProductsController@hide')->name('products.hide');
+            Route::get('/{id}/destroy', 'Admin\ProductsController@destroy')->name('products.destroy');
+            Route::get('/{id}/trash', 'Admin\ProductsController@trash')->name('products.trash');
         });
     });
 

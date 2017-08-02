@@ -16,7 +16,7 @@
     @endif
 
     <td class="hidden-md-down"><p>{{ $single->created_at }}</p></td>
-    <td class="td-btn"><p><a href="{{ $single->table.'/'.$single->id().'/edit/'}}">Edit</a></p></td>
+    <td class="td-btn"><p><a href="{{ $single->table.'/'.$single->id().'/edit'}}">Edit</a></p></td>
     @if ($single->approved == 0)
     <td><a class="form-action btn btn-sm btn-warning" href="{{ route($single->table.'.approve', $single->id()) }}"></a></td>
     @elseif ($single->approved == 1)

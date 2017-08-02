@@ -6,12 +6,15 @@ use CMS\Models\Category;
 use CMS\Models\Product;
 use CMS\Models\Tag;
 use CMS\Http\Controllers\Controller;
+use CMS\Models\Action;
+use CMS\Models\UserActions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
+    use UserActions;
     public function index()
     {
         $products = Product::with('category')->where('trashed',0)->orderBy('product_id','desc')->get();
@@ -131,8 +134,35 @@ class ProductsController extends Controller
         return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
     }
 
-    public function action()
+    public function action(Request $r)
     {
+        $this->Actions(new Product(),$r);
+        return back();
+    }
 
+    public function destroy($id)
+    {
+        $post = Product::findOrFail($id);
+        Product::destroy($post->id());
+
+        return back();
+    }
+
+    public function hide($id)
+    {
+        Action::hide(new Product(),$id);
+        return back();
+    }
+
+    public function approve($id)
+    {
+        Action::approve(new Product(),$id);
+        return back();
+    }
+
+    public function trash($id)
+    {
+        Action::trash(new Product(),$id);
+        return back();
     }
 }
