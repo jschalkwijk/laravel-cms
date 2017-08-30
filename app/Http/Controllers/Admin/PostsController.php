@@ -133,9 +133,9 @@ class PostsController extends Controller
         return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
     }
 
-    public function action(Request $r)
+    public function action(Request $r,Post $post)
     {
-        $this->Actions(new Post(),$r);
+        $this->Actions($post,$r);
         return back();
     }
 

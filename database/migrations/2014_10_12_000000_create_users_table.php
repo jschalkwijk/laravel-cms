@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('user_id',10);
             $table->string('first_name',50);
             $table->string('last_name',50);
-            $table->binary('email')->unique();
+            $table->binary('email');
             $table->string('password');
             $table->binary('dob');
             $table->binary('function');
@@ -25,8 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('img_path',1000);
             $table->tinyInteger('approved');
             $table->tinyInteger('trashed');
-            $table->integer('album_id',10);
-            $table->integer('created_by',10);
+            $table->integer('album_id');
+            $table->integer('created_by');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -14,11 +14,11 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->increments('order_id');
+            $table->increments('order_id',10);
             $table->text('hash',255);
             $table->float('total',10);
-            $table->tinyInteger('paid',1);
-            $table->integer('customer_id',10);
+            $table->tinyInteger('paid');
+            $table->integer('customer_id');
             $table->timestamps();
         });
     }

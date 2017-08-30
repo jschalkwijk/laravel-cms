@@ -11,11 +11,11 @@ class Category extends Model
 	public $table = "categories";
 	# Relations
 	public function posts() {
-		return $this->hasMany(Post::class);
+		return $this->hasMany(Post::class,'post_id');
     }
 
 	public function products() {
-		return $this->hasMany(Product::class);
+		return $this->hasMany(Product::class,'product_id');
 	}
 //	public function categoryable()
 //	{
@@ -23,7 +23,7 @@ class Category extends Model
 //	}
 	public function user()
 	{
-		return $this->belongsTo(User::class);
+		return $this->belongsTo(User::class,'user_id');
 	}
 
 	# Getters

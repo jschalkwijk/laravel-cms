@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class CategoriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,10 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
         factory(CMS\Models\Category::class, 20)->create()->each(function($category){
-            $category->posts()->save(factory(CMS\Models\Post::class)->make());
+            $category->posts()->save(factory(CMs\Models\Post::class)->make());
         });
-
-}
+    }
 }

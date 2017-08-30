@@ -14,7 +14,7 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('category_id');
+            $table->increments('category_id',10);
             $table->string('title',130);
             $table->string('description',160);
             $table->text('content');
@@ -22,8 +22,8 @@ class CreateCategoriesTable extends Migration
             $table->tinyInteger('approved');
             $table->tinyInteger('trashed');
             $table->string('path',150);
-            $table->integer('parent_id',10);
-            $table->integer('user_id',10);
+            $table->integer('parent_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

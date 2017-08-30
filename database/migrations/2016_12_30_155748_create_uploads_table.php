@@ -14,15 +14,15 @@ class CreateUploadsTable extends Migration
     public function up()
     {
         Schema::create('uploads', function (Blueprint $table) {
-            $table->increments('upload_id');
+            $table->increments('upload_id',10);
             $table->string('name');
             $table->string('type');
             $table->string('file_name');
             $table->string('thumb_name');
             $table->string('file_path',2000);
             $table->string('thumb_path',2000);
-            $table->integer('folder_id',10);
-            $table->integer('user_id',10);
+            $table->integer('folder_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
