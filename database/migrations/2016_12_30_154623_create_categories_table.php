@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('title',130);
             $table->string('description',160);
             $table->text('content');
+            $table->mediumText('keywords');
             $table->string('type',15);
             $table->tinyInteger('approved');
             $table->tinyInteger('trashed');
