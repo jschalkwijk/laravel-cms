@@ -27,7 +27,8 @@ class CategoriesController extends Controller
 
     public function create()
     {
-        return view('admin.categories.create')->with(['template' => $this->adminTemplate()]);
+        $categories = Category::where('type','post')->get();
+        return view('admin.categories.create')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
     }
     public function store(Request $r)
     {
@@ -43,7 +44,8 @@ class CategoriesController extends Controller
     }
     public function edit(Category $category)
     {
-        return view('admin.categories.edit')->with(['category' => $category, 'template' => $this->adminTemplate()]);
+        $categories = Category::where('type','post')->get();
+        return view('admin.categories.edit')->with(['category' => $category,'categories' => $categories, 'template' => $this->adminTemplate()]);
     }
 
     public function update(Request $r, Category $category)

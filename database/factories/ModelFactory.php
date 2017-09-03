@@ -30,13 +30,13 @@
             'email' => $faker->companyEmail(),
             'password' => bcrypt('root'),
             'dob' => $faker->date(),
-            'function' => $faker->randomElement('manager','programmer','hr','marketing'),
-            'rights' => $faker->randomElement('Admin','Content Manager','Author'),
+            'function' => $faker->randomElement(['manager','programmer','hr','marketing']),
+            'rights' => $faker->randomElement(['Admin','Content Manager','Author']),
             'approved' => $faker->boolean(),
             'trashed' => $faker->boolean(),
-            'remember_token' => $faker->text(100),
+            'remember_token' => null,
             'album_id' => 1,
-            'img_path' => $faker->file('/uploads','/users').'/userfile.jpg',
+            'img_path' => $faker->file(storage_path('app/public/uploads','/users')),
             'created_by' => 26,
             'created_at' => $faker->dateTimeThisYear,
             'updated_at' => $faker->dateTimeThisYear,
@@ -65,24 +65,37 @@
     $factory->define(CMS\Models\Category::class, function (Faker\Generator $faker) {
         $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
         $categories = \CMS\Models\Category::all()->pluck('category_id');
-        if (count($categories) <= 4) {
-            $categories = [0];
+        if ($categories->count() < 4) {;
+            return [
+                'category_id' => $faker->unique()->numberBetween(1,1000),
+                'title' => $faker->sentence(1,40),
+                'description' => $faker->text(50),
+                'content' => $faker->paragraph(rand(3,5)),
+                'approved' => $faker->boolean(),
+                'trashed' => $faker->boolean(),
+                'type' => $faker->randomElement(['post','product']),
+                'user_id' => $faker->randomElement($users),
+                'parent_id' => 0,
+                'created_at' => $faker->dateTimeThisYear,
+                'updated_at' => $faker->dateTimeThisYear,
+            ];
         } else {
-            $categories = $categories->toArray();
+            $categories = \CMS\Models\Category::all()->pluck('category_id')->toArray();
+            return [
+                'category_id' => $faker->unique()->numberBetween(1,1000),
+                'title' => $faker->sentence(1,40),
+                'description' => $faker->text(50),
+                'content' => $faker->paragraph(rand(3,5)),
+                'approved' => $faker->boolean(),
+                'trashed' => $faker->boolean(),
+                'type' => $faker->randomElement(['post','product']),
+                'user_id' => $faker->randomElement($users),
+                'parent_id' => $faker->randomElement($categories),
+                'created_at' => $faker->dateTimeThisYear,
+                'updated_at' => $faker->dateTimeThisYear,
+            ];
         }
-        return [
-            'category_id' => $faker->unique()->numberBetween(1,1000),
-            'title' => $faker->sentence(1,40),
-            'description' => $faker->text(50),
-            'content' => $faker->paragraph(rand(3,5)),
-            'approved' => $faker->boolean(),
-            'trashed' => $faker->boolean(),
-            'type' => $faker->randomElement(['post','product']),
-            'user_id' => $faker->randomElement($users),
-            'parent_id' => $faker->randomElement($categories),
-            'created_at' => $faker->dateTimeThisYear,
-            'updated_at' => $faker->dateTimeThisYear,
-        ];
+
     });
 
     $factory->define(\CMS\Models\Tag::class,function(\Faker\Generator $faker){

@@ -16,7 +16,8 @@
 //            $category->posts()->save(factory(CMS\Models\Post::class)->make());
 //        });
             factory(CMS\Models\User::class, 10)->create();
-            factory(CMS\Models\Category::class, 40)->create();
+            factory(CMS\Models\Category::class, 20)->create();
+            factory(CMS\Models\Category::class, 20)->create();
 
             factory(CMS\Models\Post::class, 20)->create()->each(
                 function ($post) {
@@ -25,7 +26,7 @@
                     );
                 });
 
-            factory(CMS\Models\Product::class, 20)->create();
+//            factory(CMS\Models\Product::class, 20)->create();
 //            foreach ((range(1, 20)) as $index) {
 //                DB::table('taggables')->insert(
 //                    [

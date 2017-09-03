@@ -20,12 +20,12 @@ class UsersController extends Controller
 
     public function index()
     {
-        foreach(Auth::user()->permission as $perm){
-            $this->permissions[] = $perm->name;
-        };
-
-        if(!in_array("Create Post",$this->permissions)){ return "not allowed"; }
-        $users = User::with('created_by','permission')->where('users.trashed',0)->orderBy('user_id','desc')->get();
+//        foreach(Auth::user()->permission as $perm){
+//            $this->permissions[] = $perm->name;
+//        };
+//
+//        if(!in_array("Create Post",$this->permissions)){ return "not allowed"; }
+        $users = User::where('users.trashed',0)->orderBy('user_id','desc')->get();
 
         return view('admin.users.users')->with(
         [
@@ -37,7 +37,7 @@ class UsersController extends Controller
 
     public function deleted()
     {
-        $users = User::with('created_by')->where('users.trashed',1)->orderBy('user_id','desc')->get();
+        $users = User::where('users.trashed',1)->orderBy('user_id','desc')->get();
         return view('admin.users.users')->with(
             [
                 'users' => $users,

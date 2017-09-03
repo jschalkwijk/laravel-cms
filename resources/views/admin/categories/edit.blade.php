@@ -22,9 +22,15 @@
                     <input type="hidden" name="id" value="{{$category->post_id}}"/>
                     <input type="text" name="title" placeholder="Title" value="{{ $category->title }}"><br />
                     <input type="text" name="description" placeholder="Category Description (max 160 characters)" value="{{$category->description}}"/><br />
-                    <label for="select">Category</label>
+                    <label for="select">Parent Category</label>
                     <select id="categories" name="cat_name">
-                        <option name="none" value="None">None</option>
+                        @foreach($categories as $cat)
+                            @if($category->parent_id == $cat->id())
+                                <option name="{{ $cat->title }}" value="{{ $cat->id()}}" selected>{{ $cat->title }}</option>
+                            @else
+                                <option value="{{$cat->id()}}">{{$cat->title}}</option>
+                            @endif
+                        @endforeach
                     </select>
 
                     <input type="text" name="category" placeholder="Category"/><br />

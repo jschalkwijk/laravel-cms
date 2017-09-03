@@ -17,6 +17,9 @@ class Category extends Model
 	public function products() {
 		return $this->hasMany(Product::class,'product_id');
 	}
+    public function child() {
+        return $this->hasOne(Category::class,'category_id','parent_id');
+    }
 //	public function categoryable()
 //	{
 //		return $this->morphTo();

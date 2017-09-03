@@ -16,11 +16,11 @@
         @foreach($users as $single)
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
-                <td class="td-title"><p>{{ $single->username }}</p></td>
+                <td class="td-title"><p>{{ $single->first_name }}</p></td>
                 <td><p>{{ $single->email }}</p></td>
                 <td class="td-category"><p>{{ $single->rights }}</p></td>
                 <td><p>{{ $single->created_at }}</p></td>
-                <td class="td-category"><p>@foreach($single->permission as $perm){{ $perm->name }} @endforeach</p></td>
+                {{--<td class="td-category"><p>@foreach($single->permission as $perm){{ $perm->name }} @endforeach</p></td>--}}
 
                 <td class="td-btn"><a href="{{ $single->table.'/'.$single->user_id.'/edit/'}}">Edit</a></td>
                 @if ($single->approved == 0)
