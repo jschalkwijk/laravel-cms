@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity');
             $table->float('discount_price',6);
             $table->float('savings',6);
+            $table->float('total',6);
             $table->tinyInteger('tax_percentage');
             $table->float('tax',6);
             $table->text('img_path',1000);

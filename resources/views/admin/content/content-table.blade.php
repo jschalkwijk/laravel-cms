@@ -1,9 +1,18 @@
 <tr>
     <th scope="row">{{ $loop->iteration }}</th>
     <td class="td-title"><p>{{ $single->title }}</p></td>
-    <td class="hidden-xs-down"><p>{{ $single->user['username']}}</p></td>
+    <td class="hidden-xs-down"><p>{{ $single->user['first_name']}}</p></td>
     <td class="hidden-xs-down">
+        @if(!$single->category['title'])
+            <p>
+                {{ $single->parent['title']}}
+            </p>
+        @else
+            <p>
                 {{ $single->category['title']}}
+            </p>
+        @endif
+
     </td>
     @if($single->tags)
         <td class="hidden-sm-down">
@@ -14,7 +23,6 @@
             </p>
         </td>
     @endif
-
     <td class="hidden-md-down"><p>{{ $single->created_at }}</p></td>
     <td class="td-btn"><p><a href="{{ $single->table.'/'.$single->id().'/edit'}}">Edit</a></p></td>
     @if ($single->approved == 0)

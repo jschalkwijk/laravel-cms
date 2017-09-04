@@ -17,6 +17,7 @@ class CreateUploadsTable extends Migration
             $table->increments('upload_id',10);
             $table->string('name');
             $table->string('type');
+            $table->bigInteger('size');
             $table->string('file_name');
             $table->string('thumb_name');
             $table->string('file_path',2000);

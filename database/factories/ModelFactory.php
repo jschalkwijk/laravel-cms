@@ -65,7 +65,7 @@
     $factory->define(CMS\Models\Category::class, function (Faker\Generator $faker) {
         $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
         $categories = \CMS\Models\Category::all()->pluck('category_id');
-        if ($categories->count() < 4) {;
+        if ($categories->count() < 1) {;
             return [
                 'category_id' => $faker->unique()->numberBetween(1,1000),
                 'title' => $faker->sentence(1,40),
@@ -98,18 +98,38 @@
 
     });
 
-    $factory->define(\CMS\Models\Tag::class,function(\Faker\Generator $faker){
-        $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
-
+    $factory->define(CMS\Models\Product::class, function (Faker\Generator $faker) {
+        $categories = \CMS\Models\Category::where('type','product')->pluck('category_id')->toArray();
         return [
-            'tag_id' => $faker->unique()->numberBetween(1,1000),
-            'title' => $faker->word(),
-            'type' => $faker->randomElement(['post','product']),
-            'user_id' => $faker->randomElement($users),
+            'product_id' => $faker->unique()->numberBetween(1,1000),
+            'name' => $faker->sentence(8,40),
+            'description' => $faker->text(50),
+            'price' => 10,
+            'quantity' => 10,
+            'discount_price' => 0.00,
+            'savings' => 0.00,
+            'tax_percentage' => 21,
+            'tax' => 0.00,
+            'img_path' => $faker->file(storage_path('app/public/uploads','/products')),
+            'category_id' => $faker->randomElement($categories),
+            'folder_id' => 0,
             'approved' => $faker->boolean(),
             'trashed' => $faker->boolean(),
             'created_at' => $faker->dateTimeThisYear,
             'updated_at' => $faker->dateTimeThisYear,
+        ];
+    });
 
+    $factory->define(\CMS\Models\Tag::class,function(\Faker\Generator $faker){
+        $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
+        return [
+            'tag_id' => $faker->unique()->numberBetween(1,1000),
+            'title' => $faker->word(),
+            'type' => null,
+            'user_id' => $faker->randomElement($users),
+            'approved' => $faker->boolean(),
+            'trashed' => $faker->boolean(),
+            'created_at' => $faker->dateTime,
+            'updated_at' => $faker->dateTimeThisYear,
         ];
     });

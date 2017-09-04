@@ -25,6 +25,12 @@
                         factory(CMS\Models\Tag::class)->make()
                     );
                 });
+            factory(CMS\Models\Product::class, 20)->create()->each(
+                function ($product) {
+                    $product->tags()->save(
+                        factory(CMS\Models\Tag::class)->make()
+                    );
+                });
 
 //            factory(CMS\Models\Product::class, 20)->create();
 //            foreach ((range(1, 20)) as $index) {

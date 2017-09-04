@@ -19,4 +19,4 @@
         </div>
     </div>
     
-@stopgit sta
+@stop

@@ -20,7 +20,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th class="hidden-xs-down">Author</th>
-                                <th class="hidden-xs-down">Sub</th>
+                                <th class="hidden-xs-down">Parent</th>
                                 <th class="hidden-xs-down">Date/Time</th>
                                 <th class="hidden-md-down">Edit</th>
                                 <th>Status</th>
