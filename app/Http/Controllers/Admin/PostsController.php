@@ -20,6 +20,11 @@ class PostsController extends Controller
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
     }
 
+    public function show(Post $post)
+    {
+        return view('admin.posts.post')->with(['template'=>$this->adminTemplate(),'post' => $post]);
+    }
+
     public function deleted(){
         $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
 

@@ -19,10 +19,16 @@ class CategoriesController extends Controller
         return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 
-    public function deleted(){
-        $categories = Category::with('user')->where('categories.trashed',1)->get();
+    public function show(Category $category)
+    {
+        $children = $category->cascade();
+        $sub_categories  = $category->tree($children,$category->id());
+        return view('admin.categories.category')->with(['template'=>$this->adminTemplate(),'category' => $category,'sub_categories' => $sub_categories ]);
+    }
 
-        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories'=>$categories,'trashed' => 1]);
+    public function deleted(){
+        $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
+        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 
     public function create()

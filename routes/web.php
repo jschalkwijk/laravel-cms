@@ -30,7 +30,7 @@ Route::group(['prefix' => '/admin'], function (){
 
     Route::group(['middleware' => 'auth'], function()
     {
-        Route::resource('posts','Admin\PostsController',['except' => ['show']]);
+        Route::resource('posts','Admin\PostsController');
         Route::group(['prefix' => '/posts'],function(){
             Route::get('/deleted-posts', 'Admin\PostsController@deleted');
             Route::post('/action', 'Admin\PostsController@action');
@@ -52,7 +52,7 @@ Route::group(['prefix' => '/admin'], function (){
     });
 
     Route::group(['middleware' => 'auth'], function() {
-        Route::resource('categories','Admin\CategoriesController',['except' => ['show']]);
+        Route::resource('categories','Admin\CategoriesController');
         Route::group(['prefix' => '/categories'],function(){
             Route::get('/deleted-categories','Admin\CategoriesController@deleted');
             Route::post('/action', 'Admin\CategoriesController@action');

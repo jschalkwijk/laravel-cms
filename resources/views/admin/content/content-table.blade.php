@@ -1,6 +1,6 @@
 <tr>
     <th scope="row">{{ $loop->iteration }}</th>
-    <td class="td-title"><p>{{ $single->title }}</p></td>
+    <td class="td-title"><p><a href="{{route($single->table.'.show',$single->id())}}">{{ $single->title }}</a></p></td>
     <td class="hidden-xs-down"><p>{{ $single->user['first_name']}}</p></td>
     <td class="hidden-xs-down">
         @if(!$single->category['title'])
