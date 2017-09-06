@@ -64,20 +64,46 @@ class Category extends Model
        return Category::whereIN('category_id',$children)->orderBy('parent_id')->get()->toArray();
     }
 
-    public function tree($data, $parent = 0, $depth=0){
-        if($depth > 500) return '';
-        $tree = '<ul class="list-group">';
-        foreach($data as $cat){
-            if($cat['parent_id'] == $parent){
-                $tree .= '<li class="list-group-item">';
-                $tree .= $cat['title'];
-                // nog een keer deze functie draaien
-                $tree .= $this->tree($data, $cat['category_id'], $depth+1);
-                $tree .= '</li>';
+    public function tree($data, $parent = 0){
+        $list = [];
+        $refs = [];
+
+        foreach ($data as $row)
+        {
+            $ref = & $refs[$row['category_id']];
+
+            $ref['parent_id'] = $row['parent_id'];
+            $ref['title'] = $row['title'];
+
+            if ($row['parent_id'] == $parent)
+            {
+                $list[$row['category_id']] = & $ref;
             }
-            unset($data[$cat['category_id']]);
+            else
+            {
+                $refs[$row['parent_id']]['children'][$row['category_id']] = & $ref;
+            }
         }
-        $tree .= '</ul>';
-        return $tree;
+        return $this->treeList($list);
     }
+
+    public function treeList(array $array)
+    {
+        $html = '<ul class="list-group">';
+
+        foreach ($array as $key => $value)
+        {
+            $html .= '<li class="list-group-item">' . $value['title'];
+            if (!empty($value['children']))
+            {
+                $html .= $this->treelist($value['children']);
+            }
+            $html .= '</li>';
+        }
+
+        $html .= '</ul>' ;
+
+        return $html;
+    }
+
 }
