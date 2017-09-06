@@ -21,8 +21,7 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        $children = $category->cascade();
-        $sub_categories  = $category->tree($children,$category->id());
+        $sub_categories  = $category->treeList($category->children);
         return view('admin.categories.category')->with(['template'=>$this->adminTemplate(),'category' => $category,'sub_categories' => $sub_categories ]);
     }
 

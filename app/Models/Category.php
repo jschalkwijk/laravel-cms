@@ -3,6 +3,8 @@
 namespace CMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\Object_;
 
 class Category extends Model
 {
@@ -42,61 +44,68 @@ class Category extends Model
 		return preg_replace("/[\s-]+/", "-", $this->title);
 	}
 
-    public function cascade(){
-        $children = array();
-        $parents = array();
+//    public function cascade(){
+//        $children = array();
+//        $parents = array();
+//
+//        foreach ($this->children as $parent){
+//            $parents[] = $parent->category_id;
+//            $children[] = $parent->category_id;
+//        }
+//        while(sizeof($parents) > 0){
+//            $categories = Category::whereIN('parent_id',$parents)->get();
+//
+//            $parents = array();
+//            if(!$categories->isEmpty()) {
+//                foreach ($categories as $category) {
+//                    $children[] = $category->id();
+//                    $parents[] = $category->id();
+//                }
+//            }
+//        }
+//       return Category::with('children')->whereIN('category_id',$children)->orderBy('parent_id')->get();
+//    }
 
-        foreach ($this->children as $parent){
-            $parents[] = $parent->category_id;
-            $children[] = $parent->category_id;
-        }
-        while(sizeof($parents) > 0){
-            $categories = Category::with('user')->whereIN('parent_id',$parents)->get();
+//    public function tree($data, $parent = 0){
+//        $list = [];
+//        $refs = [];
+//
+//        foreach ($data as $row)
+//        {
+//            $ref = & $refs[$row['category_id']];
+//
+//            $ref['parent_id'] = $row['parent_id'];
+//            $ref['title'] = $row['title'];
+//
+//            if ($row['parent_id'] == $parent)
+//            {
+//                $list[$row['category_id']] = & $ref;
+//            }
+//            else
+//            {
+//                $refs[$row['parent_id']]['children'][$row['category_id']] = & $ref;
+//            }
+//        }
+//        return $this->treeList($list);
+//    }
 
-            $parents = array();
-            if(!$categories->isEmpty()) {
-                foreach ($categories as $category) {
-                    $children[] = $category->id();
-                    $parents[] = $category->id();
-                }
-            }
-        }
-       return Category::whereIN('category_id',$children)->orderBy('parent_id')->get()->toArray();
-    }
-
-    public function tree($data, $parent = 0){
-        $list = [];
-        $refs = [];
-
-        foreach ($data as $row)
-        {
-            $ref = & $refs[$row['category_id']];
-
-            $ref['parent_id'] = $row['parent_id'];
-            $ref['title'] = $row['title'];
-
-            if ($row['parent_id'] == $parent)
-            {
-                $list[$row['category_id']] = & $ref;
-            }
-            else
-            {
-                $refs[$row['parent_id']]['children'][$row['category_id']] = & $ref;
-            }
-        }
-        return $this->treeList($list);
-    }
-
-    public function treeList(array $array)
+    /**
+     * @param $array
+     * @return string
+     *
+     * Takes an array with the first chidren of the Object, then if those children have children
+     * it wil cascade over them en create a list output.
+     */
+    public function tree($array)
     {
         $html = '<ul class="list-group">';
 
         foreach ($array as $key => $value)
         {
-            $html .= '<li class="list-group-item">' . $value['title'];
-            if (!empty($value['children']))
+            $html .= '<li class="list-group-item">' . $value->title;
+            if (!empty($value->children))
             {
-                $html .= $this->treelist($value['children']);
+                $html .= $this->treelist($value->children);
             }
             $html .= '</li>';
         }
