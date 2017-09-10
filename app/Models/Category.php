@@ -105,7 +105,7 @@ class Category extends Model
             $html .= '<li class="list-group-item">' . $value->title;
             if (!empty($value->children))
             {
-                $html .= $this->treelist($value->children);
+                $html .= $this->tree($value->children);
             }
             $html .= '</li>';
         }
