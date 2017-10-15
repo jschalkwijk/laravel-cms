@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 offset-xs-3 offset-sm-3 offset-lg-3">
                 <div class="center button-block">
-                    <a href="/admin/category/create" class="btn btn-primary btn-sm visible-md-block">Add Category</a>
+                    <a href="/admin/categories/create" class="btn btn-primary btn-sm visible-md-block">Add Category</a>
                     <a href="/admin/categories/deleted-categories" class="btn btn-primary visible-md-block">Deleted Categories</a>
                 </div>
             </div>
@@ -17,7 +17,8 @@
                 {{$category->created_at}}
                 {{$category->updated_at}}
                 {{--{{$category->parent->title}}--}}
-                {!! $sub_categories !!}
+                {!! $category->tree($category->children) !!}
+
                 {{--@foreach($children as $child)--}}
                         {{--{{$child->title}}--}}
                 {{--@endforeach--}}

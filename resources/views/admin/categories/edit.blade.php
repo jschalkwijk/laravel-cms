@@ -23,10 +23,13 @@
                     <input type="text" name="title" placeholder="Title" value="{{ $category->title }}"><br />
                     <input type="text" name="description" placeholder="Category Description (max 160 characters)" value="{{$category->description}}"/><br />
                     <label for="select">Parent Category</label>
-                    <select id="categories" name="cat_name">
+                    <select id="parent" name="parent_id">
+                        @if($category->parent_id == 0)
+                            <option value="0" selected>None</option>
+                        @endif
                         @foreach($categories as $cat)
                             @if($category->parent_id == $cat->id())
-                                <option name="{{ $cat->title }}" value="{{ $cat->id()}}" selected>{{ $cat->title }}</option>
+                                <option value="{{ $cat->id()}}" selected>{{ $cat->title }}</option>
                             @else
                                 <option value="{{$cat->id()}}">{{$cat->title}}</option>
                             @endif

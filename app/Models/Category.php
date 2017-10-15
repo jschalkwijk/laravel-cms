@@ -9,7 +9,7 @@ use phpDocumentor\Reflection\Types\Object_;
 class Category extends Model
 {
     protected $primaryKey = 'category_id';
-	protected $fillable = ['title','description'];
+	protected $fillable = ['title','description','parent_id'];
 	public $table = "categories";
 	# Relations
 	public function posts() {
@@ -98,11 +98,12 @@ class Category extends Model
      */
     public function tree($array)
     {
-        $html = '<ul class="list-group">';
+
+        $html = '<ul class="tree">';
 
         foreach ($array as $key => $value)
         {
-            $html .= '<li class="list-group-item">' . $value->title;
+            $html .= '<li><a href="/admin/'.$value->table.'/'.$value->id().'">'.$value->title .'</a>';
             if (!empty($value->children))
             {
                 $html .= $this->tree($value->children);
