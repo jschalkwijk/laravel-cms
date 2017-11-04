@@ -28,6 +28,11 @@ class Post extends Model
         return $this->belongsTo(Category::class,'category_id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'comment_id');
+    }
+
     public function tags()
     {
         return $this->morphToMany('CMS\Models\Tag', 'taggable',null,null,'tag_id');

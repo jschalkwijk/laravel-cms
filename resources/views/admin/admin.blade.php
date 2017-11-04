@@ -20,5 +20,6 @@
             </div>
         </div>
     </div>
+    <a href="{{ route('comments.index') }}">Comments</a>
 </div>
 @endsection

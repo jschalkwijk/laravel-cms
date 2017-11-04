@@ -50,7 +50,25 @@ Route::group(['prefix' => '/admin'], function (){
          posts.edit
         */
     });
+    Route::group(['middleware' => 'auth'],function(){
+        Route::resource('comments','Admin\CommentsController');
+        Route::group(['prefix' => '/comments'],function(){
+            Route::post('/action','Admin\CommentsController@action');
+            Route::get('/{id}/approve','Admin\CommentsController@approve');
+            Route::get('/{id}/hide','Admin\CommentsController@hide');
+            Route::get('/{id}/destroy','Admin\CommentsController@destroy');
+            Route::get('/{id}/trash','Admin\CommentsController@trash');
 
+            Route::group(['prefix'=> '/replies'],function(){
+                Route::resource('replies','Admin\RepliesController');
+                Route::post('/action','Admin\RepliesController@action');
+                Route::get('/{id}/approve','Admin\RepliesController@approve');
+                Route::get('/{id}/hide','Admin\RepliesController@hide');
+                Route::get('/{id}/destroy','Admin\RepliesController@destroy');
+                Route::get('/{id}/trash','Admin\RepliesController@trash');
+            });
+        });
+    });
     Route::group(['middleware' => 'auth'], function() {
         Route::resource('categories','Admin\CategoriesController');
         Route::group(['prefix' => '/categories'],function(){
