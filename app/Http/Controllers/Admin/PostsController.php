@@ -22,7 +22,7 @@ class PostsController extends Controller
 
     public function show(Post $post)
     {
-        return view('admin.posts.post')->with(['template'=>$this->adminTemplate(),'post' => $post]);
+        return view('admin.posts.show')->with(['template'=>$this->adminTemplate(),'post' => $post]);
     }
 
     public function deleted(){

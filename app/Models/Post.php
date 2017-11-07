@@ -30,7 +30,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'comment_id');
+        return $this->hasMany(Comment::class,'post_id');
     }
 
     public function tags()
