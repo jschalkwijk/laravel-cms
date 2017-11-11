@@ -28,7 +28,7 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <form id="addpost-form" class="large" action="{{route('posts.create')}}" method="post">
+                <form id="addpost-form" class="large" action="{{route('posts.store')}}" method="post">
                     {{ csrf_field() }}
                     <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
                     <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />

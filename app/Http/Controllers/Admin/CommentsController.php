@@ -5,6 +5,7 @@ namespace CMS\Http\Controllers\Admin;
 use CMS\Models\Comment;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsController extends Controller
 {
@@ -27,7 +28,17 @@ class CommentsController extends Controller
 
     public function store(Request $r)
     {
-        
+        $this->validate($r, [
+            'content' => 'required|min:5',
+            'post_id' => 'required|integer',
+        ]);
+
+        $comment = new Comment($r->all());
+        $comment->user_id = Auth::user()->user_id;
+
+        $comment->save($r->all());
+
+        return back();
     }
 
     public function edit(Comment $c)

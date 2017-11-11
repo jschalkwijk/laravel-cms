@@ -17,7 +17,6 @@
             'post_id',
             'title',
             'content'
-
         ];
 
         public $table = "comments";
