@@ -61,10 +61,10 @@
                             <ul class="comment-list">
                                 @foreach($post->comments as $c)
                                     <li class="comment">
-                                        <a class="float-left" href="#">
+                                        <a class="float-left" >
                                             <img class="comment-object rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
                                         </a>
-                                        <div class="comment-body">
+                                        <div class="comment-body comment-{{$c->comment_id}}">
                                             <h4 class="comment-heading text-uppercase reviews">Marco </h4>
                                             <ul class="comment-date text-uppercase reviews list-inline">
                                                 <li class="list-inline-item dd">{{$c->created_at}}</li>
@@ -72,36 +72,17 @@
                                             <p class="comment-text">
                                                 {{ $c->content }}
                                             </p>
-                                            <a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+                                            <button type="button" class="btn btn-info btn-circle text-uppercase reply" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</button>
                                             <a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#reply-{{ $loop->iteration }}">
                                                 <span class="glyphicon glyphicon-comment">
                                                 </span>
                                                 @if($c->replies->isEmpty())
-                                                    {{ 0 }}
+                                                    {{ "0 Replies" }}
                                                 @else
                                                     {{$c->replies->count().' Replies'}}
                                                 @endif
                                             </a>
-                                            {{--<form id="add-comment-47238022" class=""--}}
-                                                  {{--data-placeholdertext="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">--}}
-                                                {{--<table>--}}
-                                                    {{--<tbody class="js-comment-form-layout">--}}
-                                                    {{--<tr>--}}
-                                                        {{--<td>--}}
-                                                            {{--<ul id="tabcomplete"></ul>--}}
-                                                            {{--<textarea name="comment" cols="68" rows="3"--}}
-                                                                      {{--placeholder="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."></textarea>--}}
-                                                        {{--</td>--}}
-                                                        {{--<td><input tabindex="0" type="submit" value="Add Comment"><br><a--}}
-                                                                    {{--tabindex="0" class="comment-help-link">help</a></td>--}}
-                                                    {{--</tr>--}}
-                                                    {{--<tr>--}}
-                                                        {{--<td colspan="2"><span class="text-counter cool">enter at least 15 characters</span><span--}}
-                                                                    {{--class="form-error"></span></td>--}}
-                                                    {{--</tr>--}}
-                                                    {{--</tbody>--}}
-                                                {{--</table>--}}
-                                            {{--</form>--}}
+                                            {{--Javascript will add the reply form here only when needed --}}
                                         </div>
                                         @if(!$c->replies->isEmpty())
                                             <div class="collapse" id="reply-{{ $loop->iteration }}">
@@ -109,7 +90,7 @@
                                                     @if(!$c->replies->isEmpty())
                                                         @foreach($c->replies as $r)
                                                             <li class="comment comment-replied">
-                                                                <a class="float-left" href="#">
+                                                                <a class="float-left" >
                                                                     <img class="comment-object rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
                                                                 </a>
                                                                 <div class="comment-body">
@@ -122,7 +103,7 @@
                                                                     <p class="comment-text">
                                                                         {{ $r->content }}
                                                                     </p>
-                                                                    <a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+                                                                    <button type="button" class="btn btn-info btn-circle text-uppercase reply" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</button>
                                                                 </div>
                                                             </li>
                                                         @endforeach
@@ -216,4 +197,5 @@
             </div>
         </div>
     </div>
+    <script src="{{asset('js/reply/reply.js')}}"></script>
 @stop
