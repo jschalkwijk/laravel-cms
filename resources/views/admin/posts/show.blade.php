@@ -1,5 +1,14 @@
 @extends('admin.layout')
 @section('content')
+    <script type="text/javascript">
+
+        // Put all locations into array
+        var csrf_token = [ "{{ csrf_token() }}"];
+
+        // NOTE: I've added a comma which will be needed to delimit each array within the array.
+        //       Quotes will also be needed since lat and long are not integers.
+
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-xs-3 offset-sm-3 offset-md-2 offset-lg-3">

@@ -59,8 +59,8 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy','Admin\CommentsController@destroy');
             Route::get('/{id}/trash','Admin\CommentsController@trash');
 
+            Route::resource('replies','Admin\RepliesController');
             Route::group(['prefix'=> '/replies'],function(){
-                Route::resource('replies','Admin\RepliesController');
                 Route::post('/action','Admin\RepliesController@action');
                 Route::get('/{id}/approve','Admin\RepliesController@approve');
                 Route::get('/{id}/hide','Admin\RepliesController@hide');
@@ -69,6 +69,17 @@ Route::group(['prefix' => '/admin'], function (){
             });
         });
     });
+    Route::group(['middleware' => 'auth'],function(){
+        Route::resource('replies','Admin\RepliesController');
+        Route::group(['prefix'=> '/replies'],function(){
+            Route::post('/action','Admin\RepliesController@action');
+            Route::get('/{id}/approve','Admin\RepliesController@approve');
+            Route::get('/{id}/hide','Admin\RepliesController@hide');
+            Route::get('/{id}/destroy','Admin\RepliesController@destroy');
+            Route::get('/{id}/trash','Admin\RepliesController@trash');
+        });
+    });
+
     Route::group(['middleware' => 'auth'], function() {
         Route::resource('categories','Admin\CategoriesController');
         Route::group(['prefix' => '/categories'],function(){

@@ -13,7 +13,7 @@ class Reply extends Model
         'content'
     ];
 
-//    protected $table = "replies";
+    protected $table = "replies";
 
     public function comment()
     {
