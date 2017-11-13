@@ -8,13 +8,12 @@ var model = {
         var method = document.createElement('input');
         method.type = 'hidden';
         method.name = '_method';
-        method.value = 'PUT';
+        method.value = 'POST';
 
         var token = document.createElement('input');
         token.type = 'hidden';
         token.name = '_token';
         token.value = csrf_token[0];
-
         var textarea = document.createElement('textarea');
         textarea.name = 'content';
 
@@ -37,8 +36,8 @@ var model = {
         form.appendChild(textarea);
         form.appendChild(commentID);
         form.appendChild(submit);
-        form.action = 'http://laravelcms.app/admin/replies/store';
-        form.method = 'POST';
+        form.action = 'http://laravelcms.app/admin/replies';
+        form.method = 'post';
 
         comment.appendChild(form);
     },

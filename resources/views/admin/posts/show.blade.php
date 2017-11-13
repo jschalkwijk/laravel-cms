@@ -92,6 +92,9 @@
                                                 @endif
                                             </a>
                                             {{--Javascript will add the reply form here only when needed --}}
+                                            {{--<form action="{{route('replies.store')}}" method="post">--}}
+                                                {{--{{ csrf_field() }}--}}
+                                            {{--</form>--}}
                                         </div>
                                         @if(!$c->replies->isEmpty())
                                             <div class="collapse" id="reply-{{ $loop->iteration }}">

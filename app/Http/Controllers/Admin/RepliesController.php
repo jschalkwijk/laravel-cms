@@ -13,7 +13,7 @@ class RepliesController extends Controller
     //
     public function index()
     {
-        return back();
+
     }
 
     public function show(Reply $c)
