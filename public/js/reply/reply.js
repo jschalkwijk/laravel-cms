@@ -16,6 +16,8 @@ var model = {
         token.value = csrf_token[0];
         var textarea = document.createElement('textarea');
         textarea.name = 'content';
+        textarea.className = 'form-control';
+        textarea.rows = 5;
 
         var commentID = document.createElement('input');
         commentID.value = this.commentID(comment);

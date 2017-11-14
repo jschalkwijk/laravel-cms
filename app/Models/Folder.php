@@ -1,6 +1,6 @@
 <?php
 
-namespace CMS\gitModels;
+namespace CMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;

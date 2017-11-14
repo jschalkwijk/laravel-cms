@@ -1,13 +1,9 @@
 @extends('admin.layout')
 @section('content')
     <script type="text/javascript">
-
-        // Put all locations into array
+        // csrf token for use in other JS files. Needs to be declared here because php is vompiled on
+        // the server side before js can access the csrf function in a seperated script.
         var csrf_token = [ "{{ csrf_token() }}"];
-
-        // NOTE: I've added a comma which will be needed to delimit each array within the array.
-        //       Quotes will also be needed since lat and long are not integers.
-
     </script>
     <div class="container-fluid">
         <div class="row">
@@ -71,10 +67,10 @@
                                 @foreach($post->comments as $c)
                                     <li class="comment">
                                         <a class="float-left" >
-                                            <img class="comment-object rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                                            <img class="comment-object rounded-circle" src="{{ asset('storage/'.$c->user->img_path)}}" alt="profile-picture">
                                         </a>
                                         <div class="comment-body comment-{{$c->comment_id}}">
-                                            <h4 class="comment-heading text-uppercase reviews">Marco </h4>
+                                            <h4 class="comment-heading text-uppercase reviews">{{$c->user->username}}</h4>
                                             <ul class="comment-date text-uppercase reviews list-inline">
                                                 <li class="list-inline-item dd">{{$c->created_at}}</li>
                                             </ul>
@@ -92,9 +88,6 @@
                                                 @endif
                                             </a>
                                             {{--Javascript will add the reply form here only when needed --}}
-                                            {{--<form action="{{route('replies.store')}}" method="post">--}}
-                                                {{--{{ csrf_field() }}--}}
-                                            {{--</form>--}}
                                         </div>
                                         @if(!$c->replies->isEmpty())
                                             <div class="collapse" id="reply-{{ $loop->iteration }}">
@@ -103,14 +96,12 @@
                                                         @foreach($c->replies as $r)
                                                             <li class="comment comment-replied">
                                                                 <a class="float-left" >
-                                                                    <img class="comment-object rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/ManikRathee/128.jpg" alt="profile">
+                                                                    <img class="comment-object rounded-circle" src="{{ asset('storage/'.$r->user->img_path)}}" alt="profile">
                                                                 </a>
                                                                 <div class="comment-body">
-                                                                    <h4 class="comment-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> The Hipster</h4>
+                                                                    <h4 class="comment-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> {{$r->user->username}}</h4>
                                                                     <ul class="comment-date text-uppercase reviews list-inline">
-                                                                        <li class="list-inline-item dd">22</li>
-                                                                        <li class="list-inline-item mm">09</li>
-                                                                        <li class="list-inline-item aaaa">2014</li>
+                                                                        <li class="list-inline-item dd">{{$r->created_at}}</li>
                                                                     </ul>
                                                                     <p class="comment-text">
                                                                         {{ $r->content }}
