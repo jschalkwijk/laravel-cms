@@ -3,7 +3,7 @@
     <script type="text/javascript">
         // csrf token for use in other JS files. Needs to be declared here because php is vompiled on
         // the server side before js can access the csrf function in a seperated script.
-        var csrf_token = [ "{{ csrf_token() }}"];
+        var csrf_token = "{{ csrf_token() }}";
     </script>
     <div class="container-fluid">
         <div class="row">

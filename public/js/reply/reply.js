@@ -13,7 +13,8 @@ var model = {
         var token = document.createElement('input');
         token.type = 'hidden';
         token.name = '_token';
-        token.value = csrf_token[0];
+        // the csrf_token is generated on the php view and set to this javascript variable which we can use in this script.
+        token.value = csrf_token;
         var textarea = document.createElement('textarea');
         textarea.name = 'content';
         textarea.className = 'form-control';
@@ -55,8 +56,6 @@ var model = {
         return commentID;
     }
 };
-var view = {
-};
 
 var controller = {
     actions : function(){
@@ -66,11 +65,17 @@ var controller = {
             (function(i){
                 var reply = replies[i];
                 var comment = reply.parentElement;
+                var toggle = false;
 
                 reply.onclick = function () {
-                    model.replyBox(comment);
-                    reply.onclick = null;
-
+                    if (!toggle){
+                        model.replyBox(comment);
+                        toggle = true;
+                    } else {
+                        comment.getElementsByTagName('form')[0].remove();
+                        // reply.onclick = null;
+                        toggle = false;
+                    }
                 };
             })(i);
         }
