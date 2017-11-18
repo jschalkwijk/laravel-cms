@@ -36,4 +36,10 @@
             return $this->belongsTo(User::class,'user_id');
         }
 
+        public function id()
+        {
+//          return $this->${$this->primaryKey};
+            return $this->comment_id;
+        }
+
     }

@@ -14,26 +14,46 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-xs-3 offset-sm-3 offset-md-2 offset-lg-3">
                 <div class="center">
-                    <table>
-                        <thead>
-                            <th>#</th><th>Title</th><th>Post</th><th>Replies</th>
-                        </thead>
-                        <tbody>
-                         @foreach($comments as $c)
-                             <tr>
-                                 <td>{{ $loop->iteration }}</td>
-                                 <td>{{ $c->title }}</td>
-                                 <td>{{ $c->post->title }}</td>
-                                 <td>@if($c->replies->isEmpty())
-                                        {{ 0 }}
-                                     @else
-                                         {{$c->replies->count()}}
-                                     @endif
-                                 </td>
-                             </tr>
-                         @endforeach
-                        </tbody>
-                    </table>
+                    <form class="backend-form" method="post" action="/admin/comments/action">
+                        {{ csrf_field() }}
+                        <table class="table table-sm table-striped">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th class="hidden-xs-down">Author</th>
+                                <th class="hidden-xs-down">Post</th>
+                                <th class="hidden-xs-down">Replies</th>
+                                <th class="hidden-md-down">Date/Time</th>
+                                <th>Edit</th>
+                                <th>Status</th>
+                                <th>Del</th>
+                                <th>
+                                    <button type="button" id="check-all"><img class="glyph-small" alt="check-all-items"
+                                                                              src="check.png"/></button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($comments as $c)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $c->title }}</td>
+                                    <td>{{ $c->user->username}}</td>
+                                    <td>{{ $c->post->title }}</td>
+                                    <td>@if($c->replies->isEmpty())
+                                            {{ 0 }}
+                                        @else
+                                            {{$c->replies->count()}}
+                                        @endif
+                                    </td>
+                                    @include('admin.partials.single-action',['single' => $c])
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                        @include('admin.partials.actions')
+                    </form>
                 </div>
             </div>
         </div>

@@ -43,6 +43,8 @@
                             <td><input type="hidden" name="name" value="{{ $folder->name }}"/></td>
                         </tr>
                     @endforeach
+
+
                     </tbody>
                 </table>
                 <button type="submit" name="delete-selected" id="delete-selected">Delete Folders</button>

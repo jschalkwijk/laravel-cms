@@ -26,7 +26,7 @@ class PostsController extends Controller
     }
 
     public function deleted(){
-        $posts = Post::with('category','user')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
+        $posts = Post::with('category','user','comments')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
 
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }

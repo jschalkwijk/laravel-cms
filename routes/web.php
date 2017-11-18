@@ -54,10 +54,10 @@ Route::group(['prefix' => '/admin'], function (){
         Route::resource('comments','Admin\CommentsController');
         Route::group(['prefix' => '/comments'],function(){
             Route::post('/action','Admin\CommentsController@action');
-            Route::get('/{id}/approve','Admin\CommentsController@approve');
-            Route::get('/{id}/hide','Admin\CommentsController@hide');
-            Route::get('/{id}/destroy','Admin\CommentsController@destroy');
-            Route::get('/{id}/trash','Admin\CommentsController@trash');
+            Route::get('/{id}/approve','Admin\CommentsController@approve')->name('comments.approve');
+            Route::get('/{id}/hide','Admin\CommentsController@hide')->name('comments.hide');
+            Route::get('/{id}/destroy','Admin\CommentsController@destroy')->name('comments.destroy');
+            Route::get('/{id}/trash','Admin\CommentsController@trash')->name('comments.trash');
         });
     });
 
