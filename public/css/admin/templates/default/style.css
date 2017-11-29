@@ -707,14 +707,10 @@ article {
 	position: absolute;
 	right: 25px;
 	top: 25px;
+	margin-top: -20px;
 }
 .comment-date li { padding: 0; }
-.comment-date li:first-child:before { content: ''; }
-.comment-date li:before {
-	content: '.';
-	margin-left: -2px;
-	margin-right: 2px;
-}
+
 .comment-text { margin-bottom: 20px; }
 .comment-replied { margin: 0 0 40px 50px; }
 .comment-replied .comment-heading { padding-left: 6px; }

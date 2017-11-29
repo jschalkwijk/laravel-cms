@@ -73,6 +73,11 @@
                                             <h4 class="comment-heading text-uppercase reviews">{{$c->user->username}}</h4>
                                             <ul class="comment-date text-uppercase reviews list-inline">
                                                 <li class="list-inline-item dd">{{$c->created_at}}</li>
+                                                <li class="list-inline-item dd">
+                                                    <table>
+                                                        @include('admin.partials.single-action',['single' => $c])
+                                                    </table>
+                                                </li>
                                             </ul>
                                             <p class="comment-text">
                                                 {{ $c->content }}
@@ -87,6 +92,7 @@
                                                     {{$c->replies->count().' Replies'}}
                                                 @endif
                                             </a>
+
                                             {{--Javascript will add the reply form here only when needed --}}
                                         </div>
                                         @if(!$c->replies->isEmpty())
@@ -94,11 +100,11 @@
                                                 <ul class="comment-list">
                                                     @if(!$c->replies->isEmpty())
                                                         @foreach($c->replies as $r)
-                                                            <li class="comment comment-replied">
+                                                            <li class="comment comment-replied ">
                                                                 <a class="float-left" >
                                                                     <img class="comment-object rounded-circle" src="{{ asset('storage/'.$r->user->img_path)}}" alt="profile">
                                                                 </a>
-                                                                <div class="comment-body">
+                                                                <div class="comment-body comment-{{$c->comment_id}}">
                                                                     <h4 class="comment-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> {{$r->user->username}}</h4>
                                                                     <ul class="comment-date text-uppercase reviews list-inline">
                                                                         <li class="list-inline-item dd">{{$r->created_at}}</li>
