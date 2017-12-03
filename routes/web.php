@@ -65,10 +65,9 @@ Route::group(['prefix' => '/admin'], function (){
         Route::resource('replies','Admin\RepliesController');
         Route::group(['prefix'=> '/replies'],function(){
             Route::post('/action','Admin\RepliesController@action');
-            Route::get('/{id}/approve','Admin\RepliesController@approve');
-            Route::get('/{id}/hide','Admin\RepliesController@hide');
-            Route::get('/{id}/destroy','Admin\RepliesController@destroy');
-            Route::get('/{id}/trash','Admin\RepliesController@trash');
+            Route::get('/{id}/approve','Admin\RepliesController@approve')->name('replies.approve');
+            Route::get('/{id}/hide','Admin\RepliesController@hide')->name('replies.hide');
+            Route::get('/{id}/destroy','Admin\RepliesController@destroy')->name('replies.destroy');
         });
     });
 

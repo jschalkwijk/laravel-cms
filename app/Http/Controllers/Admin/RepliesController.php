@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use CMS\Models\Action;
+
 use CMS\Models\Reply;
 
 class RepliesController extends Controller
@@ -13,7 +15,8 @@ class RepliesController extends Controller
     //
     public function index()
     {
-
+        $replies = Reply::all()->with('users','comments')->orderBy('reply_id','DESC')->get();
+        return view();
     }
 
     public function show(Reply $c)
@@ -52,26 +55,21 @@ class RepliesController extends Controller
 
     public function destroy($id)
     {
+        $post = Reply::findOrFail($id);
+        Reply::destroy($post->id());
 
-    }
-
-    public function action(Request $r)
-    {
-
-    }
-
-    public function approve($id)
-    {
-
+        return back();
     }
 
     public function hide($id)
     {
-
+        Action::hide(new Reply(),$id);
+        return back();
     }
 
-    public function trash($id)
+    public function approve($id)
     {
-
+        Action::approve(new Reply(),$id);
+        return back();
     }
 }

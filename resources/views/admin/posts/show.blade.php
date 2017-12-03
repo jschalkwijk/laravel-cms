@@ -75,7 +75,7 @@
                                                 <li class="list-inline-item dd">{{$c->created_at}}</li>
                                                 <li class="list-inline-item dd">
                                                     <table>
-                                                        @include('admin.partials.single-action',['single' => $c])
+                                                        <tr>@include('admin.partials.comment-action',['single' => $c])</tr>
                                                     </table>
                                                 </li>
                                             </ul>
@@ -108,6 +108,11 @@
                                                                     <h4 class="comment-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> {{$r->user->username}}</h4>
                                                                     <ul class="comment-date text-uppercase reviews list-inline">
                                                                         <li class="list-inline-item dd">{{$r->created_at}}</li>
+                                                                        <li class="list-inline-item dd">
+                                                                            <table>
+                                                                                <tr>@include('admin.partials.comment-action',['single' => $r])</tr>
+                                                                            </table>
+                                                                        </li>
                                                                     </ul>
                                                                     <p class="comment-text">
                                                                         {{ $r->content }}

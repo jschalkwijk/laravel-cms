@@ -13,7 +13,7 @@ class Reply extends Model
         'content'
     ];
 
-    protected $table = "replies";
+    public $table = "replies";
 
     public function comment()
     {
@@ -22,5 +22,10 @@ class Reply extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function id()
+    {
+        return $this->reply_id;
     }
 }

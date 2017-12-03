@@ -47,6 +47,7 @@
                                             {{$c->replies->count()}}
                                         @endif
                                     </td>
+                                    <td>{{$c->created_at}}</td>
                                     @include('admin.partials.single-action',['single' => $c])
                                 </tr>
                             @endforeach
