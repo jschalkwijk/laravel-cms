@@ -91,7 +91,7 @@ Route::group(['prefix' => '/admin'], function (){
     });
 
     Route::group(['middleware' => 'auth'], function(){
-        Route::resource('users','Admin\UsersController',['except' => ['show','destroy']]);
+        Route::resource('users','Admin\UsersController',['except' => ['destroy']]);
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');
             Route::post('/action', 'Admin\UsersController@action');

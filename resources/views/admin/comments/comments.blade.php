@@ -38,13 +38,13 @@
                             @foreach($comments as $c)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $c->title }}</td>
-                                    <td>{{ $c->user->username}}</td>
-                                    <td>{{ $c->post->title }}</td>
+                                    <td><a href="{{route('comments.show',$c->comment_id)}}">{{$c->title}}</a></td>
+                                    <td><a href="{{route('users.show', $c->user->user_id)}}">{{ $c->user->username}}</a></td>
+                                    <td><a href="{{route('posts.show',$c->post->post_id)}}">{{ $c->post->title }}</a></td>
                                     <td>@if($c->replies->isEmpty())
                                             {{ 0 }}
                                         @else
-                                            {{$c->replies->count()}}
+                                            <a href="{{route('comments.show',$c->comment_id)}}">{{$c->replies->count()}}</a>
                                         @endif
                                     </td>
                                     <td>{{$c->created_at}}</td>

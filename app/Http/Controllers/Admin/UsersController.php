@@ -35,6 +35,11 @@ class UsersController extends Controller
         ]);
     }
 
+    public function show(User $user)
+    {
+        return "User";
+    }
+
     public function deleted()
     {
         $users = User::where('users.trashed',1)->orderBy('user_id','desc')->get();
