@@ -23,7 +23,7 @@
                                 <th>Title</th>
                                 <th class="hidden-xs-down">Author</th>
                                 <th class="hidden-xs-down">Post</th>
-                                <th class="hidden-xs-down">Replies</th>
+                                <th class="hidden-xs-down">Replies</th>3
                                 <th class="hidden-md-down">Date/Time</th>
                                 <th>Edit</th>
                                 <th>Status</th>
