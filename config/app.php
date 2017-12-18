@@ -140,6 +140,7 @@ return [
          * Added service provider
          */
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */

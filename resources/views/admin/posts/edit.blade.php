@@ -28,13 +28,8 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                @if (isset($post->post_id))
-                    <?php $action = '/admin/posts/'.$post->post_id; $method = 'PATCH'; ?>
-                @else
-                    <?php $action = '/admin/posts/add'; $method = 'PUT'; ?>
-                @endif
-                <form id="addpost-form" class="large" action="{{$action}}">
-                    {{ method_field($method) }}
+                <form id="addpost-form" class="large" method="post" action="{{route('posts.update',$post->post_id)}}">
+                    {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$post->post_id}}"/>
                     <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}"><br />

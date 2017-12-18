@@ -8,8 +8,13 @@ class Permission extends Model
 {
     protected $primaryKey = "permission_id";
 
-    public function user()
+    public function roles()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(Role::class,"roles_permissions");
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class,"user_id");
+    }
+
 }
