@@ -15,9 +15,10 @@ class PostsController extends Controller
 {
     use UserActions;
 
-    public function index(Request $r){
-        dd($r->session());
-        $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
+    public function index(){
+
+        dd(Auth::user()->can('delete users'));
+        $posts = Post::with('category','user','tags')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
     }
 

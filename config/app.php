@@ -181,6 +181,8 @@ return [
         // CMS\Providers\BroadcastServiceProvider::class,
         CMS\Providers\EventServiceProvider::class,
         CMS\Providers\RouteServiceProvider::class,
+        CMS\Providers\PermissionsServiceProvider::class,
+
 
     ],
 
