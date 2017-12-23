@@ -17,7 +17,7 @@ class PostsController extends Controller
 
     public function index(){
 
-        dd(Auth::user()->can('delete users'));
+        Auth::user()->revokePermissionTo('edit posts','delete posts');
         $posts = Post::with('category','user','tags')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
     }
