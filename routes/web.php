@@ -25,9 +25,9 @@ Route::group(['prefix' => '/admin'], function (){
     $this->get('/password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm');
     $this->post('/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
-    Route::get('/', 'Admin\AdminController@index');
-//
-
+    Route::group(['middleware' => ['auth','role:admin,kill']],function (){
+        Route::get('/', 'Admin\AdminController@index');
+    });
     Route::group(['middleware' => 'auth'], function()
     {
         Route::resource('posts','Admin\PostsController');

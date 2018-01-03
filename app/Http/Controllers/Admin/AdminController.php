@@ -7,10 +7,6 @@ use CMS\Models\Post;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
         $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();

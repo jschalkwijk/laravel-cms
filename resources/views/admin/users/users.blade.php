@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <a href="/admin/users/new" class="link-btn">Add User</a>
+                @role('admin')
+                    <a href="/admin/users/new" class="link-btn">Add User</a>
+                @endrole
             </div>
         </div>
         <div class="row">
