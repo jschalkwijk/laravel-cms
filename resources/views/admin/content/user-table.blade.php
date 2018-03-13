@@ -1,4 +1,4 @@
-<form class="backend-form" method="post" action="/admin/users/action">
+§<form class="backend-form" method="post" action="/admin/users/action">
     {{ csrf_field() }}
     <table class="table table-sm table-striped">
         <thead class="thead-default">

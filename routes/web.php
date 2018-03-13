@@ -99,6 +99,26 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/hide','Admin\UsersController@hide')->name('users.hide');
             Route::get('/{id}/destroy', 'Admin\UsersController@destroy')->name('users.destroy');
             Route::get('/{id}/trash', 'Admin\UsersController@trash')->name('users.trash');
+            /* Roles */
+            Route::group(['prefix' => '/roles'],function(){
+                Route::resource('roles','Admin\RolesController');
+                Route::get('/deleted-roles', 'Admin\RolesController@deleted');
+                Route::post('/action', 'Admin\RolesController@action')->name('roles.action');
+                Route::get('/{id}/approve','Admin\RolesController@approve')->name('roles.approve');
+                Route::get('/{id}/hide','Admin\RolesController@hide')->name('roles.hide');
+                Route::get('/{id}/destroy', 'Admin\RolesController@destroy')->name('roles.destroy');
+                Route::get('/{id}/trash', 'Admin\RolesController@trash')->name('roles.trash');
+            });
+            /* Permissions */
+            Route::group(['prefix' => '/permissions'],function(){
+                Route::resource('permissions','Admin\PermissionsController');
+                Route::get('/deleted-permissions', 'Admin\PermissionsController@deleted');
+                Route::post('/action', 'Admin\PermissionsController@action')->name('permissions.action');
+                Route::get('/{id}/approve','Admin\PermissionsController@approve')->name('permissions.approve');
+                Route::get('/{id}/hide','Admin\PermissionsController@hide')->name('permissions.hide');
+                Route::get('/{id}/destroy', 'Admin\PermissionsController@destroy')->name('permissions.destroy');
+                Route::get('/{id}/trash', 'Admin\PermissionsController@trash')->name('permissions.trash');
+            });
         });
     });
 
