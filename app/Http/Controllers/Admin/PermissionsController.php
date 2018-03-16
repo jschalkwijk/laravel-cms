@@ -9,6 +9,7 @@
     use CMS\Models\UserActions;
     use CMS\Models\Action;
     use CMS\Models\Permission;
+    use CMS\Models\Role;
 
     class PermissionsController extends Controller
     {
@@ -16,12 +17,11 @@
 
         public function index()
         {
-            $permissions = Permission::all()->orderBy('permission_id','desc')->get();
+            $permissions = Permission::all();
 
             return view('admin.permissions.permissions')->with(
                 [
                     'permissions' => $permissions,
-                    'trashed' => 0,
                     'template' => $this->adminTemplate()
                 ]);
         }
@@ -33,17 +33,17 @@
 
         public function deleted()
         {
-            $permissions = Permission::all()->orderBy('permission_id','desc')->get();
+            $permissions = Permission::all();
             return view('admin.permissions.permissions')->with(
                 [
                     'permissions' => $permissions,
-                    'trashed' => 1,
                     'template' => $this->adminTemplate()
                 ]);
         }
         public function create()
         {
-            return view('admin.permissions.create')->with(['template'=>$this->adminTemplate()]);
+            $roles = Role::all();
+            return view('admin.permissions.create')->with(['roles'=> $roles,'template'=>$this->adminTemplate()]);
         }
         /**
          * Create a new permission instance after a valid registration.
@@ -63,7 +63,9 @@
 
         public function edit(Permission $permission)
         {
-            return view('admin.permissions.create')->with(['permission'=>$permission,'template' =>$this->adminTemplate()]);
+            $roles = Role::all();
+            $currentRoles = $permission->roles->pluck('role_id')->toArray();
+            return view('admin.permissions.create')->with(['permission'=>$permission,'roles' => $roles,'currentRoles'=>$currentRoles,'template' =>$this->adminTemplate()]);
         }
         public function update(Request $r,Permission $permission)
         {

@@ -17,7 +17,7 @@ class RolesController extends Controller
 
     public function index()
     {
-        $roles = Role::all()->orderBy('role_id','desc')->get();
+        $roles = Role::all();
 
         return view('admin.roles.roles')->with(
             [
@@ -33,7 +33,7 @@ class RolesController extends Controller
 
     public function deleted()
     {
-        $roles = Role::all()->orderBy('role_id','desc')->get();
+        $roles = Role::all();
         return view('admin.roles.roles')->with(
             [
                 'roles' => $roles,
@@ -63,7 +63,9 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-        return view('admin.roles.create')->with(['role'=>$role,'template' =>$this->adminTemplate()]);
+        $permissions = Permission::all();
+        $currentPermissions = $role->permissions->pluck('permission_id')->toArray();
+        return view('admin.roles.create')->with(['role'=>$role,'permissions' => $permissions,'currentPermissions' => $currentPermissions,'template' =>$this->adminTemplate()]);
     }
     public function update(Request $r,Role $role)
     {

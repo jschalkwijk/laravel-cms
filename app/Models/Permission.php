@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     protected $primaryKey = "permission_id";
+    public $table = 'permissions';
+    public function id()
+    {
+        return $this->{$this->primaryKey};
+    }
 
     public function roles()
     {

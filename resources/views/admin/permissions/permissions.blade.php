@@ -5,8 +5,8 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
                 {{ csrf_field() }}
                 <form action="{{route("permissions.action")}}" method="post">
-                    <table>
-                        <thead>
+                    <table class="table table-sm table-striped">
+                        <thead class="thead-default">
                         <tr>
                             <td>#</td><td>Permissions</td><td>Edit</td><td>Del</td>
                         </tr>
@@ -15,7 +15,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $single->name }}</td>
-                                @include('admin.partials.single-actions')
+                                @include('admin.partials.single-action')
                             </tr>
                         @endforeach
                     </table>
