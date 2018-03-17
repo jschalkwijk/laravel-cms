@@ -8,6 +8,11 @@ class Role extends Model
 {
     protected $primaryKey = "role_id";
     public $table = 'roles';
+
+    protected $fillable = [
+        'name'
+    ];
+
     public function id()
     {
         return $this->{$this->primaryKey};

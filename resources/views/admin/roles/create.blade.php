@@ -13,14 +13,18 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
                 @if(isset($role))
-                    @php $action = route("roles.update",$role->role_id) @endphp
+                    @php
+                        $action = route("roles.update",$role->role_id);
+                        $method = 'PATCH';
+                    @endphp
 
                 @else
                     @php $action = route("roles.store") @endphp
                 @endif
                 <form action="{{$action}}" method="post">
+                    {{ method_field($method) }}
                     {{ csrf_field() }}
-                    <input type="text" placeholder="Role name" value="{{isset($role) ? $role->name : old('name') }}"/>
+                    <input type="text" name="name" placeholder="Role name" value="{{isset($role) ? $role->name : old('name') }}"/>
                     <table class="table">
                         <thead>
                         <tr>
@@ -33,9 +37,9 @@
                             @foreach($permissions as $permission)
                                 <td>
                                 @if(isset($currentPermissions) && in_array($permission->permission_id,$currentPermissions))
-                                        <input type='checkbox' value='{{$permission->permission_id}}' name='checkbox[]' checked/>
+                                        <input type='checkbox' value='{{$permission->permission_id}}' name='permissions[]' checked/>
                                     @else
-                                   <input type='checkbox' value='{{$permission->permission_id}}' name='checkbox[]'/>
+                                   <input type='checkbox' value='{{$permission->permission_id}}' name='permissions[]'/>
                                 @endif
                                     </td>
                                 <td><lable>{{ucfirst($permission->name)}}</lable> </td>

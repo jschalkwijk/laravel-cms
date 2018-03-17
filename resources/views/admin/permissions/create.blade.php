@@ -13,17 +13,21 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
                 @if(isset($permission))
-                    @php $action = route("permissions.update",$permission->role_id) @endphp
+                    @php
+                        $action = route("permissions.update",$permission->permission_id);
+                        $method = 'PATCH';
+                    @endphp
                 @else
                     @php $action = route("permissions.store") @endphp
                 @endif
                 <form action="{{$action}}" method="post">
+                    {{method_field($method)}}
                     {{ csrf_field() }}
-                    <input type="text" placeholder="Role name" value="{{isset($permission) ? $permission->name : old('name')}}"/>
+                    <input type="text" name="name" placeholder="Permissions Name" value="{{isset($permission) ? $permission->name : old('name')}}"/>
                     <table class="table">
                         <thead>
                         <tr>
-                            <th class="text-center" colspan="6">Permissions</th>
+                            <th class="text-center" colspan="6">Roles</th>
                         </thead>
                         <tbody>
                         <tr>
@@ -31,9 +35,9 @@
                             @foreach($roles as $role)
                                 <td>
                                     @if(isset($currentRoles) && in_array($role->role_id,$currentRoles))
-                                        <input type='checkbox' value='{{$role->role_id}}' name='checkbox[]' checked/>
+                                        <input type='checkbox' value='{{$role->role_id}}' name='roles[]' checked/>
                                     @else
-                                        <input type='checkbox' value='{{$role->role_id}}' name='checkbox[]'/>
+                                        <input type='checkbox' value='{{$role->role_id}}' name='roles[]'/>
                                     @endif
                                 </td>
                                 <td><lable>{{ucfirst($role->name)}}</lable> </td>

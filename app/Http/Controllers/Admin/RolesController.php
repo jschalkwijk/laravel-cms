@@ -53,12 +53,20 @@ class RolesController extends Controller
      */
     public function store(Request $r)
     {
-        $role = Role::create([
-
+        $this->validate($r, [
+            'name' => 'required|min:4',
         ]);
 
+        $role = new Role($r->all());
+        $role->save();
 
-        return redirect()->action('Admin\AdminController@index');
+        $permissions = $r['permissions'];
+
+        // Save selected tags, if all are deselected , detach all relations else sync selected
+        (!is_array($permissions)) ? $role->permissions()->detach() : $role->permissions()->sync($permissions);
+
+        return redirect()->action('Admin\RolesController@index');
+
     }
 
     public function edit(Role $role)
@@ -70,8 +78,16 @@ class RolesController extends Controller
     public function update(Request $r,Role $role)
     {
 
-        $role->updated_by = Auth::role()->role_id;
+        $this->validate($r, [
+            'name' => 'required|min:4',
+        ]);
+
         $role->update($r->all());
+
+        $permissions = $r['permissions'];
+
+        // Save selected tags, if all are deselected , detach all relations else sync selected
+        (!is_array($permissions)) ? $role->permissions()->detach() : $role->permissions()->sync($permissions);
 
         return redirect()->action('Admin\RolesController@index');
     }

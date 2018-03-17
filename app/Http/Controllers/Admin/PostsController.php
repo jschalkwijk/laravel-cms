@@ -48,7 +48,7 @@ class PostsController extends Controller
             'content' => 'required|min:5',
         ]);
 
-        $post = new Post($r->all());
+        $post = new Post();
         $post->user_id = Auth::user()->user_id;
 
         $post->save($r->all());

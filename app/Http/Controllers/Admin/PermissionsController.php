@@ -53,12 +53,19 @@
          */
         public function store(Request $r)
         {
-            $permission = Permission::create([
-
+            $this->validate($r, [
+                'name' => 'required|min:4',
             ]);
 
+            $permission = new Permission($r->all());
+            $permission->save();
 
-            return redirect()->action('Admin\AdminController@index');
+            $roles = $r['roles'];
+
+            // Save selected tags, if all are deselected , detach all relations else sync selected
+            (!is_array($roles)) ? $permission->roles()->detach() : $permission->roles()->sync($roles);
+
+            return redirect()->action('Admin\PermissionsController@index');
         }
 
         public function edit(Permission $permission)
@@ -70,8 +77,16 @@
         public function update(Request $r,Permission $permission)
         {
 
-            $permission->updated_by = Auth::permission()->permission_id;
+            $this->validate($r, [
+                'name' => 'required|min:4',
+            ]);
+
             $permission->update($r->all());
+
+            $roles = $r['roles'];
+
+            // Save selected tags, if all are deselected , detach all relations else sync selected
+            (!is_array($roles)) ? $permission->roles()->detach() : $permission->roles()->sync($roles);
 
             return redirect()->action('Admin\PermissionsController@index');
         }

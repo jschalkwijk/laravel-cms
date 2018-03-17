@@ -8,6 +8,11 @@ class Permission extends Model
 {
     protected $primaryKey = "permission_id";
     public $table = 'permissions';
+
+    protected $fillable = [
+        'name',
+    ];
+
     public function id()
     {
         return $this->{$this->primaryKey};
