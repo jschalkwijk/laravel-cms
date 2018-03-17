@@ -28,7 +28,7 @@ class RolesController extends Controller
 
     public function show(Role $role)
     {
-        return "Role";
+        return view('admin.roles.show')->with(['role' => $role,'template' =>$this->adminTemplate()]);
     }
 
     public function deleted()

@@ -28,7 +28,7 @@
 
         public function show(Permission $permission)
         {
-            return "Permission";
+            return view('admin.permissions.show')->with(['permission' => $permission,'template' =>$this->adminTemplate()]);
         }
 
         public function deleted()
