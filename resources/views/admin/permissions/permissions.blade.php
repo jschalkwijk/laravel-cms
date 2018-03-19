@@ -14,7 +14,7 @@
                         @foreach($permissions as $single)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $single->name }}</td>
+                                <td><a href="{{route('permissions.show',$single->permission_id)}}">{{ $single->name }}</a></td>
                                 @include('admin.partials.single-action')
                             </tr>
                         @endforeach

@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-    public $permissions = [];
 
     public $table = 'users';
 
@@ -122,5 +121,16 @@ class User extends Authenticatable
     public function permissions()
     {
         return $this->belongsToMany(Permission::class,'users_permissions','user_id','permission_id');
+    }
+    public function permissionsThroughRole()
+    {
+        $roles = $this->roles;
+        $permissions = [];
+        foreach ($roles as $role) {
+            foreach ($role->permissions as $permission){
+                $permissions[] = $permission;
+            }
+        };
+        return collect($permissions);
     }
 }

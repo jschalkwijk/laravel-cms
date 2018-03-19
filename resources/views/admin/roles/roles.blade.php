@@ -14,7 +14,7 @@
                     @foreach($roles as $single)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $single->name }}</td>
+                            <td><a href="{{route('roles.show',$single->role_id)}}">{{ $single->name }}</a></td>
                             @include('admin.partials.single-action')
                         </tr>
                     @endforeach

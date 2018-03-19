@@ -2,6 +2,8 @@
 
 namespace CMS\Http\Controllers\Admin;
 
+use CMS\Models\Permission;
+use CMS\Models\Role;
 use CMS\Models\User;
 use CMS\Models\UserActions;
 use Illuminate\Http\Request;
@@ -37,7 +39,7 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return "User";
+        return view('admin.users.show')->with(['user'=>$user,'template' => $this->adminTemplate()]);
     }
 
     public function deleted()
@@ -83,7 +85,22 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit')->with(['user'=>$user,'template' =>$this->adminTemplate()]);
+        $roles = Role::all();
+        $currentRoles = $user->roles->pluck('role_id')->toArray();
+        $permissions = Permission::all();
+        $rolePermissions = $user->permissionsThroughRole()->pluck('permission_id')->toArray();
+        $userPermissions = $user->permissions->pluck('permission_id')->toArray();
+
+        return view('admin.users.create')->with(
+            [
+                'user' => $user,
+                'roles'=> $roles,
+                'currentRoles' => $currentRoles,
+                'permissions' => $permissions,
+                'rolePermissions' => $rolePermissions,
+                'userPermissions' => $userPermissions,
+                'template' => $this->adminTemplate()
+            ]);
     }
     public function update(Request $r,User $user)
     {
