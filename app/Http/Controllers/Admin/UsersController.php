@@ -13,6 +13,7 @@ use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -54,7 +55,10 @@ class UsersController extends Controller
     }
     public function create()
     {
-        return view('admin.users.create')->with(['template'=>$this->adminTemplate()]);
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+        return view('admin.users.create')->with(['roles'=>$roles,'permissions'=> $permissions,'template'=>$this->adminTemplate()]);
     }
     /**
      * Create a new user instance after a valid registration.
@@ -66,7 +70,7 @@ class UsersController extends Controller
     {
         $this->validator($r->all())->validate();
 
-        $user = User::create([
+        $user = new User([
             'username' => $r['username'],
             'password' => bcrypt($r['password']),
             'email' => $r['email'],
@@ -74,13 +78,16 @@ class UsersController extends Controller
             'last_name' => $r['last_name'],
             'dob' => $r['dob'],
             'function' => $r['function'],
-            'rights' => $r['rights'],
             'created_by' => Auth::user()->user_id,
         ]);
 
+        $user->save();
         event(new Registered($user));
 
-        return redirect()->action('Admin\AdminController@index');
+        (!is_array($r['roles'])) ? $user->roles()->detach() : $user->roles()->sync($r['roles']);
+        (!is_array($r['permissions'])) ? $user->permissions()->detach() : $user->permissions()->sync($r['permissions']);
+
+        return redirect()->action('Admin\UsersController@index');
     }
 
     public function edit(User $user)
@@ -104,10 +111,13 @@ class UsersController extends Controller
     }
     public function update(Request $r,User $user)
     {
-        $this->validator($r->all())->validate();
+        $this->validator($r->all(),$user->user_id)->validate();
 
         $user->updated_by = Auth::user()->user_id;
         $user->update($r->all());
+
+        (!is_array($r['roles'])) ? $user->roles()->detach() : $user->roles()->sync($r['roles']);
+        (!is_array($r['permissions'])) ? $user->permissions()->detach() : $user->permissions()->sync($r['permissions']);
 
         return redirect()->action('Admin\UsersController@index');
     }
@@ -150,18 +160,22 @@ class UsersController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data,$user_id = 0)
     {
         return Validator::make($data, [
-            'username' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'username' => [
+                'required','max:255',
+                Rule::unique('users')->ignore($user_id,'user_id'),
+            ],
+            'email' => [
+                'required','email','max:255',
+                Rule::unique('users')->ignore($user_id,'user_id'),
+            ],
             'password' => 'required|min:6|alpha_num|confirmed',
-            'rights' => 'required',
             'first_name' => 'alpha',
             'last_name' => 'alpha',
             'dob' => 'date',
             'function' => 'alpha',
         ]);
     }
-
 }

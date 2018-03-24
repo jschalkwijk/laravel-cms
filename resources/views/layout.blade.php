@@ -2,6 +2,6 @@
 @include($template.'/.nav')
 	<body>
 	@yield('content')
-@include($template.'/footer')	
+@include($template.'/footer')
     </body>
 </html>

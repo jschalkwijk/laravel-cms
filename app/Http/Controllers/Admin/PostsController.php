@@ -48,10 +48,10 @@ class PostsController extends Controller
             'content' => 'required|min:5',
         ]);
 
-        $post = new Post();
+        $post = new Post($r->all());
         $post->user_id = Auth::user()->user_id;
 
-        $post->save($r->all());
+        $post->save();
 
         if(!empty($r['category'])){
             $category = new Category();
