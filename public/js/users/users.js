@@ -45,9 +45,10 @@ function checkPermissions() {
                 // Check permissions that belong to the role if they are in the rolePermissions array;
                 if(check.checked === true){
                     for(var j = 0; j < permissions.length; j++){
-                        var inArray = (rolePermissions.indexOf(permissions[j].value) > -1);
+                        var inArray = rolePermissions.includes(permissions[j].value);
                         console.log(inArray)
                         if(inArray){
+                            console.log(permissions[j]);
                             permissions[j].checked = true;
                             permissions[j].disabled = true;
                         }
@@ -66,9 +67,9 @@ function checkPermissions() {
                             uncheck = uncheck.concat(JSON.parse(rolePermissions).diff(checkedRolePermissions)).unique();
                         }
                     }
-                    console.log("role permissions "+rolePermissions)
-                    console.log("checked role permissions "+checkedRolePermissions)
-                    console.log("uncheck "+uncheck);
+                    // console.log("role permissions "+rolePermissions)
+                    // console.log("checked role permissions "+checkedRolePermissions)
+                    // console.log("uncheck "+uncheck);
 
                     // Uncheck permissions in the uncheck array
                     var checkedPermissions = getCheckedBoxes("permissions[]");
@@ -78,12 +79,21 @@ function checkPermissions() {
                             checkedPermissions[y].checked = false;
                             checkedPermissions[y].disabled = false;
                         }
+                        // if one or more roles are checked only uncheck the inputs where the value is in uncheck array
                     } else if(checkedPermissions !== null) {
-                        for(var y = 0; y < checkedPermissions.length; y++){
-                            var ggg = (uncheck.indexOf(checkedPermissions[y].value) > -1);
-                            if(ggg){
-                                checkedPermissions[y].checked = false;
-                                checkedPermissions[y].disabled = false;
+                        console.log('typeOf checkedPermissions: '+typeof checkedPermissions);
+                        console.log("checkedPermissions "+checkedPermissions);
+                        console.log('typeOf unckeck: '+typeof uncheck);
+                        console.log("uncheck values"+uncheck);
+
+                        for(var z = 0; z < checkedPermissions.length; z++){
+                            console.log('checkedPermissions value: '+checkedPermissions[z].value);
+
+                            var inArray2 = uncheck.includes(checkedPermissions[z].value);
+                            console.log(checkedPermissions[z].value+' in array :'+inArray2);
+                            if(inArray2){
+                                checkedPermissions[z].checked = false;
+                                checkedPermissions[z].disabled = false;
                             }
                         }
                     }
