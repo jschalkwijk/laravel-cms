@@ -64,7 +64,7 @@ function checkPermissions() {
                             // Convert JSON string containing the permissions_id's that should be checked is a role is checked to javascript object.
                             // add only unique values to the array.
                             checkedRolePermissions = checkedRolePermissions.concat(JSON.parse(document.getElementById('role_'+roles[x].value).value)).unique();
-                            uncheck = uncheck.concat(JSON.parse(rolePermissions).diff(checkedRolePermissions)).unique();
+                            uncheck = uncheck.concat(JSON.parse(rolePermissions).diff(checkedRolePermissions)).unique().toString();
                         }
                     }
                     // console.log("role permissions "+rolePermissions)
@@ -88,7 +88,8 @@ function checkPermissions() {
 
                         for(var z = 0; z < checkedPermissions.length; z++){
                             console.log('checkedPermissions value: '+checkedPermissions[z].value);
-
+                            console.log(typeof checkedPermissions[z].value);
+                            console.log(typeof uncheck[z]);
                             var inArray2 = uncheck.includes(checkedPermissions[z].value);
                             console.log(checkedPermissions[z].value+' in array :'+inArray2);
                             if(inArray2){
