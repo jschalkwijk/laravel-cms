@@ -20,6 +20,12 @@ class PagesController extends Controller
         return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 0]);
     }
 
+    public function deleted()
+    {
+        $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
+        return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 1]);
+    }
+
     public function show(Page $page)
     {
         return view('admin.pages.show')->with(['page' => $page,'template'=>$this->adminTemplate()]);
