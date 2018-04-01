@@ -30,6 +30,15 @@ Route::group(['prefix' => '/admin'], function (){
 //    });
     Route::group(['middleware' => 'auth'], function()
     {
+        Route::resource('pages','Admin\PagesController');
+        Route::group(['prefix' =>'/pages'],function (){
+            Route::get('/deleted-pages', 'Admin\PagesController@deleted');
+            Route::post('/action', 'Admin\PagesController@action');
+            Route::get('/{id}/approve','Admin\PagesController@approve')->name('pages.approve');
+            Route::get('/{id}/hide','Admin\PagesController@hide')->name('pages.hide');
+            Route::get('/{id}/destroy', 'Admin\PagesController@destroy')->name('pages.destroy');
+            Route::get('/{id}/trash', 'Admin\PagesController@trash')->name('pages.trash');
+        });
         Route::resource('posts','Admin\PostsController');
         Route::group(['prefix' => '/posts'],function(){
             Route::get('/deleted-posts', 'Admin\PostsController@deleted');
@@ -49,8 +58,8 @@ Route::group(['prefix' => '/admin'], function (){
          posts.show
          posts.edit
         */
-    });
-    Route::group(['middleware' => 'auth'],function(){
+
+
         Route::resource('comments','Admin\CommentsController');
         Route::group(['prefix' => '/comments'],function(){
             Route::post('/action','Admin\CommentsController@action');
@@ -59,9 +68,9 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy','Admin\CommentsController@destroy')->name('comments.destroy');
             Route::get('/{id}/trash','Admin\CommentsController@trash')->name('comments.trash');
         });
-    });
 
-    Route::group(['middleware' => 'auth'],function(){
+
+
         Route::resource('replies','Admin\RepliesController');
         Route::group(['prefix'=> '/replies'],function(){
             Route::post('/action','Admin\RepliesController@action');
@@ -69,9 +78,9 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/hide','Admin\RepliesController@hide')->name('replies.hide');
             Route::get('/{id}/destroy','Admin\RepliesController@destroy')->name('replies.destroy');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function() {
+
+
         Route::resource('categories','Admin\CategoriesController');
         Route::group(['prefix' => '/categories'],function(){
             Route::get('/deleted-categories','Admin\CategoriesController@deleted');
@@ -81,16 +90,15 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy', 'Admin\CategoriesController@destroy')->name('categories.destroy');
             Route::get('/{id}/trash', 'Admin\CategoriesController@trash')->name('categories.trash');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
+
         Route::resource('tags','Admin\TagsController',['except' => ['show']]);
         Route::group(['prefix' => '/tags'],function(){
             Route::post('/action', 'Admin\TagsController@action');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
         Route::resource('users','Admin\UsersController',['except' => ['destroy']]);
         Route::group(['prefix' => '/users'],function(){
             Route::get('/deleted-users', 'Admin\UsersController@deleted');
@@ -100,9 +108,9 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy', 'Admin\UsersController@destroy')->name('users.destroy');
             Route::get('/{id}/trash', 'Admin\UsersController@trash')->name('users.trash');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
+
         Route::resource('roles','Admin\RolesController');
         Route::group(['prefix' => '/roles'],function(){
             Route::get('/deleted-roles', 'Admin\RolesController@deleted');
@@ -112,8 +120,8 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy', 'Admin\RolesController@destroy')->name('roles.destroy');
             Route::get('/{id}/trash', 'Admin\RolesController@trash')->name('roles.trash');
         });
-    });
-    Route::group(['middleware' => 'auth'], function(){
+
+
         /* Permissions */
         Route::resource('permissions','Admin\PermissionsController');
         Route::group(['prefix' => '/permissions'],function(){
@@ -124,32 +132,24 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy', 'Admin\PermissionsController@destroy')->name('permissions.destroy');
             Route::get('/{id}/trash', 'Admin\PermissionsController@trash')->name('permissions.trash');
         });
-    });
 
-    Route::group(['prefix' => 'pages','middleware' => 'auth'], function(){
-       Route::get('/','Admin\PagesController@index');
-       Route::get('/add','Admin\PagesController@add');
-       Route::get('/new','Admin\PagesController@edit');
-       Route::get('/edit/{page}/{title}','Admin\PagesController@edit');
-       Route::get('/update/{page}/{title}','Admin\PagesController@update');
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
+
         Route::resource('uploads','Admin\UploadsController',['except' => 'show','destroy']);
         Route::group(['prefix'=>'/uploads'],function(){
             Route::get('/{id}/destroy', 'Admin\UploadsController@destroy')->name('uploads.destroy');
             Route::post('/action', 'Admin\UploadsController@action');
         });
-    });
-    Route::group(['middleware' => 'auth'],function(){
+
         Route::resource('folders','Admin\FoldersController',['except' => 'destroy']);
         Route::group(['prefix'=>'/folders'],function(){
             Route::get('/{id}/destroy', 'Admin\FoldersController@destroy')->name('folders.destroy');
             Route::post('/action', 'Admin\FoldersController@action')->name('folders.action');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
+
         Route::resource('products','Admin\ProductsController',['except' => ['show']]);
         Route::group(['prefix' => '/products'],function(){
             Route::get('/deleted-products','Admin\ProductsController@deleted');
@@ -159,23 +159,15 @@ Route::group(['prefix' => '/admin'], function (){
             Route::get('/{id}/destroy', 'Admin\ProductsController@destroy')->name('products.destroy');
             Route::get('/{id}/trash', 'Admin\ProductsController@trash')->name('products.trash');
         });
-    });
 
-    Route::group(['middleware' => 'auth'], function(){
+
+
         Route::resource('contacts','Admin\ContactsController',['except' => ['show']]);
         Route::group(['prefix' => '/contacts'],function(){
             Route::get('/deleted-contacts','Admin\ContactsController@deleted');
             Route::post('/action', 'Admin\ContactsController@action');
         });
     });
-
-    Route::get('/cards', 'Cards@index');
-    Route::get('/cards/{card}', 'Cards@show');
-
-    Route::post('/cards/{card}/notes', 'Notes@store');
-    Route::get('/notes/{note}/edit','Notes@edit');
-    Route::patch('/notes/{note}','Notes@update');
-
 });
 
 Route::get('/', 'pages@home');
