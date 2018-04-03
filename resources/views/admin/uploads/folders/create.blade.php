@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('templates.default.layout')
 @section('content')
     <div class="container-fluid">
         <div class="row">

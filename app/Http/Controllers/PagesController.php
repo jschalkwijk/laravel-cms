@@ -2,9 +2,15 @@
 
 namespace CMS\Http\Controllers;
 
-class Pages extends Controller
+use CMS\Models\Page;
+
+class PagesController extends Controller
 {
-    public function home(){
+    public function show(Page $page)
+    {
+        return view('templates.default.page')->with(['page' => $page,'template'=>$this->template()]);
+    }
+    public function index(){
         return view('pages.home')->with(['template'=>$this->template()]);
 	}
 	

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('templates.default.layout')
 @section('content')
 	<div id="main-content">
 		<div class="display">

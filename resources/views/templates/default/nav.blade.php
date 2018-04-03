@@ -8,7 +8,7 @@
 			<li><a href="/blog">Blog</a></li>
 			<li><a href="/contact">Contact</a></li>
 			<?php
-			$dbc = mysqli_connect('localhost','jorn','root123','cms') or die ('Error connecting to server');
+			$dbc = mysqli_connect('localhost','jorn','root123','laravelcms') or die ('Error connecting to server');
 			$query = "SELECT * FROM pages";
 			$links = mysqli_query($dbc,$query);
 			?>

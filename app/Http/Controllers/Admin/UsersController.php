@@ -78,7 +78,7 @@ class UsersController extends Controller
             'last_name' => $r['last_name'],
             'dob' => $r['dob'],
             'function' => $r['function'],
-            'created_by' => Auth::user()->user_id,
+//            'created_by' => Auth::user()->user_id,
         ]);
 
         $user->save();

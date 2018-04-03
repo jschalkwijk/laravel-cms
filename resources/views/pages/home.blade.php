@@ -1,4 +1,4 @@
-@extends('layout')
+@extends($template.'.layout')
 @section('content')
 <div class="container-fluid">
 	<div class="display top-margin">

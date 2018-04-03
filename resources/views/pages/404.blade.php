@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('templates.'.$template.'.layout')
 @section('content')
     <div class="top-margin container small">
         <?php echo '<h1 class="center">'.$data['error'].'</h1>' ?>

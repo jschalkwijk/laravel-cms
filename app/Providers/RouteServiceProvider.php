@@ -26,6 +26,12 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::bind('page', function ($value) {
+            return \CMS\Models\Page::where('page_id', $value)
+                       ->orWhere('slug', $value)
+                       ->first();
+        });
     }
 
     /**

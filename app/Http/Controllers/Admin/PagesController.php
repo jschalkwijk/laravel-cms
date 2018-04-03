@@ -30,9 +30,9 @@ class PagesController extends Controller
     {
         return view('admin.pages.show')->with(['page' => $page,'template'=>$this->adminTemplate()]);
     }
-    public function create(Page $page)
+    public function create()
     {
-        return view('admin.pages.create')->with(['page' => $page,'template'=>$this->adminTemplate()]);
+        return view('admin.pages.create')->with(['template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)
@@ -40,7 +40,10 @@ class PagesController extends Controller
         $this->validate($r,[
             'title' => 'required|min:4',
             'content' => 'required|min:5',
+            'slug'  => 'min:4'
         ]);
+
+        $r['slug'] = (empty($r['slug']) || !isset($r['slug'])) ? str_slug($r['title'],'-') : str_slug($r['slug'],'-');
 
         $page = new Page($r->all());
         $page->user_id = Auth::user()->user_id;
@@ -51,21 +54,23 @@ class PagesController extends Controller
 
     public function edit(Page $page)
     {
-        return view('admin.pages.create')->with(['page' => $page,'template'=>$this->adminTemplate()]);
+        return view('admin.pages.edit')->with(['page' => $page,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Page $page)
     {
-        if($r['confirm']) {
-            $this->validate($r, [
-                'title' => 'required|min:4',
-                'content' => 'required|min:5',
-            ]);
 
-            $page->user_id = Auth::user()->user_id;
-            $page->update($r->all());
-        }
-        
+        $this->validate($r, [
+            'title' => 'required|min:4',
+            'content' => 'required|min:5',
+            'slug'  => 'min:4'
+        ]);
+
+        $r['slug'] = (empty($r['slug']) || !isset($r['slug'])) ? str_slug($r['title'],'-') : str_slug($r['slug'],'-');
+
+        $page->user_id = Auth::user()->user_id;
+        $page->update($r->all());
+
         return back();
 
     }

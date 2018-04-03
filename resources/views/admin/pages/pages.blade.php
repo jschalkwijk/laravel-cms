@@ -14,7 +14,6 @@
                 <div class="center">
                     <form class="backend-form" method="post" action="/admin/pages/action">
                         {{ csrf_field() }}
-                        {{ method_field('PUT') }}
                         <table class="table table-sm table-striped">
                             <thead class="thead-default">
                             <tr>

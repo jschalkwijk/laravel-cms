@@ -28,14 +28,15 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <form action="{{route("pages.store")}}" method="post">
-                    {{method_field('POST')}}
-                    {{ csrf_field() }}
-                    <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
-                    <input type="text" name="description" placeholder="Page Description (max 160 characters)" value="{{old('description')}}"/><br />
-                    <input type="text" name="slug" placeholder="Custom Link" value="{{old('slug')}}"/><br />
 
-                    <textarea name="content" placeholder="Content">{{ old('content') }}</textarea><br />
+                <form action="{{route("pages.update",$page->page_id)}}" method="post">
+                    {{method_field('PATCH')}}
+                    {{ csrf_field() }}
+                    <input type="text" name="title" placeholder="Title" value="{{ empty(old('title')) ? $page->title : old('title')}}"><br />
+                    <input type="text" name="description" placeholder="Page Description (max 160 characters)" value="{{ empty(old('description')) ? $page->description : old('description')}}"/><br />
+                    <label for="slug">{{"Current Link: ".$page->slug}}</label><br />
+                    <input type="text" name="slug" placeholder="Custom Link" value="{{old('slug')}}"/><br />
+                    <textarea name="content" placeholder="Content">{{ empty(old('content')) ? $page->content :old('content') }}</textarea><br />
                     <button type="submit" name="submit">Submit</button>
                 </form>
             </div>
