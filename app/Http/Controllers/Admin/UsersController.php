@@ -98,7 +98,7 @@ class UsersController extends Controller
         $rolePermissions = $user->permissionsThroughRole()->pluck('permission_id')->toArray();
         $userPermissions = $user->permissions->pluck('permission_id')->toArray();
 
-        return view('admin.users.create')->with(
+        return view('admin.users.edit')->with(
             [
                 'user' => $user,
                 'roles'=> $roles,

@@ -12,42 +12,11 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
-                @if(isset($permission))
-                    @php
-                        $action = route("permissions.update",$permission->permission_id);
-                        $method = 'PATCH';
-                    @endphp
-                @else
-                    @php $action = route("permissions.store") @endphp
-                @endif
-                <form action="{{$action}}" method="post">
-                    {{method_field($method)}}
+                <form action="{{route("permissions.store")}}" method="post">
+                    {{method_field('POST')}}
                     {{ csrf_field() }}
-                    <input type="text" name="name" placeholder="Permissions Name" value="{{isset($permission) ? $permission->name : old('name')}}"/>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th class="text-center" colspan="6">Roles</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            @php ($i = 1)
-                            @foreach($roles as $role)
-                                <td>
-                                    @if(isset($currentRoles) && in_array($role->role_id,$currentRoles))
-                                        <input type='checkbox' value='{{$role->role_id}}' name='roles[]' checked/>
-                                    @else
-                                        <input type='checkbox' value='{{$role->role_id}}' name='roles[]'/>
-                                    @endif
-                                </td>
-                                <td><lable>{{ucfirst($role->name)}}</lable> </td>
-                                @if ($i % 4 == 0)
-                                </tr><tr> @php ($i++)
-                                @endif
-                            @endforeach
-                        </tr>
-                        </tbody>
-                    </table>
+                    <input type="text" name="name" placeholder="Permissions Name" value="{{old('name')}}"/>
+                    @include('admin.roles.partials.table-form-input')
                     <button type="submit">Submit</button>
                 </form>
             </div>

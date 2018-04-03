@@ -73,7 +73,7 @@ class RolesController extends Controller
     {
         $permissions = Permission::all();
         $currentPermissions = $role->permissions->pluck('permission_id')->toArray();
-        return view('admin.roles.create')->with(['role'=>$role,'permissions' => $permissions,'currentPermissions' => $currentPermissions,'template' =>$this->adminTemplate()]);
+        return view('admin.roles.update')->with(['role'=>$role,'permissions' => $permissions,'currentPermissions' => $currentPermissions,'template' =>$this->adminTemplate()]);
     }
     public function update(Request $r,Role $role)
     {

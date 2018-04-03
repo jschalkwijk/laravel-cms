@@ -72,7 +72,7 @@
         {
             $roles = Role::all();
             $currentRoles = $permission->roles->pluck('role_id')->toArray();
-            return view('admin.permissions.create')->with(['permission'=>$permission,'roles' => $roles,'currentRoles'=>$currentRoles,'template' =>$this->adminTemplate()]);
+            return view('admin.permissions.edit')->with(['permission'=>$permission,'roles' => $roles,'currentRoles'=>$currentRoles,'template' =>$this->adminTemplate()]);
         }
         public function update(Request $r,Permission $permission)
         {
