@@ -37,6 +37,7 @@
                     <label for="slug">{{"Current Link: ".$page->slug}}</label><br />
                     <input type="text" name="slug" placeholder="Custom Link" value="{{old('slug')}}"/><br />
                     <textarea name="content" placeholder="Content">{{ empty(old('content')) ? $page->content :old('content') }}</textarea><br />
+                    <input type="text" name="template" placeholder="Custom Template" value="{{empty(old('template')) ? $page->template :old('template')}}">
                     <button type="submit" name="submit">Submit</button>
                 </form>
             </div>

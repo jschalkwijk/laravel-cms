@@ -6,11 +6,11 @@
             <th>#</th>
             <th>Name</th>
             <th>E-mail</th>
-            <th>Rights</th>
             <th>Date/Time</th>
-            <th>Perms</th>
             <th>Edit</th>
             <th>View</th>
+            <th>Del</th>
+            <th>Check</th>
         </tr>
         </thead>
         @foreach($users as $single)
@@ -18,7 +18,6 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td class="td-title"><p>{{ $single->first_name }}</p></td>
                 <td><p>{{ $single->email }}</p></td>
-                <td class="td-category"><p>{{ $single->rights }}</p></td>
                 <td><p>{{ $single->created_at }}</p></td>
                 {{--<td class="td-category"><p>@foreach($single->permission as $perm){{ $perm->name }} @endforeach</p></td>--}}
 

@@ -36,6 +36,7 @@
                     <input type="text" name="slug" placeholder="Custom Link" value="{{old('slug')}}"/><br />
 
                     <textarea name="content" placeholder="Content">{{ old('content') }}</textarea><br />
+                    <input type="text" name="template" placeholder="Custom Template" value="{{old('template')}}">
                     <button type="submit" name="submit">Submit</button>
                 </form>
             </div>

@@ -8,7 +8,8 @@ class PagesController extends Controller
 {
     public function show(Page $page)
     {
-        return view('templates.default.page')->with(['page' => $page,'template'=>$this->template()]);
+        $view = (empty($page->template)) ? 'page' : 'custom.'.$page->template;
+        return view('templates.default.'.$view)->with(['page' => $page,'template'=>$this->template()]);
     }
     public function index(){
         return view('pages.home')->with(['template'=>$this->template()]);

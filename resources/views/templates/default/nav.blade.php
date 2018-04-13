@@ -15,7 +15,7 @@
 			
 			@while($row = mysqli_fetch_array($links)) 
 				@if($row['approved'] == 1) 
-					<li><a href="{{ $row['path'] }}">{{ $row['title'] }}</a></li>
+					<li><a href="{{ $row['slug'] }}">{{ $row['title'] }}</a></li>
 				@endif
 			@endwhile
 		</ul>

@@ -8,7 +8,15 @@ class Page extends Model
 {
     protected $primaryKey = 'page_id';
     public $table = 'pages';
-    protected $fillable = ['title','slug','description','content','created_at','updated_at'];
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'content',
+        'template',
+        'created_at',
+        'updated_at'
+    ];
 
     public function getLink(){
         return preg_replace("/[\s-]+/", "-", $this->title);

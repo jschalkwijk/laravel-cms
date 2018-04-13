@@ -40,7 +40,8 @@ class PagesController extends Controller
         $this->validate($r,[
             'title' => 'required|min:4',
             'content' => 'required|min:5',
-            'slug'  => 'min:4'
+            'slug'  => 'min:4',
+            'template' => 'min:4'
         ]);
 
         $r['slug'] = (empty($r['slug']) || !isset($r['slug'])) ? str_slug($r['title'],'-') : str_slug($r['slug'],'-');
@@ -63,7 +64,8 @@ class PagesController extends Controller
         $this->validate($r, [
             'title' => 'required|min:4',
             'content' => 'required|min:5',
-            'slug'  => 'min:4'
+            'slug'  => 'min:4',
+            'template' => 'min:4'
         ]);
 
         $r['slug'] = (empty($r['slug']) || !isset($r['slug'])) ? str_slug($r['title'],'-') : str_slug($r['slug'],'-');
