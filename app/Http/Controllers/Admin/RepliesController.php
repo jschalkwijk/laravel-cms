@@ -2,17 +2,18 @@
 
 namespace CMS\Http\Controllers\Admin;
 
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
-use CMS\Models\Action;
-
 use CMS\Models\Reply;
 
 class RepliesController extends Controller
 {
-    //
+    use ControllerActionsTrait;
+
+    protected $model = Reply::class;
+
     public function index()
     {
         $replies = Reply::with('user','comment')->orderBy('reply_id','DESC')->get();
@@ -51,25 +52,5 @@ class RepliesController extends Controller
     public function update(Request $r,Reply $c)
     {
 
-    }
-
-    public function destroy($id)
-    {
-        $post = Reply::findOrFail($id);
-        Reply::destroy($post->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Reply(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Reply(),$id);
-        return back();
     }
 }

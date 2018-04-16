@@ -2,18 +2,19 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Action;
 use CMS\Models\Tag;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Models\Post;
 use CMS\Models\Category;
-use CMS\Models\UserActions;
 
 class PostsController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Post::class;
 
     public function index(){
 
@@ -139,35 +140,4 @@ class PostsController extends Controller
         return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
     }
 
-    public function action(Request $r,Post $post)
-    {
-        $this->Actions($post,$r);
-        return back();
-    }
-
-    public function destroy($id)
-    {
-        $post = Post::findOrFail($id);
-        Post::destroy($post->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Post(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Post(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new Post(),$id);
-        return back();
-    }
 }

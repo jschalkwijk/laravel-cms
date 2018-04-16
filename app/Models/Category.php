@@ -2,12 +2,12 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use phpDocumentor\Reflection\Types\Object_;
 
 class Category extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = 'category_id';
 	protected $fillable = ['title','description','parent_id'];
 	public $table = "categories";

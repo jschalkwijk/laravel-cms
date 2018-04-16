@@ -2,10 +2,12 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = 'contact_id';
     protected $fillable = ['title','description'];
     public $table = "contacts";

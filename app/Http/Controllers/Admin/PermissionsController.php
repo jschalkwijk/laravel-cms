@@ -2,18 +2,17 @@
 
     namespace CMS\Http\Controllers\Admin;
 
+    use CMS\Http\Controllers\Admin\ControllerActionsTrait;
     use Illuminate\Http\Request;
     use CMS\Http\Controllers\Controller;
-    use Illuminate\Support\Facades\Auth;
-
-    use CMS\Models\UserActions;
-    use CMS\Models\Action;
     use CMS\Models\Permission;
     use CMS\Models\Role;
 
     class PermissionsController extends Controller
     {
-        use UserActions;
+        use ControllerActionsTrait;
+
+        protected $model = Permission::class;
 
         public function index()
         {
@@ -91,35 +90,4 @@
             return redirect()->action('Admin\PermissionsController@index');
         }
 
-        public function action(Request $r)
-        {
-            $this->Actions(new Permission(),$r);
-            return back();
-        }
-
-        public function destroy($id)
-        {
-            $permissions = Permission::findOrFail($id);
-            Permission::destroy($permissions->id());
-
-            return back();
-        }
-
-        public function hide($id)
-        {
-            Action::hide(new Permission(),$id);
-            return back();
-        }
-
-        public function approve($id)
-        {
-            Action::approve(new Permission(),$id);
-            return back();
-        }
-
-        public function trash($id)
-        {
-            Action::trash(new Permission(),$id);
-            return back();
-        }
     }

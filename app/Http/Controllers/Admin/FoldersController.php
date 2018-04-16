@@ -2,21 +2,20 @@
 
 namespace CMS\Http\Controllers\Admin;
 
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
-
 
 use CMS\Http\Controllers\Controller;
 use CMS\Models\Folder;
 use CMS\Models\Upload;
-use CMS\Models\UserActions;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class FoldersController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
 
-    public function index()
+    protected $model = Folder::class;    public function index()
     {
         $folders = Folder::all();
         return view("admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
@@ -85,10 +84,5 @@ class FoldersController extends Controller
         Storage::deleteDirectory($folder->path);
         Folder::delete_recursive([$folder->id()]);
         return redirect()->action('Admin\FoldersController@index');
-    }
-    public function action(Request $r)
-    {
-        $this->Actions($r,'folders');
-        return back();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\UserActions;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
@@ -13,7 +13,9 @@ use Intervention\Image\Facades\Image;
 
 class UploadsController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Upload::class;
     public function index()
     {
         $folders = Folder::all()->where('parent_id',0);
@@ -81,11 +83,6 @@ class UploadsController extends Controller
         Storage::delete('public/'.$file->file_path);
         Storage::delete('public/'.$file->thumb_path);
         Upload::destroy($file->id());
-        return back();
-    }
-    public function action(Request $r)
-    {
-        $this->Actions(new Upload(),$r);
         return back();
     }
 }

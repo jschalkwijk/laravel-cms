@@ -2,6 +2,7 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Folder extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = 'folder_id';
     public $table = 'folders';
     protected $fillable = [
@@ -113,5 +115,18 @@ class Folder extends Model
         Folder::destroy($folders);
         // Remove possible uploaded files in the removed folders from the database
         Upload::whereIn('folder_id',$folders)->delete();
+    }
+
+    public function removeMany(array $keys)
+    {
+        $key = $this->primaryKey;
+
+        $parents = $keys;
+        // Delete all folders/files and subdirectories
+        foreach($parents as $parent){
+            $folder = Folder::findOrFail($parent);
+            Storage::deleteDirectory($folder->path);
+        }
+        Folder::delete_recursive($parents,$key);
     }
 }

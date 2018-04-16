@@ -8,9 +8,11 @@
 
     namespace CMS\Models;
 
+    use CMS\Models\Traits\ModelActionsTrait;
     use Illuminate\Database\Eloquent\Model;
     class Comment extends Model
     {
+        use ModelActionsTrait;
         protected $primaryKey = 'comment_id';
 
         protected $fillable = [

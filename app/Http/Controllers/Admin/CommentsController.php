@@ -2,16 +2,18 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Action;
 use CMS\Models\Comment;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\UserActions;
+
 
 class CommentsController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Comment::class;
 
     public function index()
     {
@@ -60,31 +62,5 @@ class CommentsController extends Controller
         $c->update($r->all());
         return back();
 
-    }
-
-    public function destroy($id)
-    {
-        $post = Comment::findOrFail($id);
-        Comment::destroy($post->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Comment(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Comment(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new Comment(),$id);
-        return back();
     }
 }

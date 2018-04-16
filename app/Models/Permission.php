@@ -2,10 +2,12 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = "permission_id";
     public $table = 'permissions';
 

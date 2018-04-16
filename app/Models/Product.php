@@ -2,10 +2,12 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = "product_id";
     protected $fillable = [
         'name',

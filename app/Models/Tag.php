@@ -2,10 +2,13 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+    use ModelActionsTrait;
+
     protected $primaryKey = 'tag_id';
 	protected $fillable = ['title'];
 	public $table = "tags";

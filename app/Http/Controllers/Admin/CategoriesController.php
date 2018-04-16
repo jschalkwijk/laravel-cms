@@ -3,15 +3,15 @@
 namespace CMS\Http\Controllers\Admin;
 
 use CMS\Models\Category;
-use CMS\Models\UserActions;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\Action;
+
 
 class CategoriesController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
 
     public function index()
     {
@@ -63,37 +63,5 @@ class CategoriesController extends Controller
             $category->update($r->all());
             return back();
         }
-    }
-
-    public function action(Request $r)
-    {
-        $this->Actions(new Category(),$r);
-        return back();
-    }
-
-    public function destroy($id)
-    {
-        $category = category::findOrFail($id);
-        Category::destroy($category->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Category(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Category(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new Category(),$id);
-        return back();
     }
 }

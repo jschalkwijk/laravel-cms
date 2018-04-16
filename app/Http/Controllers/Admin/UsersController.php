@@ -4,10 +4,9 @@ namespace CMS\Http\Controllers\Admin;
 
 use CMS\Models\Permission;
 use CMS\Models\Role;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use CMS\Models\User;
-use CMS\Models\UserActions;
 use Illuminate\Http\Request;
-use CMS\Models\Action;
 
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +16,10 @@ use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = User::class;
+
     protected $user;
     protected $permissions;
 
@@ -120,38 +122,6 @@ class UsersController extends Controller
         (!is_array($r['permissions'])) ? $user->permissions()->detach() : $user->permissions()->sync($r['permissions']);
 
         return redirect()->action('Admin\UsersController@index');
-    }
-
-    public function action(Request $r)
-    {
-        $this->Actions(new User(),$r);
-        return back();
-    }
-
-    public function destroy($id)
-    {
-        $users = User::findOrFail($id);
-        User::destroy($users->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new User(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new User(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new User(),$id);
-        return back();
     }
 
     /**

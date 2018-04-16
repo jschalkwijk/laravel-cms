@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\UserActions;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use CMS\Models\Tag;
@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class TagsController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Tag::class;
 
     public function index()
     {
@@ -54,17 +56,4 @@ class TagsController extends Controller
             ]
         );
     }
-
-    public function destroy(Tag $tag)
-    {
-        $tag->delete();
-        return back();
-    }
-
-    public function action(Request $r)
-    {
-        $this->Actions($r,'tags');
-        return back();
-    }
-
 }

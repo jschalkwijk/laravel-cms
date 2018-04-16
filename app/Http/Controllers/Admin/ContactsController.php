@@ -3,13 +3,13 @@
 namespace CMS\Http\Controllers\admin;
 
 use CMS\Models\Contact;
-use CMS\Models\UserActions;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 
 class ContactsController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
 
     public function index()
     {
@@ -40,9 +40,9 @@ class ContactsController extends Controller
 
     }
 
-    public function action(Request $r)
+    public function action(Request $r,Contact $contact)
     {
-        $this->Actions($r,'contacts');
+        $this->Actions($r,$contact);
         return back();
     }
 

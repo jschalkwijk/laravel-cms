@@ -3,9 +3,10 @@
 namespace CMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use CMS\Models\Traits\ModelActionsTrait;
 class Page extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = 'page_id';
     public $table = 'pages';
     protected $fillable = [

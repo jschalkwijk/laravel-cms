@@ -2,17 +2,18 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\UserActions;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Models\Page;
-use CMS\Models\Action;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 
 
 class PagesController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Page::class;
 
     public function index()
     {
@@ -77,35 +78,4 @@ class PagesController extends Controller
 
     }
 
-    public function action(Request $r,Page $page)
-    {
-        $this->Actions($page,$r);
-        return back();
-    }
-
-    public function destroy($id)
-    {
-        $page = Page::findOrFail($id);
-        Page::destroy($page->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Page(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Page(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new Page(),$id);
-        return back();
-    }
 }

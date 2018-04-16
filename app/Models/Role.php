@@ -2,10 +2,12 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use ModelActionsTrait;
     protected $primaryKey = "role_id";
     public $table = 'roles';
 

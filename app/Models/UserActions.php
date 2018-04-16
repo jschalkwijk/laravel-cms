@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 trait UserActions
 {
-    private function Actions($model,Request $r)
+    private function Actions(Request $r,$model)
     {
         if(isset($r['trash-selected'])){
             Action::trash($model,$r['checkbox']);

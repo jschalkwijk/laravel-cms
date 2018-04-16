@@ -3,17 +3,16 @@
 namespace CMS\Http\Controllers\Admin;
 
 use CMS\Models\Permission;
+use CMS\Http\Controllers\Admin\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-
-use CMS\Models\UserActions;
-use CMS\Models\Action;
 use CMS\Models\Role;
 
 class RolesController extends Controller
 {
-    use UserActions;
+    use ControllerActionsTrait;
+
+    protected $model = Role::class;
 
     public function index()
     {
@@ -90,37 +89,5 @@ class RolesController extends Controller
         (!is_array($permissions)) ? $role->permissions()->detach() : $role->permissions()->sync($permissions);
 
         return redirect()->action('Admin\RolesController@index');
-    }
-
-    public function action(Request $r)
-    {
-        $this->Actions(new Role(),$r);
-        return back();
-    }
-
-    public function destroy($id)
-    {
-        $roles = Role::findOrFail($id);
-        Role::destroy($roles->id());
-
-        return back();
-    }
-
-    public function hide($id)
-    {
-        Action::hide(new Role(),$id);
-        return back();
-    }
-
-    public function approve($id)
-    {
-        Action::approve(new Role(),$id);
-        return back();
-    }
-
-    public function trash($id)
-    {
-        Action::trash(new Role(),$id);
-        return back();
     }
 }
