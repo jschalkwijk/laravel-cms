@@ -2,7 +2,7 @@
 
     namespace CMS\Http\Controllers\Admin;
 
-    use CMS\Http\Controllers\Admin\ControllerActionsTrait;
+    use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Http\Request;
     use CMS\Http\Controllers\Controller;
     use CMS\Models\Permission;

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Models\Page;
-use CMS\Http\Controllers\Admin\ControllerActionsTrait;
+use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 
 
 class PagesController extends Controller

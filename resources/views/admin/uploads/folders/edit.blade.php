@@ -1,4 +1,4 @@
-@extends('templates.default.layout')
+@extends('admin.layout')
 @section('content')
     <div class="container-fluid">
         <div class="row">

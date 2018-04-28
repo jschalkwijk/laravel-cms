@@ -4,7 +4,7 @@ namespace CMS\Http\Controllers\Admin;
 
 use CMS\Models\Permission;
 use CMS\Models\Role;
-use CMS\Http\Controllers\Admin\ControllerActionsTrait;
+use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use CMS\Models\User;
 use Illuminate\Http\Request;
 

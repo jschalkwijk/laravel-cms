@@ -1,4 +1,4 @@
-@extends('templates.default.layout')
+@extends('admin.layout')
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -13,7 +13,7 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-xs-3 offset-sm-3 offset-md-2 offset-lg-3">
                 {{$category->title}}
                 {{$category->description}}
-                {{$category->user->first_name}}
+                {{--{{$category->user->first_name}}--}}
                 {{$category->created_at}}
                 {{$category->updated_at}}
                 {{--{{$category->parent->title}}--}}

@@ -3,7 +3,7 @@
 namespace CMS\Http\Controllers\admin;
 
 use CMS\Models\Contact;
-use CMS\Http\Controllers\Admin\ControllerActionsTrait;
+use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 

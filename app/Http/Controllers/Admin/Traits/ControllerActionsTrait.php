@@ -1,6 +1,6 @@
 <?php
 
-    namespace CMS\Http\Controllers\Admin\ControllerActionsTrait;
+    namespace CMS\Http\Controllers\Admin\Traits;
 
     use Illuminate\Http\Request;
 

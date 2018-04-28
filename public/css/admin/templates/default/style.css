@@ -235,7 +235,7 @@ li {
 
 a {
 	text-decoration: none;
-	color: #ea6a1b;
+	/*color: #ea6a1b;*/
 }
 a:hover {
 	text-decoration: none;
@@ -253,20 +253,6 @@ button {
 	height: auto;
 }
 
-
-/* containers */
-
-.container {
-	/*width: max-content;
-	height: auto;
-	padding: 5px;
-	margin: auto;*/
-}
-
-.center-block{
-	float:none;
-}
-
 /* centered columns styles */
 .row-centered {
 	text-align:center;
@@ -279,60 +265,6 @@ button {
 	/* inline-block space fix */
 	margin-right:-4px;
 }
-
-.full-width {
-	width: 100%;
-	height: auto;
-	padding: 5px;
-	margin: auto;
-}
-
-.xxlarge {
-	max-width: 1280px;
-	height: auto;
-	margin: auto;
-	padding: 5px;
-}
-
-.xlarge {
-	max-width: 1080px;
-	height: auto;
-	margin: auto;
-	padding: 5px;
-}
-
-.large{
-	max-width: 720px;
-	height: auto;
-	margin: auto;
-	padding: 5px;
-}
-
-.medium-large {
-	max-width: 560px;
-	height: auto;
-	padding: 5px;
-}
-.medium {
-	max-width: 420px;
-	height: auto;
-	padding: 5px;
-	margin: auto;
-}
-
-.small {
-	max-width: 320px;
-	height: auto;
-	padding: 5px;
-}
-
-.xsmall {
-	width: 220px;
-}
-.xxsmall {
-	width: 100px;
-}
-
 /*glyph sizes */
 
 .glyph-xsmall {
@@ -451,6 +383,7 @@ and (max-device-width : 480px) {
 #wrapper {
 	background-color: #f2f2f2;
 	width: 100%;
+	height: 100vh;
 }
 
 /* Display Header */
@@ -477,176 +410,91 @@ and (max-device-width : 480px) {
 	font-size: 60px;
 }
 /* Navigation */
-
-/* Navigation Basic Styling */
-
-nav {
-	text-align: center;
-	list-style-type:none;
-	width: max-content;
-	background: #CCC;
-	margin: 0px;
-	height: 50px;
-	background-color: #333333;
-	z-index: 9999;
-}
-
-nav li {
-	list-style-type:none;
-	display: inline;
+.navbar-brand {
 	padding: 0px;
 }
-
-nav li a:hover {
-	background-color: #000000;
+.nav>li{
+	padding: 5px 15px 5px 15px;
+}
+.nav li a{
 	color: #999;
 }
-
-nav li a {
-	color: #999;
-	font-size: medium;
-	font-family: Helvetica;
-	height: 100%;
-	padding: 0px 10px 0px 10px;
-	display: inline-table;
-	-webkit-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-
-#menu {
-	background-color:#333333;
-	display: none;
-	min-height: 50px;
-	margin: 0px;
+.navbar-fixed-right,
+.navbar-fixed-left {
+	position: fixed;
+	top: 0;
 	width: 100%;
-	padding: 3px;
-	box-sizing: border-box;
+	z-index: 1030;
+	padding-left: 0px;
+	padding-right: 0px;
 }
-#menu img {
-	float: left;
-	width: 44px;
-	height: 44px;
+@media (min-width: 768px) {
+	.navbar-fixed-right,
+	.navbar-fixed-left {
+		width: 232px;
+		height: 100vh;
+		border-radius: 0;
+	}
+	.navbar-fixed-right .container,
+	.navbar-fixed-left .container,
+	.navbar-fixed-right .container-fluid,
+	.navbar-fixed-left .container-fluid {
+		padding-right: 0;
+		padding-left: 0;
+		width: auto;
+		margin: 0px;
+	}
+	.navbar-fixed-right .navbar-header,
+	.navbar-fixed-left .navbar-header {
+		float: none;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	.navbar-fixed-right .navbar-collapse,
+	.navbar-fixed-left .navbar-collapse {
+		padding-right: 0;
+		padding-left: 0;
+		max-height: none;
+	}
+	.navbar-fixed-right .navbar-collapse .navbar-nav,
+	.navbar-fixed-left .navbar-collapse .navbar-nav {
+		float: none !important;
+	}
+	.navbar-fixed-right .navbar-collapse .navbar-nav > li,
+	.navbar-fixed-left .navbar-collapse .navbar-nav > li {
+		width: 100%;
+	}
+	.navbar-fixed-right .navbar-collapse .navbar-nav > li.dropdown .dropdown-menu,
+	.navbar-fixed-left .navbar-collapse .navbar-nav > li.dropdown .dropdown-menu {
+		top: 0;
+	}
+	.navbar-fixed-right .navbar-collapse .navbar-nav.navbar-right,
+	.navbar-fixed-left .navbar-collapse .navbar-nav.navbar-right {
+		margin-right: 0;
+	}
 }
-
-#menu p {
-	color: #999;
-	width: max-content;
-	height: auto;
-	font-size: 16px;
-	margin: auto;
-	line-height: 42px;
+@media (min-width: 768px) {
+	body {
+		margin-left: 232px;
+	}
 }
-
-
-
-/* Responsive, screen width smaller then 700px; */
-
-/* Javascript Disabled - These are always visibile */
-@media only screen and (max-width: 700px) {
-
-	nav li:nth-child(even) { background: #333; color: #999;  }
-	nav li:nth-child(odd) { background: #474747; color: #999;  }
-
-	/* Jasvascript disabled*/
-
-	nav {
-		list-style-type:none;
-		background: #BBB;
-		position: static;
-		padding-top: 0px;
-		width: 100%;
-		height: auto;
+@media (min-width: 768px) {
+	.navbar-fixed-left {
+		right: auto !important;
+		left: 0 !important;
+		border-width: 0 1px 0 0 !important;
 	}
-
-	nav ul {
-		margin-top: 0px;
-		width: 100%;
+	.navbar-fixed-left .dropdown .dropdown-menu {
+		left: 100%;
+		right: auto;
+		border-radius: 0 3px 3px 0;
 	}
-
-	nav li {
-		display: block;
-		margin: 0px;
-		width: 100%;
+	.navbar-fixed-left .dropdown .dropdown-toggle .caret {
+		border-top: 4px solid transparent;
+		border-left: 4px solid;
+		border-bottom: 4px solid transparent;
+		border-right: none;
 	}
-
-	nav li a{
-		padding: 10px 0px 10px 0px;
-		font-size: small;
-	}
-	nav li a:hover {
-		background:none;
-		padding: 20px 0px 20px 0px;
-	}
-
-	/* Javascript Enabled */
-
-	.js-hidden {
-		display: none;
-		margin: 0px;
-	}
-
-	.show {
-		display: block;
-		margin: 0px;
-		width: 100%;
-	}
-
-	.js-nav {
-		position: fixed !important;
-	}
-
-	.js-ul {
-		position: absolute !important;
-		margin-top: 50px;
-	}
-
-	#menu {
-		display: block;
-		margin: 0px;
-		max-width: 700px;
-		position: fixed;
-	}
-
-}
-/* Responsive, screen width bigger then 700px; */
-
-/* Javascript Disabled - These are always visibile */
-@media only screen and (min-width: 700px) {
-	nav {
-		max-height: 50px;
-		margin: 0px;
-		width: 100%;
-		position: fixed;
-	}
-
-	nav ul {
-		margin-top: 0px;
-		line-height: 50px;
-	}
-
-	nav li {
-		display: inline;
-	}
-
-
-	/* Jasvascript Enabled */
-
-	.js-hidden {
-		display: inline;
-		margin: 0px;
-	}
-
-	.show {
-		display: inline;
-	}
-
-	#menu {
-		display: none;
-	}
-
 }
 
 /* End Navigation */
@@ -654,7 +502,7 @@ nav li a {
 /* Article or Post */
 #main {
 	width: 100%;
-	height: auto;
+	height:100vh;
 	margin: auto;
 	padding-top: 50px;
 }
@@ -1020,11 +868,6 @@ img, video, canvas {
 	.widget-wrapper {
 		max-width: 100%;
 	}
-
-	nav li a {
-		font-size: small;
-	}
-
 }
 
 
@@ -1140,30 +983,4 @@ and (max-width : 320px) {
 	#dashboard {
 		margin-top: -44px;
 	}
-}
-/* overlay */
-div#overlay {
-	display: none;
-	z-index: 2;
-	background: #000;
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0px;
-	left: 0px;
-}
-div#specialBox {
-	display: none;
-	position: relative;
-	z-index: 3;
-	margin: 150px auto 0px auto;
-	max-width: 1080px;
-	max-height: 720px;
-	background: none;
-}
-div#snapper {
-	position:absolute;
-	top: 0px;
-	left: 0px;
-	padding-left:24px;
 }

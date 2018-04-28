@@ -6,7 +6,7 @@ use CMS\Models\Category;
 use CMS\Models\Product;
 use CMS\Models\Tag;
 use CMS\Http\Controllers\Controller;
-use CMS\Http\Controllers\Admin\ControllerActionsTrait;
+use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
