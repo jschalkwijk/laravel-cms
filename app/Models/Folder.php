@@ -13,6 +13,7 @@ class Folder extends Model
     use ModelActionsTrait;
     protected $primaryKey = 'folder_id';
     public $table = 'folders';
+
     protected $fillable = [
         'name',
     ];

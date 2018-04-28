@@ -54,7 +54,8 @@ class FoldersController extends Controller
 
     public function edit(Folder $folder)
     {
-        return view("admin.uploads.folders.edit")->with(['template'=>$this->adminTemplate(),'folder' => $folder]);
+        $folders = Folder::all();
+        return view("admin.uploads.folders.edit")->with(['template'=>$this->adminTemplate(),'folder' => $folder,'folders' => $folders]);
     }
 
     public function update(Request $r, Folder $folder)
@@ -63,18 +64,38 @@ class FoldersController extends Controller
             $this->validate($r, [
                 'name' => 'required|min:3',
             ]);
+            if($r['parent_id'] != $folder->folder_id && $r['parent_id'] != $folder->parent_id){
+                $destination = Folder::findOrFail($r['parent_id']);
+                if(Storage::move($folder->path, $destination->path.'/'.$folder->name)) {
+                    $folder->path = $destination->path . '/' . $folder->name;
+                    $folder->user_id = Auth::user()->user_id;
+                    $folder->parent_id = $r['parent_id'];
+                    $folder->save();
 
-            $folder->user_id = Auth::user()->user_id;
-            $result = Storage::move('/public/uploads/'.$folder->name, '/public/uploads/'.$r['name']);
-            if($result){
-                $folder->update($r->all());
-                $folder->path = "uploads/".$r['name'];
-                if($folder->save($r->all())){
-                    return redirect()->action('Admin\FoldersController@index');
-                } else {
-                    echo "error";
+                    if ($folder->update($r->all())) {
+                        $files = Upload::where('folder_id',$folder->folder_id)->get();
+                        foreach ($files as $file) {
+                            $file->file_path = str_replace('/public/','',$folder->path).'/'.$file->file_name;
+                            $file->thumb_path = str_replace('/public/','',$folder->path).'/thumbs/'.$file->thumb_name;
+                            $file->save();
+                        }
+                        return redirect()->action('Admin\FoldersController@index');
+                    } else {
+                        echo "error";
+                    }
                 }
             }
+//            $folder->user_id = Auth::user()->user_id;
+//            $result = Storage::move('/public/uploads/'.$folder->name, '/public/uploads/'.$r['name']);
+//            if($result){
+//                $folder->update($r->all());
+//                $folder->path = "uploads/".$r['name'];
+//                if($folder->save($r->all())){
+//                    return redirect()->action('Admin\FoldersController@index');
+//                } else {
+//                    echo "error";
+//                }
+//            }
         }
     }
 
