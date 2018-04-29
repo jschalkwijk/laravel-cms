@@ -40,26 +40,64 @@ class UploadsController extends Controller
         $folder = Folder::create($r);
 
         foreach ($r->file('files') as $upload) {
+//            $original_name = $upload->getClientOriginalName();
+//            $type = $upload->getClientOriginalExtension();
+//            $size = $upload->getClientSize();
+//            $file_name = $upload->hashName();
+//            $file_name = md5_file($upload->getRealPath());
+//            $thumb_name = 'thumb_'.$upload->hashName();
+//            $file_path = str_replace('/public/','',$folder->path).'/'.$file_name;
+//            $thumb_path = str_replace('/public/','',$folder->path).'/thumbs/'.$thumb_name;
+//            if($upload->store($folder->path)){
+//                $file = new Upload();
+//                $file->name = $original_name;
+//                $file->file_name = $file_name;
+//                $file->thumb_name = $thumb_name;
+//                $file->size = $size;
+//                $file->type = $type;
+//                $file->file_path = $file_path;
+//                $file->thumb_path = $thumb_path;
+//                $file->user_id = Auth::user()->user_id;
+//                $file->folder_id = $folder->id();
+//                $file->save();
+//            };
+
+            /* Saving files with MD5_file hash, create directory structure from the hash. Create file paths from the file names.
+             * This will eliminate the use of storing files and folder paths in teh database. When 'moving' or renaming folders we dont
+             * have to worry about changing a lot of records holding file paths. Downside, when removing files, there will be a lot of
+             * empty folders created, because of the way we create them with the md5Hash. How to solve this or remove folders on
+             * a scheduled basis with Cronjobs for instance? Same when uploading a duplicate file, it will just create a row on the table that references
+             * to the same file path. But if we delete a record that is linked to multiple folder records, we need to check everytime before actually deleting the file
+             * if there are more then 1 references to that file.
+             *
+             * I can also try to create another folder structure with date and time 2018-04-30-18:00:18:01
+            */
             $original_name = $upload->getClientOriginalName();
             $type = $upload->getClientOriginalExtension();
             $size = $upload->getClientSize();
-            $file_name = $upload->hashName();
-            $thumb_name = 'thumb_'.$upload->hashName();
+            $file_name = md5_file($upload->getRealPath()).'.'.$type;
+            $thumb_name = 'thumb_'.$file_name;
             $file_path = str_replace('/public/','',$folder->path).'/'.$file_name;
             $thumb_path = str_replace('/public/','',$folder->path).'/thumbs/'.$thumb_name;
-            if($upload->store($folder->path)){
-                $file = new Upload();
-                $file->name = $original_name;
-                $file->file_name = $file_name;
-                $file->thumb_name = $thumb_name;
-                $file->size = $size;
-                $file->type = $type;
-                $file->file_path = $file_path;
-                $file->thumb_path = $thumb_path;
-                $file->user_id = Auth::user()->user_id;
-                $file->folder_id = $folder->id();
-                $file->save();
-            };
+
+            $folder->createDirFromFileName($file_name);
+
+            if(!Storage::exists('/public/uploads/'.$folder->createPathFromFileName($file_name))){
+                $upload->storeAs('/public/uploads/'.$folder->createPathFromFileName($file_name),$file_name);
+            }
+
+            $file = new Upload();
+            $file->name = $original_name;
+            $file->file_name = $file_name;
+            $file->thumb_name = $thumb_name;
+            $file->size = $size;
+            $file->type = $type;
+            $file->file_path = $file_path;
+            $file->thumb_path = $thumb_path;
+            $file->user_id = Auth::user()->user_id;
+            $file->folder_id = $folder->id();
+            $file->save();
+
             $img = Image::make($upload->getRealPath());
             $img->fit(100,100)->save(storage_path('app'.$folder->path.'/thumbs/'.'thumb_'.$file_name));
         }

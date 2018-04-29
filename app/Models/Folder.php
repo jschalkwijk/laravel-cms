@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class Folder extends Model
 {
     use ModelActionsTrait;
+
     protected $primaryKey = 'folder_id';
     public $table = 'folders';
 
@@ -61,8 +62,6 @@ class Folder extends Model
             $folder->path = $parent->path.'/'.$folder->name;
             $folder->parent_id = $parent->id();
         }
-
-
         if ($create) {
             $result = Storage::makeDirectory($folder->path, 0775);
             $result = Storage::makeDirectory($folder->path.'/thumbs', 0775);
@@ -73,6 +72,28 @@ class Folder extends Model
             }
         }
         return $folder;
+    }
+
+    public function createPathFromFileName($file_name): string
+    {
+        $path = substr_replace($file_name,'/',1,0);
+        $path = substr_replace($path,'/',4,0);
+        $path = substr_replace($path,'/',8,0);
+        $path = substr($path,0,9);
+        return $path;
+    }
+
+    public function createDirFromFileName($file_name)
+    {
+        $path = "/public/uploads/".$this->createPathFromFileName($file_name);
+        if(!Storage::exists($path)){
+            if(!Storage::makeDirectory($path, 0775)){
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 
     /**
