@@ -76,30 +76,34 @@ class UploadsController extends Controller
             $type = $upload->getClientOriginalExtension();
             $size = $upload->getClientSize();
             $file_name = md5_file($upload->getRealPath()).'.'.$type;
-            $thumb_name = 'thumb_'.$file_name;
-            $file_path = str_replace('/public/','',$folder->path).'/'.$file_name;
-            $thumb_path = str_replace('/public/','',$folder->path).'/thumbs/'.$thumb_name;
 
             $folder->createDirFromFileName($file_name);
 
-            if(!Storage::exists('/public/uploads/'.$folder->createPathFromFileName($file_name))){
-                $upload->storeAs('/public/uploads/'.$folder->createPathFromFileName($file_name),$file_name);
+            $path = $folder->createPathFromFileName($file_name).'/'.$file_name;
+
+            if(!Storage::exists('/public/uploads/original/'.$path)){
+                $upload->storeAs('/public/uploads/original/'.$folder->createPathFromFileName($file_name),$file_name);
             }
 
             $file = new Upload();
             $file->name = $original_name;
             $file->file_name = $file_name;
-            $file->thumb_name = $thumb_name;
             $file->size = $size;
             $file->type = $type;
-            $file->file_path = $file_path;
-            $file->thumb_path = $thumb_path;
             $file->user_id = Auth::user()->user_id;
             $file->folder_id = $folder->id();
             $file->save();
 
             $img = Image::make($upload->getRealPath());
-            $img->fit(100,100)->save(storage_path('app'.$folder->path.'/thumbs/'.'thumb_'.$file_name));
+            $img->fit(100,100)->save(storage_path('app/public/uploads/thumbnail/'.$path));
+            $img->fit(150,150)->save(storage_path('app/public/uploads/small/'.$path));
+            $img->fit(300,300)->save(storage_path('app/public/uploads/medium/'.$path));
+            $img->resize(768, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/uploads/medium_large/'.$path));
+            $img->resize(1024, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/uploads/large/'.$path));
         }
         return back();
 

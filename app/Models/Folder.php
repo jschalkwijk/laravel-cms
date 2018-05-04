@@ -41,7 +41,6 @@ class Folder extends Model
         $folder->user_id = Auth::user()->user_id;
         if(!isset($r['parent']) && !empty($r['name'])) {
             $create = true;
-            $folder->path = "/public/uploads/".$folder->name;
         } else if(!isset($r['parent']) && empty($r['name']) && $r['destination'] == 0){
             return back();
         }
@@ -50,7 +49,7 @@ class Folder extends Model
         if($r['destination'] != 0 && !empty($r['name']) ){
             $create = true;
             $parent = Folder::findOrFail($r['destination']);
-            $folder->path = $parent->path.'/'.$folder->name;
+//            $folder->path = $parent->path.'/'.$folder->name;
             $folder->parent_id = $parent->id();
         } else if($r['destination'] != 0 && empty($r['name'])){
             $folder = Folder::findOrFail($r['destination']);
@@ -59,17 +58,16 @@ class Folder extends Model
         }  else if($r['destination'] == 0 && isset($r['parent']) && !empty($r['name'])){
             $create = true;
             $parent = Folder::findOrFail($r['parent']);
-            $folder->path = $parent->path.'/'.$folder->name;
+//            $folder->path = $parent->path.'/'.$folder->name;
             $folder->parent_id = $parent->id();
         }
         if ($create) {
-            $result = Storage::makeDirectory($folder->path, 0775);
-            $result = Storage::makeDirectory($folder->path.'/thumbs', 0775);
-            if ($result) {
+//            $result = Storage::makeDirectory($folder->path, 0775);
+//            $result = Storage::makeDirectory($folder->path.'/thumbs', 0775);
                 $folder->save($r->all());
-            } else {
-                echo "Folder not created";
-            }
+
+        } else {
+            echo "Folder not created";
         }
         return $folder;
     }
@@ -85,13 +83,23 @@ class Folder extends Model
 
     public function createDirFromFileName($file_name)
     {
-        $path = "/public/uploads/".$this->createPathFromFileName($file_name);
-        if(!Storage::exists($path)){
-            if(!Storage::makeDirectory($path, 0775)){
+        $destination = $this->createPathFromFileName($file_name);
+        $paths = [
+            "/public/uploads/original/".$destination,
+            "/public/uploads/thumbnail/".$destination,
+            "/public/uploads/small/".$destination,
+            "/public/uploads/medium/".$destination,
+            "/public/uploads/medium_large/".$destination,
+            "/public/uploads/large/".$destination,
+        ];
+        foreach ($paths as $path){
+            if(!Storage::exists($path)){
+                if(!Storage::makeDirectory($path, 0775)){
+                    return false;
+                }
+            } else {
                 return false;
             }
-        } else {
-            return false;
         }
         return true;
     }

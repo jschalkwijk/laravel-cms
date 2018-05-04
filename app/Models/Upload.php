@@ -23,16 +23,34 @@ class Upload extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
     public function folder()
     {
         return $this->belongsTo(Folder::class);
     }
+
     public function id()
     {
         return $this->upload_id;
     }
+
     public function getLink(){
         return preg_replace("/[\s-]+/", "-", $this->name);
+    }
+
+    public function path(string $size = null): string
+    {
+        if($size == null || $size == 'original'){
+            $sizePath = 'uploads/original/';
+        } else {
+            $sizePath = 'uploads/'.$size.'/';
+        }
+        $path = substr_replace($this->file_name,'/',1,0);
+        $path = substr_replace($path,'/',4,0);
+        $path = substr_replace($path,'/',8,0);
+        $path = substr($path,0,9);
+
+        return $sizePath.$path.$this->file_name;
     }
 
     public function removeMany(array $keys)

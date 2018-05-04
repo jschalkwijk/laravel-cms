@@ -71,6 +71,7 @@
                 </form>
             </div>
         </div>
+        <?php /*system('find '.storage_path('app/public/uploads').' -empty -type d -delete');*/?>
         @if(isset($files))
             <div class="row">
                 <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
@@ -83,7 +84,7 @@
                             <tbody>
                             @foreach ($files as $file)
                                 <tr>
-                                    <td class="media"><a class="image_link" href="{{ asset('storage/'.str_replace('/public/','',$parent->path).'/'.$file->file_name) }}"><img src="{{ asset('storage/'.$file->thumb_path) }}"/></a></td>
+                                    <td class="media"><a class="image_link" href="{{ asset('storage/'.$file->path()) }}"><img src="{{ asset('storage/'.$file->path('thumbnail')) }}"/></a></td>
                                     <td class="td-title">{{ $file->name }}</td>
                                     <td>{{ $file->user->username }}</td>
                                     <td class="td-category"><p>{{ $file->type }}</p></td>
