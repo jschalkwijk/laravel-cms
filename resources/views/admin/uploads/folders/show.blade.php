@@ -90,7 +90,7 @@
                                     <td class="td-category"><p>{{ $file->type }}</p></td>
                                     <td>{{ $file->created_at }}</td>
                                     <td class="td-btn"><a href="{{ route('uploads.edit',$file->upload_id) }}">Edit</a></td>
-                                    <td><a class="btn btn-sm btn-danger form-action" href="{{ route('uploads.destroy',$file->id()) }}"></a></td>
+                                    <td><a class="btn btn-sm btn-danger form-action" href="{{ route('uploads.destroy',[$file->id(),$parent->folder_id]) }}"></a></td>
                                     <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $file->id() }}"/></p></td>
                                 </tr>
                             @endforeach

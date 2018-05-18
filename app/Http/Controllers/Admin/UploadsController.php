@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use CMS\Models\Upload;
 use CMS\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -83,27 +84,32 @@ class UploadsController extends Controller
 
             if(!Storage::exists('/public/uploads/original/'.$path)){
                 $upload->storeAs('/public/uploads/original/'.$folder->createPathFromFileName($file_name),$file_name);
+                $file = new Upload();
+                $file->name = $original_name;
+                $file->file_name = $file_name;
+                $file->size = $size;
+                $file->type = $type;
+                $file->user_id = Auth::user()->user_id;
+                $file->folder_id = $folder->id();
+                $file->save();
+
+                $img = Image::make($upload->getRealPath());
+                $img->fit(100,100)->save(storage_path('app/public/uploads/thumbnail/'.$path));
+                $img->fit(150,150)->save(storage_path('app/public/uploads/small/'.$path));
+                $img->fit(300,300)->save(storage_path('app/public/uploads/medium/'.$path));
+                $img->resize(768, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(storage_path('app/public/uploads/medium_large/'.$path));
+                $img->resize(1024, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(storage_path('app/public/uploads/large/'.$path));
+            } else {
+                $file = Upload::with('folders')->where('file_name',$file_name)->first();
             }
 
-            $file = new Upload();
-            $file->name = $original_name;
-            $file->file_name = $file_name;
-            $file->size = $size;
-            $file->type = $type;
-            $file->user_id = Auth::user()->user_id;
-            $file->folder_id = $folder->id();
-            $file->save();
-
-            $img = Image::make($upload->getRealPath());
-            $img->fit(100,100)->save(storage_path('app/public/uploads/thumbnail/'.$path));
-            $img->fit(150,150)->save(storage_path('app/public/uploads/small/'.$path));
-            $img->fit(300,300)->save(storage_path('app/public/uploads/medium/'.$path));
-            $img->resize(768, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(storage_path('app/public/uploads/medium_large/'.$path));
-            $img->resize(1024, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(storage_path('app/public/uploads/large/'.$path));
+            if(!$file->folders->contains($folder->folder_id)){
+                $file->folders()->attach($folder->folder_id);
+            }
         }
         return back();
 
@@ -119,12 +125,18 @@ class UploadsController extends Controller
 
     }
 
-    public function destroy($id)
+    public function destroy($upload_id,$folder_id)
     {
-        $file = Upload::findOrFail($id);
-        Storage::delete('public/'.$file->file_path);
-        Storage::delete('public/'.$file->thumb_path);
-        Upload::destroy($file->id());
+        $upload = Upload::findOrFail($upload_id);
+        $folder = Folder::findOrFail($folder_id)->files();
+        $folder->detach($upload_id);
+        $reference = DB::table('folders_uploads')->select()->where('upload_id','=',$upload_id)->get();
+        if($reference->count() == 0){
+            Upload::destroy($upload->upload_id);
+        }
+//        Storage::delete('public/'.$file->file_path);
+//        Storage::delete('public/'.$file->thumb_path);
+//        Upload::destroy($file->id());
         return back();
     }
 }

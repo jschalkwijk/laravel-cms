@@ -15,7 +15,9 @@ class FoldersController extends Controller
 {
     use ControllerActionsTrait;
 
-    protected $model = Folder::class;    public function index()
+    protected $model = Folder::class;
+
+    public function index()
     {
         $folders = Folder::all();
         return view("admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
@@ -24,7 +26,7 @@ class FoldersController extends Controller
     public function show(Folder $folder)
     {
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
-        $files = Upload::with('user')->where('folder_id',$folder->folder_id)->get();
+        $files = $folder->files;
 //        dd($files[0]->user());
         return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => $folder,'folders' => $folders, 'files' => $files]);
     }
@@ -96,7 +98,7 @@ class FoldersController extends Controller
     public function destroy($id)
     {
         $folder = Folder::findOrFail($id);
-        Storage::deleteDirectory($folder->path);
+//        Storage::deleteDirectory($folder->path);
         Folder::delete_recursive([$folder->id()]);
         return redirect()->action('Admin\FoldersController@index');
     }

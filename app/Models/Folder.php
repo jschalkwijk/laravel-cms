@@ -2,9 +2,12 @@
 
 namespace CMS\Models;
 
+use PDO;
+use PDOException;
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +23,7 @@ class Folder extends Model
     ];
 
     public function files() {
-        return $this->hasMany(Upload::class);
+        return $this->belongsToMany(Upload::class,"folders_uploads","folder_id","upload_id");
     }
 
     public function id()
@@ -116,7 +119,7 @@ class Folder extends Model
         /* Example:
          * $id = 5 (Folder Users)
          * $row[folder_id] = 24 ( user admin has parent_id 5, the folder Users)
-         * Then again we check if there are folders with a parent_id of 24
+         * Then again Mowe check if there are folders with a parent_id of 24
          * if there is, add it to the array of folder_id's to delete.
          * In this case there is.
          * $row['folder_id'] = 22 (admins contacts folder) has a parent_id of 24
@@ -128,7 +131,7 @@ class Folder extends Model
         }
 
         while(sizeof($parents) > 0){
-            $folder = Folder::whereIn('parent_id',$parents)->get();
+            $folder = Folder::whereIn('parent_id',$parents)->get('parent_id');
             $parents = array();
             // because we now have a new row[folder_id], we need to check again if its empty,
             // if it is not, push it to the array.
@@ -144,8 +147,42 @@ class Folder extends Model
 
         Folder::destroy($folders);
         // Remove possible uploaded files in the removed folders from the database
-        Upload::whereIn('folder_id',$folders)->delete();
+//        Upload::whereIn('folder_id',$folders)->delete();
     }
+
+//    /**
+//     * @param array $parents
+//     */
+//    public static function delete_recursive(array $parents)
+//    {
+////          $sql= "WITH folder_recursive(folder_id) AS (SELECT a.folder_id, a.parent_id FROM folders a WHERE folder_id IN (".rtrim(str_repeat ( '?' , count($parents) ),',').") UNION ALL SELECT a.folder_id, a.parent_id FROM folders a JOIN folder_recursive c ON a.parent_id = c.folder_id) SELECT * FROM folder_recursive";
+////          $folders = DB::select($sql,$parents);
+//        $sql = "WITH folder_recursive(folder_id) AS (SELECT a.folder_id, a.parent_id FROM folders a WHERE folder_id IN (".implode(',',$parents).") UNION ALL SELECT a.folder_id, a.parent_id FROM folders a JOIN folder_recursive c ON a.parent_id = c.folder_id) SELECT * FROM folder_recursive";
+//        $folders = DB::raw($sql);
+//
+//        dd($folders);
+////        try {
+////            $dbc = new PDO("mysql:host=127.0.0.1;dbname=laravelcms", 'jorn', 'root');
+////            // set the PDO error mode to exception
+////            $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+////            $query = $dbc->query($sql);
+////            $query->setFetchMode(PDO::FETCH_ASSOC);
+////            $results = $query->fetchAll();
+////            $dbc = null;
+////        }
+////        catch(PDOException $e)
+////        {
+////            echo "Connection failed: " . $e->getMessage();
+////        }
+////        $dbc = mysqli_connect('localhost','jorn','root123','laravelcms');
+////        $result = mysqli_query($dbc,$sql);
+////        if(!$result){ echo("Error description: " . mysqli_error($dbc));}
+////        dd($result);
+////        $rows = mysqli_fetch_array($result);
+//        Folder::destroy($folders);
+//        // Remove possible uploaded files in the removed folders from the database
+////        Upload::whereIn('folder_id',$folders)->delete();
+//    }
 
     public function removeMany(array $keys)
     {

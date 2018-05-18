@@ -119,7 +119,7 @@
 
             Route::resource('uploads','Admin\UploadsController',['except' => 'show','destroy']);
             Route::group(['prefix'=>'/uploads'],function(){
-                Route::get('/{id}/destroy', 'Admin\UploadsController@destroy')->name('uploads.destroy');
+                Route::get('/{upload_id}/{folder_id}/destroy', 'Admin\UploadsController@destroy')->name('uploads.destroy');
                 Route::post('/action', 'Admin\UploadsController@action');
             });
 

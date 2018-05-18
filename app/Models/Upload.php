@@ -24,9 +24,9 @@ class Upload extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function folder()
+    public function folders()
     {
-        return $this->belongsTo(Folder::class);
+        return $this->belongsToMany(Folder::class,"folders_uploads","upload_id","folder_id");
     }
 
     public function id()
