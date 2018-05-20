@@ -2,8 +2,7 @@
 
 namespace CMS\Models;
 
-use PDO;
-use PDOException;
+use Illuminate\Support\Collection;
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -65,13 +64,10 @@ class Folder extends Model
             $folder->parent_id = $parent->id();
         }
         if ($create) {
-//            $result = Storage::makeDirectory($folder->path, 0775);
-//            $result = Storage::makeDirectory($folder->path.'/thumbs', 0775);
                 $folder->save($r->all());
 
-        } else {
-            echo "Folder not created";
         }
+
         return $folder;
     }
 
@@ -126,12 +122,21 @@ class Folder extends Model
          * This goes on until there are no folders left with a parent_id of 22 in this case.
         */
         $folders = array();
+        $uploads = [];
+        $upload_ids = [];
         foreach ($parents as $parent){
             $folders[] = $parent;
+            $folder = Folder::find($parent);
+            foreach ($folder->files as $upload){
+                if(!in_array($upload,$uploads)) {
+                    $upload_ids[] = $upload->upload_id;
+                    $uploads[] = $upload;
+                }
+            }
         }
 
         while(sizeof($parents) > 0){
-            $folder = Folder::whereIn('parent_id',$parents)->get('parent_id');
+            $folder = Folder::whereIn('parent_id',$parents)->get();
             $parents = array();
             // because we now have a new row[folder_id], we need to check again if its empty,
             // if it is not, push it to the array.
@@ -141,13 +146,37 @@ class Folder extends Model
                     // For each rows doen! multiple albums ids might be returned
                     $folders[] = $f->folder_id;
                     $parents[] = $f->folder_id;
+                    foreach ($f->files as $upload){
+                        if(!in_array($upload,$uploads)) {
+                            $upload_ids[] = $upload->upload_id;
+                            $uploads[] = $upload;
+                        }
+                    }
                 }
             }
         }
-
         Folder::destroy($folders);
-        // Remove possible uploaded files in the removed folders from the database
-//        Upload::whereIn('folder_id',$folders)->delete();
+        // Get the uploads that are still existing in the pivot table that are in the uploads array.
+        $reference = DB::table('folders_uploads')->select()->whereIn('upload_id',$uploads)->pluck('upload_id')->toArray();
+        // Get array with the uploads that are not present in any folder.
+
+        $uploads_to_delete = array_diff($upload_ids,$reference);
+        $uploads = Collection::make($uploads);
+        // delete the uploads that are not attatched to any folder from the filesystem.
+
+        foreach ($uploads->whereIn('upload_id',$uploads_to_delete) as $upload ) {
+            Storage::delete([
+                'public/' . $upload->path('original'),
+                'public/' . $upload->path('thumbnail'),
+                'public/' . $upload->path('small'),
+                'public/' . $upload->path('medium'),
+                'public/' . $upload->path('medium_large'),
+                'public/' . $upload->path('large')
+            ]);
+        }
+        //delete the reference to the upload in the uploads table.
+        Upload::destroy($uploads_to_delete);
+
     }
 
 //    /**
