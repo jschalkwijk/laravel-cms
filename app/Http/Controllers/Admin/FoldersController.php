@@ -62,37 +62,25 @@ class FoldersController extends Controller
 
     public function update(Request $r, Folder $folder)
     {
-        if(isset($r['submit'])) {
-            $this->validate($r, [
-                'name' => 'required|min:3,'.$folder->folder_id,
-            ]);
-            if($folder->name != $r['name']){
-                // logic to change the name and also the file paths names.
-//                if (Storage::move($folder->path, $destination->path . '/' . $folder->name)) {
-            }
-            if ($r['parent_id'] != $folder->folder_id && $r['parent_id'] != $folder->parent_id) {
-                $destination = Folder::findOrFail($r['parent_id']);
-                if (Storage::move($folder->path, $destination->path . '/' . $folder->name)) {
-                    $folder->path = $destination->path . '/' . $folder->name;
-                    $folder->user_id = Auth::user()->user_id;
-                    $folder->parent_id = $r['parent_id'];
-                    $folder->save();
 
-                    if ($folder->update($r->all())) {
-                        $files = Upload::where('folder_id', $folder->folder_id)->get();
-                        foreach ($files as $file) {
-                            $file->file_path = str_replace('/public/', '', $folder->path) . '/' . $file->file_name;
-                            $file->thumb_path = str_replace('/public/', '', $folder->path) . '/thumbs/' . $file->thumb_name;
-                            $file->save();
-                        }
-
-                        return redirect()->action('Admin\FoldersController@index');
-                    } else {
-                        echo "error";
-                    }
-                }
+        $this->validate($r, [
+            'name' => 'required|min:3,' . $folder->folder_id,
+        ]);
+        if ($folder->name != $r['name']) {
+            // logic to change the name and also the file paths names.
+            $folder->update($r->all());
+        }
+        if ($r['parent_id'] != $folder->folder_id && $r['parent_id'] != $folder->parent_id) {
+            $destination = Folder::findOrFail($r['parent_id']);
+            $folder->user_id = Auth::user()->user_id;
+            $folder->parent_id = $destination->folder_id;
+            if(!$folder->save()){
+                return redirect()->action('Admin\FoldersController@index')->withErrors(['Your changes have not been saved, please contact IT support']);
             }
         }
+
+        return redirect()->action('Admin\FoldersController@index');
+
     }
 
     public function destroy($id)
