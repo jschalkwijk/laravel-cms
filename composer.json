@@ -10,7 +10,10 @@
         "tinymce/tinymce": "^4.4",
         "defuse/php-encryption": "^2.0",
         "intervention/image": "^2.3",
-        "barryvdh/laravel-debugbar": "3.*"
+        "barryvdh/laravel-debugbar": "3.*",
+        "laravel/scout": "^4.0",
+        "babenkoivan/scout-elasticsearch-driver": "^3.8",
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

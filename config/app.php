@@ -141,9 +141,16 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+
+        // the Scout package itself
+        Laravel\Scout\ScoutServiceProvider::class,
+
+        // the driver for Elasticsearch
+        ScoutElastic\ScoutElasticServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
+        Laravel\Tinker\TinkerServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,

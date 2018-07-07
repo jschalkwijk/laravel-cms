@@ -4,6 +4,8 @@ namespace CMS\Models;
 
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
+use ScoutElastic\Searchable;
+use CMS\Models\Elasticsearch\CategoryIndexConfigurator;
 
 class Category extends Model
 {
@@ -11,6 +13,128 @@ class Category extends Model
     protected $primaryKey = 'category_id';
 	protected $fillable = ['title','description','parent_id'];
 	public $table = "categories";
+
+    use Searchable;
+
+    protected $indexConfigurator = CategoryIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'post_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'title' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'description' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'content' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'standard'
+                    ]
+                ]
+            ],
+            'keywords' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'approved' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'trashed' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'parent_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'folder_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'user_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'created_at' => [
+                'type' => 'date',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'date',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'updated_at' => [
+                'type' => 'date',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'date',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ]
+        ]
+    ];
 	# Relations
 	public function posts() {
 		return $this->hasMany(Post::class,'post_id');

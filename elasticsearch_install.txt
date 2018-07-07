@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# If you would like to do some extra provisioning you may
+# add any commands you wish to this file and they will
+# be run after the Homestead machine is provisioned.
+
+#  Install Java 8 for elastic search
+sudo apt-get install openjdk-8-jre -y
+
+# download and install the Elasticsearch Signing Key
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+# install the apt-transport-https package
+sudo apt-get install apt-transport-https
+
+# save the repository definition
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
+
+# install the elasticsearch package
+sudo apt-get update && sudo apt-get install elasticsearch
+
+# set ownership to user, sometimes this is not the case and we cant access the elasticsearch.yml
+sudo chown -R vagrant /etc/elasticsearch
+
+
+php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
+php artisan vendor:publish --provider="ScoutElastic\ScoutElasticServiceProvider"
+
+// replace 'algolia' with elastic inside scout.php as the default driver
+// replace localhost ip inside the elasticsearch.yml
+
+// Create IndexConfigurator
+php artisan elastic:create-index CMS\\Models\\Elasticsearch\\PostIndexConfigurator
+php artisan elastic:update-mapping CMS\\Models\\Post
+php artisan elastic:create-index CMS\\Models\\Elasticsearch\\CategoryIndexConfigurator
+php artisan elastic:update-mapping CMS\\Models\\Category
+php artisan elastic:create-index CMS\\Models\\Elasticsearch\\UserIndexConfigurator
+php artisan elastic:update-mapping CMS\\Models\\User
+

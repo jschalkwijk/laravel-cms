@@ -5,11 +5,13 @@ namespace CMS\Models;
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use ModelActionsTrait;
+    use Searchable;
 
     public $table = 'users';
 
