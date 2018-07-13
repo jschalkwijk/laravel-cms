@@ -122,7 +122,9 @@ class Folder extends Model
          * This goes on until there are no folders left with a parent_id of 22 in this case.
         */
         $folders = array();
+        // The Upload models of al the files that are to be deleted
         $uploads = [];
+        // The Upload model id's of al the folders that are to be deleted
         $upload_ids = [];
         foreach ($parents as $parent){
             $folders[] = $parent;
@@ -155,15 +157,22 @@ class Folder extends Model
                 }
             }
         }
+
         Folder::destroy($folders);
-        // Get the uploads that are still existing in the pivot table that are in the uploads array.
-        $reference = DB::table('folders_uploads')->select()->whereIn('upload_id',$uploads)->pluck('upload_id')->toArray();
-        // Get array with the uploads that are not present in any folder.
+        // The folders where deleted and the filesdetached from the pivot table, but the file still remains in the uploads table.
 
-        $uploads_to_delete = array_diff($upload_ids,$reference);
+        // Get the uploads that are still existing in the pivot table that are in the upload_ids array. If there are files that where
+        // detached from the pivot table when the folder was deleted but still are attached to another folder, we should not delete those from
+        //the uploads table and the filesystem. We compare all the id's gatherd from the delete folders and get back an array with the existing ones.
+        $reference = DB::table('folders_uploads')->select()->whereIn('upload_id',$upload_ids)->pluck('upload_id')->toArray();
+
+        // Get array with the uploads that are not present in any folder. This will return all the upload id's except that are not attached to any folder anymore.
+        $uploads_to_delete = array_diff($upload_ids,$reference);;
+
+        // Make a collection of the array with Upload models.
         $uploads = Collection::make($uploads);
-        // delete the uploads that are not attatched to any folder from the filesystem.
 
+        // delete the uploads that are not attached to any folder from the filesystem and the uploads table.
         foreach ($uploads->whereIn('upload_id',$uploads_to_delete) as $upload ) {
             Storage::delete([
                 'public/' . $upload->path('original'),
@@ -174,6 +183,7 @@ class Folder extends Model
                 'public/' . $upload->path('large')
             ]);
         }
+
         //delete the reference to the upload in the uploads table.
         Upload::destroy($uploads_to_delete);
 
@@ -218,11 +228,11 @@ class Folder extends Model
         $key = $this->primaryKey;
 
         $parents = $keys;
-        // Delete all folders/files and subdirectories
-        foreach($parents as $parent){
-            $folder = Folder::findOrFail($parent);
-            Storage::deleteDirectory($folder->path);
-        }
+//        // Delete all folders/files and subdirectories
+//        foreach($parents as $parent){
+//            $folder = Folder::findOrFail($parent);
+//            Storage::deleteDirectory($folder->path);
+//        }
         Folder::delete_recursive($parents,$key);
     }
 }

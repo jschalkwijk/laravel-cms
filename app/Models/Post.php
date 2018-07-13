@@ -53,7 +53,7 @@ class Post extends Model
                 'fields' => [
                     'raw' => [
                         'type' => 'string',
-                        'analyzer' => 'standard'
+                        'analyzer' => 'english'
                     ]
                 ]
             ],
@@ -104,30 +104,18 @@ class Post extends Model
             ],
             'locked_till' => [
                 'type' => 'date',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'date',
-                        'index' => 'not_analyzed'
-                    ]
-                ]
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
             ],
             'created_at' => [
                 'type' => 'date',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'date',
-                        'index' => 'not_analyzed'
-                    ]
-                ]
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed',
             ],
             'updated_at' => [
                 'type' => 'date',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'date',
-                        'index' => 'not_analyzed'
-                    ]
-                ]
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
             ]
         ]
     ];

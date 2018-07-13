@@ -66,6 +66,7 @@ class FoldersController extends Controller
         $this->validate($r, [
             'name' => 'required|min:3,' . $folder->folder_id,
         ]);
+
         if ($folder->name != $r['name']) {
             // logic to change the name and also the file paths names.
             $folder->update($r->all());
@@ -74,9 +75,17 @@ class FoldersController extends Controller
             $destination = Folder::findOrFail($r['parent_id']);
             $folder->user_id = Auth::user()->user_id;
             $folder->parent_id = $destination->folder_id;
-            if(!$folder->save()){
-                return redirect()->action('Admin\FoldersController@index')->withErrors(['Your changes have not been saved, please contact IT support']);
-            }
+            $folder->save();
+        }
+
+        if ($r['copy_id'] != $folder->folder_id && $r['copy_id'] != $folder->parent_id) {
+            $destination = Folder::findOrFail($r['copy_id']);
+            $copied_folder = $folder->replicate(['parent_id','user_id']);
+            $copied_folder->parent_id = $destination->folder_id;
+            $copied_folder->user_id = Auth::user()->user_id;
+            $copied_folder->save();
+            $folder_files = $folder->files->pluck('upload_id')->toArray();
+            $copied_folder->files()->attach($folder_files);
         }
 
         return redirect()->action('Admin\FoldersController@index');
@@ -88,6 +97,6 @@ class FoldersController extends Controller
         $folder = Folder::findOrFail($id);
 //        Storage::deleteDirectory($folder->path);
         Folder::delete_recursive([$folder->id()]);
-        return redirect()->action('Admin\FoldersController@index');
+//        return redirect()->action('Admin\FoldersController@index');
     }
 }
