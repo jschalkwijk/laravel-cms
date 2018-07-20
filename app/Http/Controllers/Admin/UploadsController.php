@@ -64,7 +64,8 @@ class UploadsController extends Controller
             if (!Storage::exists('/public/uploads/original/' . $path)) {
                 $upload->storeAs('/public/uploads/original/' . $folder->createPathFromFileName($file_name), $file_name);
                 $file = new Upload();
-                $file->name = pathinfo($original_name, PATHINFO_FILENAME);;
+                //get filename without extension
+                $file->name = pathinfo($original_name, PATHINFO_FILENAME);
                 $file->file_name = $file_name;
                 $file->size = $size;
                 $file->type = $type;
