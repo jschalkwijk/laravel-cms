@@ -11,6 +11,7 @@ use CMS\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Validation\Rule;
 
 class UploadsController extends Controller
 {
@@ -63,7 +64,7 @@ class UploadsController extends Controller
             if (!Storage::exists('/public/uploads/original/' . $path)) {
                 $upload->storeAs('/public/uploads/original/' . $folder->createPathFromFileName($file_name), $file_name);
                 $file = new Upload();
-                $file->name = $original_name;
+                $file->name = pathinfo($original_name, PATHINFO_FILENAME);;
                 $file->file_name = $file_name;
                 $file->size = $size;
                 $file->type = $type;
@@ -94,14 +95,25 @@ class UploadsController extends Controller
 
     }
 
-    public function edit()
+    public function edit(Upload $upload)
     {
+        $upload->load('folders');
 
+        return view('admin.uploads.edit')->with(['upload' => $upload,'template'=>$this->adminTemplate()]);
     }
 
-    public function update()
+    public function update(Request $r, Upload $upload)
     {
+        $this->validate($r, [
+            'name' => [
+                'required','max:255',
+                Rule::unique('uploads')->ignore($upload->upload_id,'upload_id'),
+            ]
+        ]);
 
+        $upload->update($r->all());
+
+        return back();
     }
 
     public function destroy($upload_id,$folder_id)
