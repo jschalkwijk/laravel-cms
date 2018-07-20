@@ -144,6 +144,15 @@
                 Route::get('/deleted-contacts','Admin\ContactsController@deleted');
                 Route::post('/action', 'Admin\ContactsController@action');
             });
+            Route::resource('search','Admin\SearchController',['except' => ['show']]);
+                 Route::group(['prefix' => '/search'],function(){
+                     Route::get('/show','Admin\SearchController@deleted')->name('search.show');
+                     Route::get('/posts','Admin\SearchController@deleted')->name('search.show');
+                     Route::get('/categories','Admin\SearchController@deleted')->name('search.show');
+                     Route::get('/users','Admin\SearchController@deleted')->name('search.show');
+                     Route::get('/folders','Admin\SearchController@deleted')->name('search.show');
+                     Route::get('/files','Admin\SearchController@deleted')->name('search.show');
+                 });
         });
 
         // Elastic Search

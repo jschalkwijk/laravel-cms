@@ -5,10 +5,98 @@ namespace CMS\Models;
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use ScoutElastic\Searchable;
+use CMS\Models\Elasticsearch\UploadIndexConfigurator;
 
 class Upload extends Model
 {
     use ModelActionsTrait;
+    use Searchable;
+
+    protected $indexConfigurator = UploadIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'upload_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'name' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'file_name' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'type' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'folder_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'user_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'size' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'created_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed',
+            ],
+            'updated_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
+            ]
+        ]
+    ];
     protected $primaryKey = 'upload_id';
     public $table = 'uploads';
     protected $fillable = [

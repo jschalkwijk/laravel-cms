@@ -9,10 +9,72 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Storage;
+use ScoutElastic\Searchable;
+use CMS\Models\Elasticsearch\FolderIndexConfigurator;
 
 class Folder extends Model
 {
     use ModelActionsTrait;
+
+    use Searchable;
+
+    protected $indexConfigurator = FolderIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'folder_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'name' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'description' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'parent_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'created_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed',
+            ],
+            'updated_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
+            ]
+        ]
+    ];
 
     protected $primaryKey = 'folder_id';
     public $table = 'folders';

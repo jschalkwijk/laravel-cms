@@ -8,11 +8,11 @@
                     <a href="/admin/users/new" class="link-btn">Add User</a>
                 @endrole
             </div>
-        </div>homestead
+        </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-xs-3 offset-sm-3 offset-md-2 offset-lg-3">
                 <div class="center">
-                @include('admin.content.user-table')
+                @include('admin.users.users-table')
             </div>
         </div>
     </div>

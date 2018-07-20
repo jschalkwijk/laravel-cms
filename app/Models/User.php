@@ -2,16 +2,158 @@
 
 namespace CMS\Models;
 
+use CMS\Models\Elasticsearch\UserIndexConfigurator;
 use CMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Notifications\Notifiable;
+use ScoutElastic\Searchable;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use ModelActionsTrait;
     use Searchable;
+
+    protected $indexConfigurator = UserIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'user_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'username' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'password' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'first_name' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'last_name' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'dob' => [
+                'type' => 'date',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'date',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'email' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'function' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
+            ],
+            'img_path' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+
+            'album_id' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'remember_token' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'created_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed',
+            ],
+            'updated_at' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
+            ],
+             'trashed' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'approved' => [
+                'type' => 'integer',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'integer',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ]
+        ]
+    ];
 
     public $table = 'users';
 
@@ -68,7 +210,7 @@ class User extends Authenticatable
         // get permission models
         // save manu to user permissions
     }
-    
+
     public function revokePermissionTo(...$permissions){
         $permissions = $this->getPermissions(array_flatten($permissions));
 
