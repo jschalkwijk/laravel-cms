@@ -14,15 +14,16 @@ class RoleMiddleware
      * @return mixed
      */
     // Add this to middlware Kernel under route middleware
-    public function handle($request, Closure $next,$role,$permission = null)
+    public function handle($request, Closure $next,...$roles)
     {
-        if(!$request->user()->hasRole($role)){
-            abort(404);
+
+        foreach($roles as $role) {
+            // Check if user has the role This check will depend on how your roles are set up
+            if($request->user()->hasRole($role)){
+                return $next($request);
+            }
         }
 
-        if($permission !== null && !$request->user()->can($permission)){
-            abort(404);
-        }
-        return $next($request);
+        return abort(404);
     }
 }

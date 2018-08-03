@@ -60,13 +60,14 @@ Route::get('/{page}', 'PagesController@show');
 //    Route::group(['middleware' => ['auth','role:admin,kill']],function (){
 //        Route::get('/', 'Admin\AdminController@index');
 //    });
-        Route::group(['middleware' => 'auth'], function()
+
+        Route::group(['middleware' => ['auth','role:admin,author']], function()
         {
             Route::resource('pages','Admin\PagesController');
             Route::group(['prefix' =>'/pages'],function (){
                 Route::get('/deleted-pages', 'Admin\PagesController@deleted');
                 Route::post('/action', 'Admin\PagesController@action');
-                Route::get('/{id}/approve','Admin\PagesController@approve')->name('pages.approve');
+                Route::get('/{id}/approve','Admin\PagesController@approve')->name('pages.approve')->middleware('permission:edit page');
                 Route::get('/{id}/hide','Admin\PagesController@hide')->name('pages.hide');
                 Route::get('/{id}/destroy', 'Admin\PagesController@destroy')->name('pages.destroy');
                 Route::get('/id}/trash', 'Admin\PagesController@trash')->name('pages.trash');
@@ -123,14 +124,16 @@ Route::get('/{page}', 'PagesController@show');
                 Route::post('/action', 'Admin\TagsController@action');
             });
 
-            Route::resource('users','Admin\UsersController',['except' => ['destroy']]);
-            Route::group(['prefix' => '/users'],function(){
-                Route::get('/deleted-users', 'Admin\UsersController@deleted');
-                Route::post('/action', 'Admin\UsersController@action');
-                Route::get('/{id}/approve','Admin\UsersController@approve')->name('users.approve');
-                Route::get('/{id}/hide','Admin\UsersController@hide')->name('users.hide');
-                Route::get('/{id}/destroy', 'Admin\UsersController@destroy')->name('users.destroy');
-                Route::get('/{id}/trash', 'Admin\UsersController@trash')->name('users.trash');
+            Route::group(['middleware' => ['auth','role:admin']],function () {
+                Route::resource('users', 'Admin\UsersController', ['except' => ['destroy']]);
+                Route::group(['prefix' => '/users'], function () {
+                    Route::get('/deleted-users', 'Admin\UsersController@deleted');
+                    Route::post('/action', 'Admin\UsersController@action');
+                    Route::get('/{id}/approve', 'Admin\UsersController@approve')->name('users.approve');
+                    Route::get('/{id}/hide', 'Admin\UsersController@hide')->name('users.hide');
+                    Route::get('/{id}/destroy', 'Admin\UsersController@destroy')->name('users.destroy');
+                    Route::get('/{id}/trash', 'Admin\UsersController@trash')->name('users.trash');
+                });
             });
 
             Route::resource('roles','Admin\RolesController');

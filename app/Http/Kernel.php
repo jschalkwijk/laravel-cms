@@ -2,7 +2,9 @@
 
 namespace CMS\Http;
 
+use CMS\Http\Middleware\PermissionMiddleware;
 use CMS\Http\Middleware\RoleMiddleware;
+use CMS\Http\Middleware\RoleOrPermission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -54,5 +56,7 @@ class Kernel extends HttpKernel
         'guest' => \CMS\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => RoleMiddleware::class,
+        'permission' => PermissionMiddleware::class,
+        'rolepermission' => RoleOrPermission::class,
     ];
 }
