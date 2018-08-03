@@ -38,10 +38,9 @@ Route::get('/categories/{category}', 'Categories@show');
 
 
 /* Created by user in CMS */
+/* !!!! IMPORTANT : All routes below this for the FRONTEND will not work due to the function of this route . BACKEND ROUTES will WORK Below this!!!!!!!!!*/
 Route::get('/{page}', 'PagesController@show');
 
-
-Route::get('/home', 'HomeController@index');
 
 /* Backend Routes */
     Route::group(['prefix' => '/admin'], function (){
