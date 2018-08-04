@@ -4,6 +4,15 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/jornschalkwijk/laravelcms",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.6.*",
@@ -13,7 +22,8 @@
         "barryvdh/laravel-debugbar": "3.*",
         "laravel/scout": "^4.0",
         "babenkoivan/scout-elasticsearch-driver": "^3.8",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "jornschalkwijk/laravelcms":"dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -28,7 +38,8 @@
         ],
         "psr-4": {
             "CMS\\": "app/",
-            "CMS\\Models\\": "app/Models/"
+            "CMS\\Models\\": "app/Models/",
+            "JornSchalkwijk\\CMS\\": "packages/jornschalkwijk/laravelcms/src/"
         }
     },
     "autoload-dev": {
@@ -53,4 +64,5 @@
     "config": {
         "preferred-install": "dist"
     }
+
 }
