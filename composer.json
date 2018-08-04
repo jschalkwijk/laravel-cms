@@ -39,7 +39,7 @@
         "psr-4": {
             "CMS\\": "app/",
             "CMS\\Models\\": "app/Models/",
-            "JornSchalkwijk\\CMS\\": "packages/jornschalkwijk/laravelcms/src/"
+            "JornSchalkwijk\\LaravelCMS\\": "packages/jornschalkwijk/laravelcms/src/"
         }
     },
     "autoload-dev": {

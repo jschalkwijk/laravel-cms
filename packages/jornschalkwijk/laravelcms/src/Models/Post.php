@@ -1,6 +1,6 @@
 <?php
 
-namespace JornSchalkwijk\CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
 use CMS\Models\Category;
 use CMS\Models\Comment;

@@ -141,7 +141,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        JornSchalkwijk\CMS\LaravelCMSServiceProvider::class,
+        JornSchalkwijk\LaravelCMS\LaravelCMSServiceProvider::class,
 
         // the Scout package itself
         Laravel\Scout\ScoutServiceProvider::class,

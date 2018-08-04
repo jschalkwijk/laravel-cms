@@ -1,6 +1,6 @@
 <?php
 
-namespace JornSchalkwijk\CMS;
+namespace JornSchalkwijk\LaravelCMS;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,8 @@ class LaravelCMSServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'JornSchalkwijk\LaravelCMS');
     }
 
     /**
