@@ -17,9 +17,17 @@ class FoldersController extends Controller
 
     protected $model = Folder::class;
 
-    public function index()
+    public function index(Request $r)
     {
-        $folders = Folder::all();
+        if (isset($r['search'])){
+            $this->validate($r, [
+                'search' => 'min:3',
+            ]);
+            $folders = Folder::search($r['search'])->get();
+        } else {
+            $folders = Folder::all();
+        }
+
         return view("admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
     }
 

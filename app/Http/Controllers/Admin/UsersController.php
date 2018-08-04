@@ -23,15 +23,22 @@ class UsersController extends Controller
     protected $user;
     protected $permissions;
 
-    public function index()
+    public function index(Request $r)
     {
 //        foreach(Auth::user()->permission as $perm){
 //            $this->permissions[] = $perm->name;
 //        };
 //
 //        if(!in_array("Create Post",$this->permissions)){ return "not allowed"; }
-        $users = User::where('users.trashed',0)->orderBy('user_id','desc')->get();
 
+        if (isset($r['search'])) {
+            $this->validate($r, [
+                'search' => 'min:3',
+            ]);
+            $users = User::search($r['search'])->get();
+        } else {
+            $users = User::where('users.trashed', 0)->orderBy('user_id', 'desc')->get();
+        }
         return view('admin.users.users')->with(
         [
             'users' => $users,

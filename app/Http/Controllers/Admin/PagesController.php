@@ -15,9 +15,17 @@ class PagesController extends Controller
 
     protected $model = Page::class;
 
-    public function index()
+    public function index(Request $r)
     {
-        $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
+        if(isset($r['search'])){
+            $this->validate($r, [
+                'search' => 'min:3',
+            ]);
+            $pages = Page::search($r['search'])->get();
+        } else {
+            $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
+        }
+
         return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 0]);
     }
 

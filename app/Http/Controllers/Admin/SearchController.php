@@ -43,6 +43,15 @@ class SearchController extends Controller
 
         return view('admin.search.show')->with(['posts' => $posts,'template' => $this->adminTemplate()]);
     }
+    public function pages(Request $r)
+    {
+        $this->validate($r, [
+            'search' => 'min:3',
+        ]);
+        $pages = Page::search($r['search'])->get();
+
+        return view('admin.search.show')->with(['pages' => $pages,'template' => $this->adminTemplate()]);
+    }
 
     public function categories(Request $r)
     {

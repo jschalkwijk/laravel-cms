@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 offset-xs-3 offset-sm-3 offset-lg-3">
-                <form class="form-inline" method="GET" action="{{route('search.users')}}">
+                <form class="form-inline" method="GET" action="{{route('users.index')}}">
                     <input class="form-control mr-sm-2" type="search" name='search' placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>

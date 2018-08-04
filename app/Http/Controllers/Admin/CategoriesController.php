@@ -13,9 +13,16 @@ class CategoriesController extends Controller
 {
     use ControllerActionsTrait;
 
-    public function index()
+    public function index(Request $r)
     {
-        $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
+        if (isset($r['search'])) {
+            $this->validate($r, [
+                'search' => 'min:3',
+            ]);
+            $categories = Category::search($r['search'])->get();
+        } else {
+            $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
+        }
         return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 

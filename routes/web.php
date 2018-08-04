@@ -185,6 +185,8 @@ Route::get('/{page}', 'PagesController@show');
                 Route::get('/deleted-contacts','Admin\ContactsController@deleted');
                 Route::post('/action', 'Admin\ContactsController@action');
             });
+
+            // Elastic Search
             Route::resource('search','Admin\SearchController',['except' => ['show']]);
             Route::group(['prefix' => '/search'],function(){
                 Route::get('/show','Admin\SearchController@show')->name('search.show');
@@ -196,7 +198,7 @@ Route::get('/{page}', 'PagesController@show');
             });
         });
 
-        // Elastic Search
+
 
     });
 
