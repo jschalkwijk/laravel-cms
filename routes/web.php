@@ -67,19 +67,19 @@ Route::get('/{page}', 'PagesController@show');
             Route::group(['prefix' =>'/pages'],function (){
                 Route::get('/deleted-pages', 'Admin\PagesController@deleted');
                 Route::post('/action', 'Admin\PagesController@action');
-                Route::get('/{id}/approve','Admin\PagesController@approve')->name('pages.approve')->middleware('permission:edit page');
-                Route::get('/{id}/hide','Admin\PagesController@hide')->name('pages.hide');
-                Route::get('/{id}/destroy', 'Admin\PagesController@destroy')->name('pages.destroy');
-                Route::get('/id}/trash', 'Admin\PagesController@trash')->name('pages.trash');
+                Route::get('/{id}/approve','Admin\PagesController@approve')->name('pages.approve')->middleware('permission:approve hide page');
+                Route::get('/{id}/hide','Admin\PagesController@hide')->name('pages.hide')->middleware('permission:approve hide page');
+                Route::get('/{id}/destroy', 'Admin\PagesController@destroy')->name('pages.destroy')->middleware('permission:delete page');
+                Route::get('/id}/trash', 'Admin\PagesController@trash')->name('pages.trash')->middleware('permission:trash page');
             });
             Route::resource('posts','Admin\PostsController');
             Route::group(['prefix' => '/posts'],function(){
                 Route::get('/deleted-posts', 'Admin\PostsController@deleted');
                 Route::post('/action', 'Admin\PostsController@action');
-                Route::get('/{id}/approve','Admin\PostsController@approve')->name('posts.approve');
-                Route::get('/{id}/hide','Admin\PostsController@hide')->name('posts.hide');
-                Route::get('/{id}/destroy', 'Admin\PostsController@destroy')->name('posts.destroy');
-                Route::get('/{id}/trash', 'Admin\PostsController@trash')->name('posts.trash');
+                Route::get('/{id}/approve','Admin\PostsController@approve')->name('posts.approve')->middleware('permission:approve hide post');
+                Route::get('/{id}/hide','Admin\PostsController@hide')->name('posts.hide')->middleware('permission:approve hide post');
+                Route::get('/{id}/destroy', 'Admin\PostsController@destroy')->name('posts.destroy')->middleware('permission:delete post');
+                Route::get('/id}/trash', 'Admin\PostsController@trash')->name('posts.trash')->middleware('permission:trash post');
             });
             /*
              * Artisan route:list makes the controller routes and then you only have to use one Route function.
@@ -140,10 +140,10 @@ Route::get('/{page}', 'PagesController@show');
             Route::group(['prefix' => '/roles'],function(){
                 Route::get('/deleted-roles', 'Admin\RolesController@deleted');
                 Route::post('/action', 'Admin\RolesController@action')->name('roles.action');
-                Route::get('/{id}/approve','Admin\RolesController@approve')->name('roles.approve');
-                Route::get('/{id}/hide','Admin\RolesController@hide')->name('roles.hide');
-                Route::get('/{id}/destroy', 'Admin\RolesController@destroy')->name('roles.destroy');
-                Route::get('/{id}/trash', 'Admin\RolesController@trash')->name('roles.trash');
+                Route::get('/{id}/approve','Admin\RolesController@approve')->name('roles.approve')->middleware('permission:approve hide role');
+                Route::get('/{id}/hide','Admin\RolesController@hide')->name('roles.hide')->middleware('permission:approve hide role');
+                Route::get('/{id}/destroy', 'Admin\RolesController@destroy')->name('roles.destroy')->middleware('permission:delete role');
+                Route::get('/id}/trash', 'Admin\RolesController@trash')->name('roles.trash')->middleware('permission:trash role');
             });
 
 
@@ -152,10 +152,10 @@ Route::get('/{page}', 'PagesController@show');
             Route::group(['prefix' => '/permissions'],function(){
                 Route::get('/deleted-permissions', 'Admin\PermissionsController@deleted');
                 Route::post('/action', 'Admin\PermissionsController@action')->name('permissions.action');
-                Route::get('/{id}/approve','Admin\PermissionsController@approve')->name('permissions.approve');
-                Route::get('/{id}/hide','Admin\PermissionsController@hide')->name('permissions.hide');
-                Route::get('/{id}/destroy', 'Admin\PermissionsController@destroy')->name('permissions.destroy');
-                Route::get('/{id}/trash', 'Admin\PermissionsController@trash')->name('permissions.trash');
+                Route::get('/{id}/approve','Admin\PermissionsController@approve')->name('permissions.approve')->middleware('permission:approve hide permission');
+                Route::get('/{id}/hide','Admin\PermissionsController@hide')->name('permissions.hide')->middleware('permission:approve hide permission');
+                Route::get('/{id}/destroy', 'Admin\PermissionsController@destroy')->name('permissions.destroy')->middleware('permission:delete permission');
+                Route::get('/id}/trash', 'Admin\PermissionsController@trash')->name('permissions.trash')->middleware('permission:trash permission');
             });
 
             Route::resource('uploads','Admin\UploadsController',['except' => 'show','destroy']);
@@ -187,12 +187,12 @@ Route::get('/{page}', 'PagesController@show');
             });
             Route::resource('search','Admin\SearchController',['except' => ['show']]);
             Route::group(['prefix' => '/search'],function(){
-                Route::get('/show','Admin\SearchController@deleted')->name('search.show');
-                Route::get('/posts','Admin\SearchController@deleted')->name('search.show');
-                Route::get('/categories','Admin\SearchController@deleted')->name('search.show');
-                Route::get('/users','Admin\SearchController@deleted')->name('search.show');
-                Route::get('/folders','Admin\SearchController@deleted')->name('search.show');
-                Route::get('/files','Admin\SearchController@deleted')->name('search.show');
+                Route::get('/show','Admin\SearchController@show')->name('search.show');
+                Route::get('/posts','Admin\SearchController@posts')->name('search.posts');
+                Route::get('/categories','Admin\SearchController@categories')->name('search.categories');
+                Route::get('/users','Admin\SearchController@categories')->name('search.users');
+                Route::get('/folders','Admin\SearchController@folders')->name('search.folders');
+                Route::get('/files','Admin\SearchController@uploads')->name('search.files');
             });
         });
 

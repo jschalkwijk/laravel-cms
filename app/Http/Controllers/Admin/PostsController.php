@@ -16,9 +16,15 @@ class PostsController extends Controller
 
     protected $model = Post::class;
 
-    public function index(){
-
-        $posts = Post::with('category','user','tags:title')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
+    public function index(Request $r){
+        if(isset($r['search'])){
+            $this->validate($r, [
+                'search' => 'min:3',
+            ]);
+            $posts = Post::search($r['search'])->get();
+        } else {
+            $posts = Post::with('category', 'user', 'tags:title')->where('posts.trashed', 0)->orderBy('post_id', 'desc')->get();
+        }
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
     }
 

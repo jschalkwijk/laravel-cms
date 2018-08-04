@@ -12,8 +12,8 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
-                <form action="{{route("roles.update")}}" method="post">
-                    {{ method_field('POST') }}
+                <form action="{{route("roles.update",$role->role_id)}}" method="post">
+                    {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <input type="text" name="name" placeholder="Role name" value="{{empty(old('name')) ? $role->name : old('name')}}"/>
                     @include('admin.permissions.partials.table-form-input')

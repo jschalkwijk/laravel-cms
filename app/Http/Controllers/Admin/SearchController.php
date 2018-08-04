@@ -39,9 +39,9 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $results = Post::search($r['search']);
-        $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        $posts = Post::search($r['search'])->get();
+
+        return view('admin.search.show')->with(['posts' => $posts,'template' => $this->adminTemplate()]);
     }
 
     public function categories(Request $r)
@@ -49,9 +49,8 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $results = Category::search($r['search']);
-        $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        $categories = Category::search($r['search'])->get();
+        return view('admin.search.show')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
     }
 
     public function users(Request $r)
@@ -59,9 +58,8 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $results = User::search($r['search']);
-        $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        $users = User::search($r['search'])->get();
+        return view('admin.search.show')->with(['users' => $users,'template' => $this->adminTemplate()]);
     }
 
     public function folders(Request $r)
@@ -69,9 +67,8 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $results = Folder::search($r['search']);
-        $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        $folders = Folder::search($r['search'])->get();
+        return view('admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
     }
 
     public function uploads(Request $r)
@@ -79,8 +76,7 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $results = Upload::search($r['search']);
-        $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        $folders = Upload::search($r['search'])->get();
+        return view('admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
     }
 }

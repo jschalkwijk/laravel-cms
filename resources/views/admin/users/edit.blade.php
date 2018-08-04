@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 offset-sm-3 offset-md-3 offset-lg-3">
                 <form action="{{route("users.update",$user->user_id)}}" method="post">
-                    {{method_field('POST')}}
+                    {{method_field('PATCH')}}
                     {{ csrf_field() }}
                     <input type="text" class="form-control" name="username" placeholder="Username" value="{{ empty(old('username')) ? $user->username : old('username')}}"/><br />
                     <input type="password" class="form-control" name="password" placeholder="New Password"/><br />
