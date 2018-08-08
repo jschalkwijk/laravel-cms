@@ -4,6 +4,8 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
 use CMS\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -29,13 +31,22 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin';
-
+//    /**
+//     * Where to redirect users after login.
+//     *
+//     * @var string
+//     */
+//    protected $redirectTo = '/admin';
+//
+//    protected function redirectTo(){
+//        $user = Auth::user();
+//
+//        if($user->hasRole('user')) {
+//            return redirect()->intended('/');
+//        } else {
+//            return redirect()->intended('/admin');
+//        }
+//    }
     /**
      * Create a new controller instance.
      *
@@ -44,5 +55,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if($user->hasRole('user')) {
+            return redirect()->intended('/');
+        } else {
+            return redirect()->intended('/admin');
+        }
     }
 }

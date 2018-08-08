@@ -12,16 +12,16 @@
 //*/
 //
 ///* Hardcoded Routes */
-//Route::get('/', 'PagesController@index');
-//
-//Route::get('/about','PagesController@about');
-//Route::get('/skills','PagesController@skills');
-//
-//Route::get('/blog', 'Posts@index');
-//Route::get('/blog/{post}', 'Posts@show');
-//
-//Route::get('/categories', 'Categories@index');
-//Route::get('/categories/{category}', 'Categories@show');
+Route::get('/', 'PagesController@index');
+
+Route::get('/about','PagesController@about');
+Route::get('/skills','PagesController@skills');
+
+Route::get('/blog', 'Posts@index');
+Route::get('/blog/{post}', 'Posts@show');
+
+Route::get('/categories', 'Categories@index');
+Route::get('/categories/{category}', 'Categories@show');
 //
 //
 //    Route::get('/login', 'Auth\LoginController@showLoginForm');

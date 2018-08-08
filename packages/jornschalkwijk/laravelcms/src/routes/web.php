@@ -13,17 +13,17 @@
 /* Backend Routes */
     Route::group(['prefix' => '/admin','middleware' => ['web']], function (){
         // Authentication Routes...
-        Route::get('/login', 'CMS\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');
-        Route::post('/login', 'CMS\Http\Controllers\Admin\Auth\LoginController@login');
-        Route::post('/logout', 'CMS\Http\Controllers\Admin\Auth\LoginController@logout')->name('logout');
+        Route::get('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');
+        Route::post('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@login');
+        Route::post('/logout', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@logout')->name('logout');
         // Registration Routes...
 //    $this->get('register', 'Auth\RegisterController@showRegistrationForm');
 //    $this->post('register', 'Auth\RegisterController@register');
         // Password Reset Routes...
-        Route::get('/password/reset', 'CMS\Http\Controllers\Admin\Auth\ForgotPasswordController@showLinkRequestForm');
-        Route::post('/password/email', 'CMS\Http\Controllers\Admin\Auth\ForgotPasswordController@sendResetLinkEmail');
-        Route::post('/password/reset/{token}', 'CMS\Http\Controllers\Admin\Auth\ResetPasswordController@showResetForm');
-        Route::post('/password/reset', 'CMS\Http\Controllers\Admin\Auth\ResetPasswordController@reset');
+        Route::get('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\ForgotPasswordController@showLinkRequestForm');
+        Route::post('/password/email', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\ForgotPasswordController@sendResetLinkEmail');
+        Route::post('/password/reset/{token}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\ResetPasswordController@showResetForm');
+        Route::post('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\ResetPasswordController@reset');
 
         Route::group(['middleware' => ['auth','role:admin,author']], function()
         {
