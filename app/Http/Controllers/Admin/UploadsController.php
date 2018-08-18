@@ -139,5 +139,12 @@ class UploadsController extends Controller
         }
         return back();
     }
+
+    public function ajax()
+    {
+        $files = Upload::search(request()['search-term'])->get();
+        $returnHTML = view('admin.partials.include-files-tinymce')->with(['files' => $files])->render();
+        return response()->json(array('success' => true,'html' => $returnHTML));
+    }
 }
 

@@ -9,6 +9,7 @@ use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Models\Post;
 use CMS\Models\Category;
+use CMS\Models\Upload;
 
 class PostsController extends Controller
 {
@@ -25,7 +26,9 @@ class PostsController extends Controller
         } else {
             $posts = Post::with('category', 'user', 'tags:title')->where('posts.trashed', 0)->orderBy('post_id', 'desc')->get();
         }
-        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=> $posts,'trashed' => 0]);
+        $files = Upload::search('juny')->get();
+        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts' => $posts]);
+
     }
 
     public function show(Post $post)

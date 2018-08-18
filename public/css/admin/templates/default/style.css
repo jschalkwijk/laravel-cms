@@ -843,10 +843,10 @@ footer img {
 
 /* Flexible Images/Video etc. */
 
-img, video, canvas {
-	max-width: 100%;
-	height: auto;
-}
+/*img, video, canvas {*/
+	/*max-width: 100%;*/
+	/*height: auto;*/
+/*}*/
 
 /* Laptop/Tablet (1024px) */
 @media only screen and (min-width: 900px) {

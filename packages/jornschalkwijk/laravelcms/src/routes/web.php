@@ -27,6 +27,8 @@
 
         Route::group(['middleware' => ['auth','role:admin,author']], function()
         {
+            Route::get('/ajax','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\AjaxController@index');
+            Route::post('/ajax/test','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\AjaxController@ajax');
             Route::resource('pages','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PagesController');
             Route::group(['prefix' =>'/pages'],function (){
                 Route::get('/deleted-pages', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PagesController@deleted');
@@ -126,6 +128,7 @@
             Route::group(['prefix'=>'/uploads'],function(){
                 Route::get('/{upload_id}/{folder_id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@destroy')->name('uploads.destroy');
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@action');
+                Route::post('/ajax','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@ajax');
             });
 
             Route::resource('folders','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController',['except' => 'destroy']);
