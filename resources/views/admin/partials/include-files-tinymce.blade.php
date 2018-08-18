@@ -7,6 +7,8 @@
 				<!--			// we can get this value with JS and then add the image with the correct src.-->
 
 				<a class="d-block image_link" href="#">
+					<input class="checkbox left" type="checkbox" name="checkbox[]" value="{{asset('storage/'.$file->path('thumbnail')) }}#{{ asset('storage/'.$file->path())}}"/>
+
 					<img class="img-thumbnail image" src="{{ asset('storage/'.$file->path('thumbnail')) }}"
 						 name="{{ asset('storage/'.$file->path()) }}"/>
 				</a>

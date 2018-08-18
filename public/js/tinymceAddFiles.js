@@ -13,10 +13,10 @@ function insertImages(images,thumb) {
                 tinyMCE.execCommand('mceInsertRawHTML', false, '<a href=' + images[i] + '><img src=' + images[i] + ' width=100%></a>');
             }
         } else {
-            tinyMCE.execCommand('mceInsertRawHTML', false, '<a href=' + path + '><img src=' + path + ' width=100%></a>');
+            tinyMCE.execCommand('mceInsertRawHTML', false, '<a href=' + images + '><img src=' + images + ' width=100%></a>');
         }
     } else {
-        tinyMCE.execCommand('mceInsertRawHTML', false, '<a href='+ path +'><img src=' + thumb + '></a>');
+        tinyMCE.execCommand('mceInsertRawHTML', false, '<a href='+ images +'><img src=' + thumb + '></a>');
     }
 }
 
@@ -25,20 +25,42 @@ function handleImagesAdding() {
     $('#result').click(function (e) {
         console.log("hello");
         // e.target is the clicked element!
-        if (event.altKey) {
-            e.preventDefault();
-            if ($(event.target).hasClass('image')) {
-                // List item found!  Output the ID!
-                insertImages(e.target.name,null);
-            }
+        if ($(event.target).hasClass('image')) {
+            // List item found!  Output the ID!
+
+            insertImages(e.target.name,null);
         }
+        // if (event.altKey) {
+        //     e.preventDefault();
+        //     if ($(event.target).hasClass('image')) {
+        //         // List item found!  Output the ID!
+        //
+        //         insertImages(e.target.name,null);
+        //     }
+        // }
 
         if(e.target.id === 'add-multiple'){
-            var images = [];
-            $.each($("select#image-selector option:selected"), function(){
-                images.push($(this).val());
-            });
-            insertImages(images,null);
+                var string;
+                var path;
+                var thumb;
+                var checked = document.getElementsByName("checkbox[]");
+                // loop over them all
+                for (var i = 0; i < checked.length; i++) {
+                    if (checked[i].checked) {
+                        string = checked[i].value.split("#");
+                        thumb = string[0];
+                        console.log("thumb: "+thumb);
+                        path = string[1];
+                        console.log("path: "+path);
+                        insertImages(path,thumb);
+                    }
+                }
+
+            // var images = [];
+            // $.each($("select#image-selector option:selected"), function(){
+            //     images.push($(this).val());
+            // });
+            // insertImages(images,null);
 
         }
     });
@@ -93,7 +115,12 @@ function handleImagesAdding() {
             success: function (result) {
                 $('#result').html(result.html);
                 // call image picker after adding the result, otherwise the script won't load.
-                $("#image-selector").imagepicker({hide_select: false});
+                $("#image-selector").imagepicker();
+                $.each($(".image_picker_image"),function () {
+                   $(this).addClass('image');
+                });
+
+
             }
         });
     });
