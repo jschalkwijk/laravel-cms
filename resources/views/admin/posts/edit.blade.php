@@ -72,7 +72,6 @@
                 </form>
             </div>
             <div id="add-image" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
                 <form class="search">
                     {{ csrf_field() }}
                     <input class="form-control mr-sm-2" type="text" id="search" name='search' placeholder="Search" aria-label="Search">
