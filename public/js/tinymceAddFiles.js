@@ -7,6 +7,7 @@ function mce(){
 }
 
 function insertImages(images,thumb) {
+    console.log(images);
     if(thumb === null) {
         if(Array.isArray(images)){
             for (var i = 0; i < images.length; i++) {
@@ -21,83 +22,15 @@ function insertImages(images,thumb) {
 }
 
 function handleImagesAdding() {
-
-    $('#result').click(function (e) {
+    $('#result').on("click","#add-multiple",function () {
+        var images = [];
         console.log("hello");
-        // e.target is the clicked element!
-        if ($(event.target).hasClass('image')) {
-            // List item found!  Output the ID!
-
-            insertImages(e.target.name,null);
-        }
-        // if (event.altKey) {
-        //     e.preventDefault();
-        //     if ($(event.target).hasClass('image')) {
-        //         // List item found!  Output the ID!
-        //
-        //         insertImages(e.target.name,null);
-        //     }
-        // }
-
-        if(e.target.id === 'add-multiple'){
-                var string;
-                var path;
-                var thumb;
-                var checked = document.getElementsByName("checkbox[]");
-                // loop over them all
-                for (var i = 0; i < checked.length; i++) {
-                    if (checked[i].checked) {
-                        string = checked[i].value.split("#");
-                        thumb = string[0];
-                        console.log("thumb: "+thumb);
-                        path = string[1];
-                        console.log("path: "+path);
-                        insertImages(path,thumb);
-                    }
-                }
-
-            // var images = [];
-            // $.each($("select#image-selector option:selected"), function(){
-            //     images.push($(this).val());
-            // });
-            // insertImages(images,null);
-
-        }
+        $.each($("select#image-selector option:selected"), function(){
+            console.log("hello");
+            images.push($(this).val());
+        });
+        insertImages(images,null);
     });
-    // $('#add-multiple').click(function () {
-    //     var images = [];
-    //     $.each($("select#image-selector option:selected"), function(){
-    //         images.push($(this).val());
-    //     });
-    //     console.log(images);
-    //     for (var i = 0; i < images.length; i++) {
-    //         console.log(images[i]);
-    //
-    //         insertImages(images[i],null);
-    //     }
-    // });
-
-    // if(document.getElementById("add-multiple")) {
-    //     var string;
-    //     var path;
-    //     var thumb;
-    //     document.getElementById("add-multiple").addEventListener("click", function (e) {
-    //         var checked = document.getElementsByName("checkbox[]");
-    //         // loop over them all
-    //         for (var i = 0; i < checked.length; i++) {
-    //
-    //             if (checked[i].checked) {
-    //                 string = checked[i].value.split("#");
-    //                 thumb = string[0];
-    //                 console.log("string: "+thumb);
-    //                 path = string[1];
-    //                 console.log("path: "+path);
-    //                 insertImages(path,thumb);
-    //             }
-    //         }
-    //     });
-    //     console.log("multiple")
-    // }
 
     $('#search-file').click(function (e) {
         e.preventDefault();
@@ -125,5 +58,73 @@ function handleImagesAdding() {
         });
     });
 }
-
 addLoadEvent(mce);
+
+//
+// $('#result').click(function (e) {
+//     /* When using checkboxes*/
+//     // console.log("hello");
+//     // // e.target is the clicked element!
+//     // if ($(event.target).hasClass('image')) {
+//     //     // List item found!  Output the ID!
+//     //
+//     //     insertImages(e.target.name,null);
+//     // }
+//     // if (event.altKey) {
+//     //     e.preventDefault();
+//     //     if ($(event.target).hasClass('image')) {
+//     //         // List item found!  Output the ID!
+//     //
+//     //         insertImages(e.target.name,null);
+//     //     }
+//     // }
+//
+//     if(e.target.id === 'add-multiple'){
+//     /* When using checkboxes*/
+//             // var string;
+//             // var path;
+//             // var thumb;
+//             // var checked = document.getElementsByName("checkbox[]");
+//             // // loop over them all
+//             // for (var i = 0; i < checked.length; i++) {
+//             //     if (checked[i].checked) {
+//             //         string = checked[i].value.split("#");
+//             //         thumb = string[0];
+//             //         console.log("thumb: "+thumb);
+//             //         path = string[1];
+//             //         console.log("path: "+path);
+//             //         insertImages(path,thumb);
+//             //     }
+//             // }
+//         /* When using Image Picker*/
+//             var images = [];
+//             $.each($("select#image-selector option:selected"), function(){
+//                 console.log("hello");
+//                 images.push($(this).val());
+//             });
+//             insertImages(images,null);
+//
+//     }
+// });
+// After ajax call we need to use the on.() methodt call on click
+// if(document.getElementById("add-multiple")) {
+//     var string;
+//     var path;
+//     var thumb;
+//     document.getElementById("add-multiple").addEventListener("click", function (e) {
+//         var checked = document.getElementsByName("checkbox[]");
+//         // loop over them all
+//         for (var i = 0; i < checked.length; i++) {
+//
+//             if (checked[i].checked) {
+//                 string = checked[i].value.split("#");
+//                 thumb = string[0];
+//                 console.log("string: "+thumb);
+//                 path = string[1];
+//                 console.log("path: "+path);
+//                 insertImages(path,thumb);
+//             }
+//         }
+//     });
+//     console.log("multiple")
+// }
