@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
+use CMS\Models\Gallery;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -75,11 +76,15 @@ class UploadsController extends Controller
 
                 $img = Image::make($upload->getRealPath());
                 $img->fit(100, 100)->save(storage_path('app/public/uploads/thumbnail/' . $path));
+                $img = Image::make($upload->getRealPath());
                 $img->fit(150, 150)->save(storage_path('app/public/uploads/small/' . $path));
+                $img = Image::make($upload->getRealPath());
                 $img->fit(300, 300)->save(storage_path('app/public/uploads/medium/' . $path));
+                $img = Image::make($upload->getRealPath());
                 $img->resize(768, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save(storage_path('app/public/uploads/medium_large/' . $path));
+                $img = Image::make($upload->getRealPath());
                 $img->resize(1024, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save(storage_path('app/public/uploads/large/' . $path));
@@ -144,7 +149,14 @@ class UploadsController extends Controller
     {
         $files = Upload::search($r['search'])->get();
 
-        $returnHTML = view('admin.partials.include-files-tinymce')->with(['files' => $files])->renderSections()['content'];
+        $returnHTML = view('admin.uploads.partials.include-files-tinymce')->with(['files' => $files])->renderSections()['content'];
+
+        return response()->json(array('success' => true,'html' => $returnHTML));
+    }
+    public function gallery(Request $r)
+    {
+        $gallery = Gallery::find($r['gallery']);
+        $returnHTML = view('admin.uploads.partials.gallery')->with('uploads', $gallery->uploads)->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }

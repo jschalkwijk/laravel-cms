@@ -819,14 +819,34 @@ ul.tree li:last-child:before {
 	/* wordt in WP widget wrpper ul*/
 }
 
+/* Sticky footer styles
+-------------------------------------------------- */
+/*html {*/
+	/*position: relative;*/
+	/*min-height: 100%;*/
+/*}*/
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
 footer {
-	max-height: 150px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
 	background: #2d2d2d;
-	padding-top: 30px;
-	margin-top: 0px;
-	padding-bottom: 30px;
 	clear: both;
 }
+
+/*footer {*/
+	/*max-height: 150px;*/
+	/*background: #2d2d2d;*/
+	/*padding-top: 30px;*/
+	/*margin-top: 0px;*/
+	/*padding-bottom: 30px;*/
+	/*clear: both;*/
+/*}*/
 
 footer p {
 	width: auto;
@@ -843,10 +863,10 @@ footer img {
 
 /* Flexible Images/Video etc. */
 
-/*img, video, canvas {*/
-	/*max-width: 100%;*/
-	/*height: auto;*/
-/*}*/
+img, video, canvas {
+	max-width: 100%;
+	height: auto;
+}
 
 /* Laptop/Tablet (1024px) */
 @media only screen and (min-width: 900px) {

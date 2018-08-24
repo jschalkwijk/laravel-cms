@@ -129,6 +129,7 @@
                 Route::get('/{upload_id}/{folder_id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@destroy')->name('uploads.destroy');
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@action');
                 Route::post('/ajax','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@ajax');
+                Route::post('/gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@gallery');
             });
 
             Route::resource('folders','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController',['except' => 'destroy']);

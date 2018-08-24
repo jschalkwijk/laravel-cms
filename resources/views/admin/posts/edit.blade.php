@@ -16,7 +16,7 @@
             convert_urls: true
         });
     </script>
-    <div class="containter">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
                 @if (count($errors))
@@ -25,6 +25,10 @@
                     @endforeach
                 @endif
             </div>
+           <?php
+            use CMS\Models\Gallery;
+            $galleries = Gallery::where('gallery_id',1)->get();
+            ?>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
@@ -67,29 +71,25 @@
 
                     <p>Are you sure you want to edit the following post?</p>
                     <input type="radio" name="confirm" value="true" /> Yes
-                    <input type="radio" name="confirm" value="false" checked="checked" /> No <br />
+                    <input type="radio" name="confirm" value="false" checked="checked" /> No
                     <button type="submit" name="submit">Submit</button>
                 </form>
             </div>
-            <div id="add-image" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <form class="search">
-                    {{ csrf_field() }}
-                    <input class="form-control mr-sm-2" type="text" id="search" name='search' placeholder="Search" aria-label="Search">
-                    <button id="search-file" class="btn btn-outline-success my-2 my-sm-0" name="search-file">Search</button>
-                </form>
-                <div id="result">
-                </div>
+            @include('admin.uploads.partials.search-add-uploads')
+        </div>
+        <div class="row">
+            <select id="gallery" name="gallery">
+                <option value="None">None</option>
+                @foreach($galleries as $gallery)
+                    <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button id="add-gallery" name="add-gallery">Add Gallery</button>
             </div>
         </div>
     </div>
-    @push('scripts')
-    <script src="{{ asset('js/tinymceAddFiles.js') }}"></script>
-    @endpush
-    @push('scripts')
-    <script src="{{ asset('js/image-picker/image-picker.js') }}"></script>
-    @endpush
-    @push('styles')
-    <link rel="stylesheet" href="{{ asset('js/image-picker/image-picker.css') }}"/>
-    @endpush
 @stop
 

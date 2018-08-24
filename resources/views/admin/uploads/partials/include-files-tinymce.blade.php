@@ -1,6 +1,5 @@
 @section('content')
 	<h2>Files</h2>
-	<h2>Files</h2>
 	<div class="row">
 		<select id="image-selector" multiple="multiple" class="image-picker">
 		@foreach ($files as $file)
@@ -18,7 +17,6 @@
 			<button id="add-multiple" name="add-multiple">Add Selection</button>
 		</div>
 	</div>
-
 	{{--<div class="row text-center text-lg-left">--}}
 		{{--@foreach ($files as $file)--}}
 			{{--<div class="">--}}

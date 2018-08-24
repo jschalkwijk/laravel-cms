@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
+use CMS\Models\Gallery;
 use CMS\Models\Tag;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
@@ -9,7 +10,6 @@ use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CMS\Models\Post;
 use CMS\Models\Category;
-use CMS\Models\Upload;
 
 class PostsController extends Controller
 {
@@ -26,7 +26,6 @@ class PostsController extends Controller
         } else {
             $posts = Post::with('category', 'user', 'tags:title')->where('posts.trashed', 0)->orderBy('post_id', 'desc')->get();
         }
-        $files = Upload::search('juny')->get();
         return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts' => $posts]);
 
     }
@@ -145,8 +144,8 @@ class PostsController extends Controller
         foreach ($post->tags as $tag) {
             $selectedTag[] = $tag->tag_id;
         };
-
-        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'template'=>$this->adminTemplate()]);
     }
 
 }

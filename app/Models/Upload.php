@@ -117,6 +117,11 @@ class Upload extends Model
         return $this->belongsToMany(Folder::class,"folders_uploads","upload_id","folder_id");
     }
 
+    public function galleries()
+    {
+        return $this->belongsToMany(Gallery::class,"galleries_uploads","upload_id","gallery_id");
+    }
+
     public function id()
     {
         return $this->upload_id;

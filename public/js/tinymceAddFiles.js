@@ -20,6 +20,9 @@ function insertImages(images,thumb) {
         tinyMCE.execCommand('mceInsertRawHTML', false, '<a href='+ images +'><img src=' + thumb + '></a>');
     }
 }
+function insertGallery(html) {
+    tinyMCE.execCommand('mceInsertRawHTML', false, html);
+}
 
 function handleImagesAdding() {
     $('#result').on("click","#add-multiple",function () {
@@ -54,6 +57,26 @@ function handleImagesAdding() {
                 });
 
 
+            }
+        });
+    });
+
+    $('#add-gallery').click(function (e) {
+        e.preventDefault();
+        console.log(Number($('#gallery').val()));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/admin/uploads/gallery",
+            method: 'post',
+            data: {
+                gallery: Number($('#gallery').val())
+            },
+            success: function (result) {
+                insertGallery(result.html);
             }
         });
     });

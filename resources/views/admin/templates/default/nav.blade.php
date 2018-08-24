@@ -137,5 +137,4 @@
 		</div>
 	</div>
 </nav>
-<div id="main">
-    <div id="main-content" class="container-fluid">
+    <div class="container-fluid">

@@ -57,12 +57,8 @@
                     <textarea type="text" name="content" placeholder="Content">{{ old('content') }}</textarea><br />
                     <button type="submit" name="submit">Submit</button>
                 </form>
-                <div id="return" class="container medium left">
-
-                    {{--@require('blocks/include-files-tinymce.php')--}}
-
-                </div>
             </div>
+            @include('admin.uploads.partials.search-add-uploads')
         </div>
     </div>
 @stop
