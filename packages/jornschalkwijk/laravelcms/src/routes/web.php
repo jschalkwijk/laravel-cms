@@ -130,6 +130,7 @@
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@action');
                 Route::post('/ajax','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@ajax');
                 Route::post('/gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@gallery');
+                Route::post('/createGallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@createGallery');
             });
 
             Route::resource('folders','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController',['except' => 'destroy']);
@@ -138,6 +139,10 @@
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController@action')->name('folders.action');
             });
 
+            Route::resource('galleries','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController',['except' => 'destroy']);
+            Route::group(['prefix'=>'/galleries'],function(){
+                Route::post('/attach','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@attach');
+            });
             Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController',['except' => ['show']]);
             Route::group(['prefix' => '/products'],function(){
                 Route::get('/deleted-products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@deleted');

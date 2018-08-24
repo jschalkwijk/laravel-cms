@@ -46,7 +46,7 @@ function handleImagesAdding() {
             url: "/admin/uploads/ajax",
             method: 'post',
             data: {
-                search: $('#search').val(),
+                search: $('#search').val()
             },
             success: function (result) {
                 $('#result').html(result.html);
@@ -55,8 +55,6 @@ function handleImagesAdding() {
                 $.each($(".image_picker_image"),function () {
                    $(this).addClass('image');
                 });
-
-
             }
         });
     });
@@ -73,81 +71,99 @@ function handleImagesAdding() {
             url: "/admin/uploads/gallery",
             method: 'post',
             data: {
-                gallery: Number($('#gallery').val())
+                gallery: Number(gallery.val())
             },
             success: function (result) {
                 insertGallery(result.html);
             }
         });
     });
+
+    var gallery = $('#gallery');
+    var errors = $('#errors');
+    var currentGallery= $('#selected-gallery');
+    $('#create-gallery').click(function (e) {
+        e.preventDefault();
+
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/admin/galleries",
+            method: 'post',
+            data: {
+                name: $('#name').val()
+            },
+            success: function (result) {
+                if(result.success) {
+                    // Update options
+                    gallery.append($('<option>', {
+                        value: result.gallery['gallery_id'],
+                        text: result.gallery['name']
+                    }));
+                    errors.html('<div class="alert alert-success">'+'Gallery '+result.gallery['name']+' created '+'</div>');
+                } else {
+                    errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                }
+            }
+        });
+    });
+
+    gallery.change(function (e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/admin/galleries/' + gallery.val(),
+            method: 'get',
+            success: function (result) {
+                if (result.success) {
+                    currentGallery.html(result.html);
+                }
+            }
+        });
+    }).change();
+
+    $('#add-to-gallery').click(function (e) {
+        e.preventDefault();
+        var images = [];
+        $.each($("select#image-selector option:selected"), function(){
+            images.push($(this).attr('id'));
+        });
+        console.log(images);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/admin/galleries/attach",
+            method: 'post',
+            data: {
+                gallery_id: gallery.val(),
+                images: images
+            },
+            success: function (result) {
+                if(result.success) {
+                    // Update gallery
+                    // for(var i=0;i < result.images.length; i++) {
+                    //     currentGallery.append($('<img>', {
+                    //         value: result.images[i]['upload_id'],
+                    //         text: result.gallery['name']
+                    //     }));
+                    // }
+                    errors.html('<div class="alert alert-success">Gallery Updated</div>');
+                } else {
+                    errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                }
+            }
+        });
+    });
 }
 addLoadEvent(mce);
-
-//
-// $('#result').click(function (e) {
-//     /* When using checkboxes*/
-//     // console.log("hello");
-//     // // e.target is the clicked element!
-//     // if ($(event.target).hasClass('image')) {
-//     //     // List item found!  Output the ID!
-//     //
-//     //     insertImages(e.target.name,null);
-//     // }
-//     // if (event.altKey) {
-//     //     e.preventDefault();
-//     //     if ($(event.target).hasClass('image')) {
-//     //         // List item found!  Output the ID!
-//     //
-//     //         insertImages(e.target.name,null);
-//     //     }
-//     // }
-//
-//     if(e.target.id === 'add-multiple'){
-//     /* When using checkboxes*/
-//             // var string;
-//             // var path;
-//             // var thumb;
-//             // var checked = document.getElementsByName("checkbox[]");
-//             // // loop over them all
-//             // for (var i = 0; i < checked.length; i++) {
-//             //     if (checked[i].checked) {
-//             //         string = checked[i].value.split("#");
-//             //         thumb = string[0];
-//             //         console.log("thumb: "+thumb);
-//             //         path = string[1];
-//             //         console.log("path: "+path);
-//             //         insertImages(path,thumb);
-//             //     }
-//             // }
-//         /* When using Image Picker*/
-//             var images = [];
-//             $.each($("select#image-selector option:selected"), function(){
-//                 console.log("hello");
-//                 images.push($(this).val());
-//             });
-//             insertImages(images,null);
-//
-//     }
-// });
-// After ajax call we need to use the on.() methodt call on click
-// if(document.getElementById("add-multiple")) {
-//     var string;
-//     var path;
-//     var thumb;
-//     document.getElementById("add-multiple").addEventListener("click", function (e) {
-//         var checked = document.getElementsByName("checkbox[]");
-//         // loop over them all
-//         for (var i = 0; i < checked.length; i++) {
-//
-//             if (checked[i].checked) {
-//                 string = checked[i].value.split("#");
-//                 thumb = string[0];
-//                 console.log("string: "+thumb);
-//                 path = string[1];
-//                 console.log("path: "+path);
-//                 insertImages(path,thumb);
-//             }
-//         }
-//     });
-//     console.log("multiple")
-// }

@@ -18,17 +18,13 @@
     </script>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
+            <div id="errors" class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
                 @if (count($errors))
                     @foreach($errors->all() as $error)
                         <div class="alert alert-warning">{{ $error }}</div>
                     @endforeach
                 @endif
             </div>
-           <?php
-            use CMS\Models\Gallery;
-            $galleries = Gallery::where('gallery_id',1)->get();
-            ?>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
@@ -75,21 +71,47 @@
                     <button type="submit" name="submit">Submit</button>
                 </form>
             </div>
-            @include('admin.uploads.partials.search-add-uploads')
-        </div>
-        <div class="row">
-            <select id="gallery" name="gallery">
-                <option value="None">None</option>
-                @foreach($galleries as $gallery)
-                    <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <button id="add-gallery" name="add-gallery">Add Gallery</button>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                {{-- Searching uploads--}}
+                @include('admin.uploads.partials.search-add-uploads')
+                {{-- Creating ,showing and adding uploads to a gallery--}}
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <select id="gallery" name="gallery">
+                                    <option value="None">None</option>
+                                    @foreach($galleries as $gallery)
+                                        <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button id="add-gallery" name="add-gallery">Add Gallery</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form>
+                                    {{ csrf_field() }}
+                                    <input type="text" id="name" name="name" placeholder="name">
+                                    <button id="create-gallery" name="create-gallery">Create Gallery</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="add-to-gallery" name="add-to-gallery">Add To Gallery</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selected-gallery" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 @stop
 

@@ -19,6 +19,7 @@ class UploadsController extends Controller
     use ControllerActionsTrait;
 
     protected $model = Upload::class;
+
     public function index()
     {
         $folders = Folder::all()->where('parent_id',0);
@@ -153,12 +154,23 @@ class UploadsController extends Controller
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }
+
     public function gallery(Request $r)
     {
         $gallery = Gallery::find($r['gallery']);
         $returnHTML = view('admin.uploads.partials.gallery')->with('uploads', $gallery->uploads)->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
+    }
+
+    public function createGallery(Request $r)
+    {
+        $gallery = new Gallery($r->all());
+        if($gallery->save()){
+            return response()->json(array('success' => true,'gallery' => $gallery));
+        } else {
+            return response()->json(array('success' => false));
+        }
     }
 }
 

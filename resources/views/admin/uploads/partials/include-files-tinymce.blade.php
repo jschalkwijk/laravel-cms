@@ -4,7 +4,7 @@
 		<select id="image-selector" multiple="multiple" class="image-picker">
 		@foreach ($files as $file)
 			<div class="col-md-6">
-				<option data-img-src="{{ asset('storage/'.$file->path('thumbnail')) }}"
+				<option id="{{$file->upload_id}}" data-img-src="{{ asset('storage/'.$file->path('thumbnail')) }}"
 						value="{{ asset('storage/'.$file->path()) }}">{{$file->name}}
 				</option>
 			</div>
