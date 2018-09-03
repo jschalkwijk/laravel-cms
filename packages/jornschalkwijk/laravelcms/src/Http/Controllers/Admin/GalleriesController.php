@@ -43,11 +43,20 @@ class GalleriesController extends Controller
         return back();
     }
 
-    public function attach(Request $r)
+    public function addToGallery(Request $r)
     {
         $gallery = Gallery::find($r['gallery_id']);
-        $gallery->uploads()->attach($r['images']);
-        return response()->json(array('success' => true));
+        $gallery->uploads()->syncWithoutDetaching($r['images']);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function removeFromGallery(Request $r)
+    {
+        $gallery = Gallery::find($r['gallery_id']);
+        $gallery->uploads()->detach($r['images']);
+
+        return response()->json(['success' => true]);
     }
 
     public function show(Request $r,$id)
@@ -55,7 +64,7 @@ class GalleriesController extends Controller
         $gallery = Gallery::find($id);
         if($r->ajax()) {
             if ($gallery) {
-                $returnHTML = view('admin.uploads.partials.gallery')->with('uploads', $gallery->uploads)->renderSections()['content'];
+                $returnHTML = view('admin.uploads.partials.selected-gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
                 return response()->json(array('success' => true, 'html' => $returnHTML));
             } else {
                 return response()->json(array('success' => false));

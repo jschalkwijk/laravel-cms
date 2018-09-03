@@ -97,17 +97,20 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button id="add-to-gallery" name="add-to-gallery">Add To Gallery</button>
-                            </div>
-                        </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-6">--}}
+                                {{--<button id="add-to-gallery" name="add-to-gallery">Add To Gallery</button>--}}
+                            {{--</div>--}}
+                        {{--</div><div class="row">--}}
+                            {{--<div class="col-md-6">--}}
+                                {{--<button id="remove-from-gallery" name="remove-from-gallery">Remove From Gallery</button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
-                <div class="row">
-                    <div id="selected-gallery" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <button id="test" name="test">test</button>
+                <div id="selected-gallery">
 
-                    </div>
                 </div>
             </div>
         </div>

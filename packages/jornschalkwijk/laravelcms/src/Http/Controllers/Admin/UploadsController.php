@@ -148,9 +148,9 @@ class UploadsController extends Controller
 
     public function ajax(Request $r)
     {
-        $files = Upload::search($r['search'])->get();
+        $uploads = Upload::search($r['search'])->get();
 
-        $returnHTML = view('admin.uploads.partials.include-files-tinymce')->with(['files' => $files])->renderSections()['content'];
+        $returnHTML = view('admin.uploads.partials.include-files-tinymce')->with(['uploads' => $uploads])->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }

@@ -26,10 +26,9 @@ function insertGallery(html) {
 
 function handleImagesAdding() {
     $('#result').on("click","#add-multiple",function () {
-        var images = [];
+        const images = [];
         console.log("hello");
         $.each($("select#image-selector option:selected"), function(){
-            console.log("hello");
             images.push($(this).val());
         });
         insertImages(images,null);
@@ -49,7 +48,7 @@ function handleImagesAdding() {
                 search: $('#search').val()
             },
             success: function (result) {
-                $('#result').html(result.html);
+                searchResults.html(result.html);
                 // call image picker after adding the result, otherwise the script won't load.
                 $("#image-selector").imagepicker();
                 $.each($(".image_picker_image"),function () {
@@ -79,9 +78,11 @@ function handleImagesAdding() {
         });
     });
 
-    var gallery = $('#gallery');
-    var errors = $('#errors');
-    var currentGallery= $('#selected-gallery');
+    const gallery = $('#gallery');
+    const errors = $('#errors');
+    const selectedGallery = $('#selected-gallery');
+    const searchResults = $('#search-results');
+
     $('#create-gallery').click(function (e) {
         e.preventDefault();
 
@@ -124,26 +125,29 @@ function handleImagesAdding() {
             method: 'get',
             success: function (result) {
                 if (result.success) {
-                    currentGallery.html(result.html);
+                    selectedGallery.html(result.html);
+                    $("#gallery-image-selector").imagepicker();
+                    $.each($(".image_picker_image"),function () {
+                        $(this).addClass('image');
+                    });
                 }
             }
         });
     }).change();
 
-    $('#add-to-gallery').click(function (e) {
+    selectedGallery.on('click','#add-to-gallery',function (e) {
         e.preventDefault();
-        var images = [];
+        const images = [];
         $.each($("select#image-selector option:selected"), function(){
             images.push($(this).attr('id'));
         });
-        console.log(images);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
-            url: "/admin/galleries/attach",
+            url: "/admin/galleries/add",
             method: 'post',
             data: {
                 gallery_id: gallery.val(),
@@ -151,19 +155,86 @@ function handleImagesAdding() {
             },
             success: function (result) {
                 if(result.success) {
-                    // Update gallery
-                    // for(var i=0;i < result.images.length; i++) {
-                    //     currentGallery.append($('<img>', {
-                    //         value: result.images[i]['upload_id'],
-                    //         text: result.gallery['name']
-                    //     }));
-                    // }
-                    errors.html('<div class="alert alert-success">Gallery Updated</div>');
+                    // Get the updated galley from the DB with an ajax request inside this request.
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '/admin/galleries/' + gallery.val(),
+                        method: 'get',
+                        success: function (result) {
+                            if (result.success) {
+                                selectedGallery.html(result.html);
+                                $("#gallery-image-selector").imagepicker();
+                                $.each($(".image_picker_image"),function () {
+                                    $(this).addClass('image');
+                                });
+                                errors.html('<div class="alert alert-success">Gallery Updated</div>');
+                            } else {
+                                errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                            }
+                        }
+                    });
                 } else {
                     errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
                 }
             }
         });
     });
+
+    selectedGallery.on('click','#remove-from-gallery',function (e) {
+        console.log('hello');
+        e.preventDefault();
+        const images = [];
+        $.each($("select#gallery-image-selector option:selected"), function(){
+            images.push($(this).attr('id'));
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/admin/galleries/remove",
+            method: 'post',
+            data: {
+                gallery_id: gallery.val(),
+                images: images
+            },
+            success: function (result) {
+                if(result.success) {
+                    // Get the updated galley from the DB with an ajax request inside this request.
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '/admin/galleries/' + gallery.val(),
+                        method: 'get',
+                        success: function (result) {
+                            if (result.success) {
+                                selectedGallery.html(result.html);
+                                $("#gallery-image-selector").imagepicker();
+                                $.each($(".image_picker_image"),function () {
+                                    $(this).addClass('image');
+                                });
+                                errors.html('<div class="alert alert-success">Gallery Updated</div>');
+                            } else {
+                                errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                            }
+                        }
+                    });
+                } else {
+                    errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                }
+            }
+        });
+    });
+    $('#test').click(function (e) {
+        alert('hello');
+    })
 }
 addLoadEvent(mce);

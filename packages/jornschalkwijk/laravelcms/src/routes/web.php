@@ -141,7 +141,8 @@
 
             Route::resource('galleries','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController',['except' => 'destroy']);
             Route::group(['prefix'=>'/galleries'],function(){
-                Route::post('/attach','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@attach');
+                Route::post('/add','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@addToGallery');
+                Route::post('/remove','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@removeFromGallery');
             });
             Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController',['except' => ['show']]);
             Route::group(['prefix' => '/products'],function(){

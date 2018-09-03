@@ -4,7 +4,7 @@
         <input class="form-control mr-sm-2" type="text" id="search" name='search' placeholder="Search" aria-label="Search">
         <button id="search-file" class="btn btn-outline-success my-2 my-sm-0" name="search-file">Search</button>
     </form>
-    <div id="result">
+    <div id="search-results">
     </div>
 </div>
 @push('scripts')

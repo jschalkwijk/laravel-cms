@@ -1,11 +1,11 @@
 @section('content')
-	<h2>Files</h2>
 	<div class="row">
+		<h2>Files</h2>
 		<select id="image-selector" multiple="multiple" class="image-picker">
-		@foreach ($files as $file)
+		@foreach ($uploads as $upload)
 			<div class="col-md-6">
-				<option id="{{$file->upload_id}}" data-img-src="{{ asset('storage/'.$file->path('thumbnail')) }}"
-						value="{{ asset('storage/'.$file->path()) }}">{{$file->name}}
+				<option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
+						value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
 				</option>
 			</div>
 		@endforeach
