@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
+use CMS\Models\Gallery;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,8 @@ class PagesController extends Controller
     }
     public function create()
     {
-        return view('admin.pages.create')->with(['template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        return view('admin.pages.create')->with(['galleries' => $galleries,'template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)
@@ -64,7 +66,8 @@ class PagesController extends Controller
 
     public function edit(Page $page)
     {
-        return view('admin.pages.edit')->with(['page' => $page,'template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        return view('admin.pages.edit')->with(['galleries'=>$galleries,'page' => $page,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Page $page)

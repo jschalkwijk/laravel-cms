@@ -25,7 +25,13 @@ function insertGallery(html) {
 }
 
 function handleImagesAdding() {
-    $('#result').on("click","#add-multiple",function () {
+
+    const gallery = $('#gallery');
+    const errors = $('#errors');
+    const selectedGallery = $('#selected-gallery');
+    const searchResults = $('#search-results');;
+
+    searchResults.on("click","#add-multiple",function () {
         const images = [];
         console.log("hello");
         $.each($("select#image-selector option:selected"), function(){
@@ -77,11 +83,6 @@ function handleImagesAdding() {
             }
         });
     });
-
-    const gallery = $('#gallery');
-    const errors = $('#errors');
-    const selectedGallery = $('#selected-gallery');
-    const searchResults = $('#search-results');
 
     $('#create-gallery').click(function (e) {
         e.preventDefault();
@@ -233,8 +234,5 @@ function handleImagesAdding() {
             }
         });
     });
-    $('#test').click(function (e) {
-        alert('hello');
-    })
 }
 addLoadEvent(mce);

@@ -16,7 +16,7 @@
             convert_urls: true
         });
     </script>
-    <div class="containter">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
                 @if (count($errors))
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
 
-                <form action="{{route("pages.update",$page->page_id)}}" method="post">
+                <form id="addpost-form" action="{{route("pages.update",$page->page_id)}}" method="post">
                     {{method_field('PATCH')}}
                     {{ csrf_field() }}
                     <input type="text" name="title" placeholder="Title" value="{{ empty(old('title')) ? $page->title : old('title')}}"><br />
@@ -40,6 +40,9 @@
                     <input type="text" name="template" placeholder="Custom Template" value="{{empty(old('template')) ? $page->template :old('template')}}">
                     <button type="submit" name="submit">Submit</button>
                 </form>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                @include('admin.uploads.partials.search-add-uploads')
             </div>
         </div>
     </div>

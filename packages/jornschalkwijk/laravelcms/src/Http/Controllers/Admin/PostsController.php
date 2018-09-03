@@ -46,7 +46,8 @@ class PostsController extends Controller
         // Get all the categories associated with Post
         $categories = Category::where('type','post')->get();
         $tags = Tag::where('type','post')->get();
-        return view('admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        return view('admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'galleries'=>$galleries,'template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)

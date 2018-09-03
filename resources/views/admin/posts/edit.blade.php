@@ -28,7 +28,7 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <form id="addpost-form" class="large" method="post" action="{{route('posts.update',$post->post_id)}}">
+                <form id="addpost-form" method="post" action="{{route('posts.update',$post->post_id)}}">
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$post->post_id}}"/>
@@ -72,46 +72,7 @@
                 </form>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {{-- Searching uploads--}}
                 @include('admin.uploads.partials.search-add-uploads')
-                {{-- Creating ,showing and adding uploads to a gallery--}}
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <select id="gallery" name="gallery">
-                                    <option value="None">None</option>
-                                    @foreach($galleries as $gallery)
-                                        <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <button id="add-gallery" name="add-gallery">Add Gallery</button>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form>
-                                    {{ csrf_field() }}
-                                    <input type="text" id="name" name="name" placeholder="name">
-                                    <button id="create-gallery" name="create-gallery">Create Gallery</button>
-                                </form>
-                            </div>
-                        </div>
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-6">--}}
-                                {{--<button id="add-to-gallery" name="add-to-gallery">Add To Gallery</button>--}}
-                            {{--</div>--}}
-                        {{--</div><div class="row">--}}
-                            {{--<div class="col-md-6">--}}
-                                {{--<button id="remove-from-gallery" name="remove-from-gallery">Remove From Gallery</button>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    </div>
-                </div>
-                <button id="test" name="test">test</button>
-                <div id="selected-gallery">
-
-                </div>
             </div>
         </div>
 
