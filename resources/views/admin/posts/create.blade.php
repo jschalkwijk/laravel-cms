@@ -28,34 +28,41 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <form id="addpost-form" class="large" action="{{route('posts.store')}}" method="post">
+                <form method="post" action="{{route('posts.store')}}">
                     {{ csrf_field() }}
-                    <input type="text" name="title" placeholder="Title" value="{{ old('title')}}"><br />
-                    <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}"/><br />
-                    <label for="select">Category</label>
-                    <select id="categories" name="category_id">
-                        <option value="None">None</option>
-                        @foreach($categories as $category)
-                                <option value="{{$category->category_id}}">{{$category->title}}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group row">
+                        <input type="text" name="title" placeholder="Title" value="{{ old('title')}}" class="form-control"/><br />
+                        <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description')}}" class="form-control"/><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="categories" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                            <select id="categories" name="category_id" class="form-control">
+                                <option value="None">None</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->category_id}}">{{$category->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="category" placeholder="Create Category" class="form-control"/><br />
+                        <input type="hidden" name="cat_type" value="post"/><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+                        <div class="col-sm-10">
+                            <select id="tags" name="tag_ids[]" multiple size="3" class="form-control">
+                                <option value="None">None</option>
+                                @foreach($tags as $tag)
+                                    <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="tag" placeholder="Create Tag('s), for multiple tags seperate with a dash ( - )" class="form-control"/><br />
+                        <input type="hidden" name="tag_type" value="post"/><br />
+                    </div>
+                    <textarea type="text" name="content" placeholder="Content" class="form-control">{{ old('content') }}</textarea><br />
 
-                    <label for="select">Tags</label>
-                    <select id="categories" name="tag_ids[]" multiple size="3">
-                        <option value="None">None</option>
-                        @foreach($tags as $tag)
-                            <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
-                        @endforeach
-                    </select>
-
-                    <input type="text" name="category" placeholder="Category"/><br />
-                    <input type="hidden" name="cat_type" value="product"/><br />
-
-                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
-                    <input type="hidden" name="tag_type" value="product"/><br />
-
-                    <textarea type="text" name="content" placeholder="Content">{{ old('content') }}</textarea><br />
-                    <button type="submit" name="submit">Submit</button>
+                    <button type="submit" name="submit" class="form-control">Submit</button>
                 </form>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

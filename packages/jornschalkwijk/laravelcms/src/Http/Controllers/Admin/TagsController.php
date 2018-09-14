@@ -31,9 +31,24 @@ class TagsController extends Controller
         ]);
         $tag = new Tag($r->all());
         $tag->user_id = Auth::user()->user_id;
-        $tag->save();
+        $tag->type = $r['tag_type'];
+        if($r->ajax()) {
+            if ($tag->save()) {
+                return response()->json(array('success' => true, 'tag' => $tag));
+            } else {
+                return response()->json(array('success' => false));
+            }
+        }
+
+        if(!$r->ajax() && $tag->save()){
+            // success flash
+        } else {
+            // error flash
+        }
+
         return back();
     }
+
     public function update(Request $r,Tag $tag){
 
         if ($r['confirm']) {

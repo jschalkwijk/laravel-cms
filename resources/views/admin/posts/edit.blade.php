@@ -28,54 +28,111 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <form id="addpost-form" method="post" action="{{route('posts.update',$post->post_id)}}">
+                <form method="post" action="{{route('posts.update',$post->post_id)}}">
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
-                    <input type="hidden" name="id" value="{{$post->post_id}}"/>
-                    <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}"><br />
-                    <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description',$post->description)}}"/><br />
-                    <label for="select">Category</label>
-                    <select id="categories" name="category_id">
-                        <option value="None">None</option>
-                        @foreach($categories as $category)
-                            @if($category->category_id == $post->category_id)
-                                    <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
-                            @else
-                                <option value="{{$category->category_id}}">{{$category->title}}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    <select id="tags" name="tag_ids[]" multiple size="3">
-                        <option value="None">None</option>
-                        @foreach($post->tags as $tag)
-                            <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
-                        @endforeach
-                        @foreach($tags as $tag)
-                            @if(!in_array($tag->tag_id,$selectedTag) )
-                                    <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    <div class="form-group row">
+                        <input type="hidden" name="id" value="{{$post->post_id}}" class="form-control"/>
+                        <input type="text" name="title" placeholder="Title" value="{{ old('title',$post->title)}}" class="form-control"/><br />
+                        <input type="text" name="description" placeholder="Post Description (max 160 characters)" value="{{old('description',$post->description)}}" class="form-control"/><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="categories" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                            <select id="categories" name="category_id" class="form-control">
+                                <option value="None">None</option>
+                                @foreach($categories as $category)
+                                    @if($category->category_id == $post->category_id)
+                                        <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
+                                    @else
+                                        <option value="{{$category->category_id}}">{{$category->title}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="category" placeholder="Create Category" class="form-control"/><br />
+                        <input type="hidden" name="cat_type" value="post"/><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+                        <div class="col-sm-10">
+                        <select id="tags" name="tag_ids[]" multiple size="3">
+                            <option value="None">None</option>
+                            @foreach($post->tags as $tag)
+                                <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
+                            @endforeach
+                            @foreach($tags as $tag)
+                                @if(!in_array($tag->tag_id,$selectedTag) )
+                                        <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        </div>
 
-                    <input type="text" name="category" placeholder="Category"/><br />
-                    <input type="hidden" name="cat_type" value="post"/><br />
+                        <input type="text" name="tag" placeholder="Create Tag('s), for multiple tags seperate with a dash ( - )" class="form-control"/><br />
+                        <input type="hidden" name="tag_type" value="post"/><br />
+                    </div>
+                    <textarea type="text" name="content" placeholder="Content" class="form-control">{{ old('content',$post->content) }}</textarea><br />
 
-                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
-                    <input type="hidden" name="tag_type" value="post"/><br />
-
-                    <textarea type="text" name="content" placeholder="Content">{{ old('content',$post->content) }}</textarea><br />
 
                     <p>Are you sure you want to edit the following post?</p>
-                    <input type="radio" name="confirm" value="true" /> Yes
-                    <input type="radio" name="confirm" value="false" checked="checked" /> No
-                    <button type="submit" name="submit">Submit</button>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="yes" name="confirm" value="true">
+                        <label class="form-check-label" for="yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="no" name="confirm" value="false" checked="checked">
+                        <label class="form-check-label" for="no">No</label>
+                    </div>
+
+                    {{--<input type="radio" name="confirm" value="true" class="form-control"/> Yes--}}
+                    {{--<input type="radio" name="confirm" value="false" checked="checked" class="form-control"/> No--}}
+                    <button type="submit" name="submit" class="form-control">Submit</button>
                 </form>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 @include('admin.uploads.partials.search-add-uploads')
             </div>
         </div>
-
     </div>
+
+    {{--Selectize.js for adding tags on the fly --}}
+    <script type="text/javascript" src="{{ asset("/js/selectize/dist/js/standalone/selectize.js") }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset("/js/selectize/dist/css/selectize.css") }}" />
+    <script>
+        $(function() {
+            $('#tags').selectize({
+                plugins: ['remove_button'],
+                delimiter: ',',
+                create: function(input,callback) {
+                    console.log(input);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '/admin/tags',
+                        method: 'post',
+                        data: {
+                            title: input,
+                            tag_type:'post'
+                        },
+                        success: function (result) {
+                            if (result.success) {
+                                console.log(result.tag['tag_id']);
+                                return callback( { 'value': result.tag['tag_id'], 'text': input});
+                            } else {
+                                return {
+                                    value: input,
+                                    text: input
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @stop
 

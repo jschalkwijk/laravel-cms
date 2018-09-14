@@ -61,17 +61,16 @@ class PostsController extends Controller
         $post = new Post($r->all());
         $post->user_id = Auth::user()->user_id;
 
-        $post->save();
-
         if(!empty($r['category'])){
             $category = new Category();
             $category->title = $r['category'];
             $category->type = $r['cat_type'];
             $category->user_id = $post->user_id;
             $category->save();
-            $lastInsertID = $category->category_id;
-            $category_ids[] = $lastInsertID;
+            $post->category_id = $category->category_id;
         }
+
+        $post->save();
 
         $tag_ids = $r['tag_ids'];
 
@@ -101,8 +100,6 @@ class PostsController extends Controller
             ]);
 
             $post->user_id = Auth::user()->user_id;
-            // create new ID array to add a possible new category, otherwise it wont work by adding to te $r['category_ids'] directly.
-            $category_ids = $r['category_ids'];
 
             if(!empty($r['category'])){
                 $category = new Category();
@@ -110,8 +107,6 @@ class PostsController extends Controller
                 $category->type = $r['cat_type'];
                 $category->user_id = $post->user_id;
                 $category->save();
-                $lastInsertID = $category->category_id;
-                $category_ids[] = $lastInsertID;
             }
             $post->update($r->all());
 

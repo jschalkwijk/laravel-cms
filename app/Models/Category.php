@@ -10,6 +10,7 @@ use CMS\Models\Elasticsearch\CategoryIndexConfigurator;
 class Category extends Model
 {
     use ModelActionsTrait;
+
     protected $primaryKey = 'category_id';
 	protected $fillable = ['title','description','parent_id'];
 	public $table = "categories";
@@ -117,21 +118,13 @@ class Category extends Model
             ],
             'created_at' => [
                 'type' => 'date',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'date',
-                        'index' => 'not_analyzed'
-                    ]
-                ]
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed',
             ],
             'updated_at' => [
                 'type' => 'date',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'date',
-                        'index' => 'not_analyzed'
-                    ]
-                ]
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+                'index' => 'not_analyzed'
             ]
         ]
     ];
