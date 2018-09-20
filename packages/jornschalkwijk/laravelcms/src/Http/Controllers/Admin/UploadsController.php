@@ -98,6 +98,10 @@ class UploadsController extends Controller
             }
         }
 
+        if($r->ajax()) {
+            return response()->json(['success' => true,'reload' => (int)$r['reload']]);
+        }
+
         return back();
 
     }
@@ -143,6 +147,31 @@ class UploadsController extends Controller
 
             Upload::destroy($upload->upload_id);
         }
+        return back();
+    }
+
+    public function destroyMany($upload_ids,$folder_id)
+    {
+        $uploads = Upload::findMany($upload_ids);
+        // detach from pivot table.
+        Folder::findOrFail($folder_id)->files()->detach($upload_ids);
+        foreach($uploads as $upload) {
+            $reference = DB::table('folders_uploads')->select()->where('upload_id', '=', $upload->upload_id)->get();
+
+            // only hard delete the file and db entry if there are no references left in the pivot table
+            if ($reference->count() == 0) {
+                Storage::delete([
+                    'public/' . $upload->path('original'),
+                    'public/' . $upload->path('thumbnail'),
+                    'public/' . $upload->path('small'),
+                    'public/' . $upload->path('medium'),
+                    'public/' . $upload->path('medium_large'),
+                    'public/' . $upload->path('large')
+                ]);
+                Upload::destroy($upload->upload_id);
+            }
+        }
+
         return back();
     }
 

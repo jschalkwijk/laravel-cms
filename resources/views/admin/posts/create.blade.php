@@ -50,7 +50,7 @@
                     <div class="form-group row">
                         <label for="tags" class="col-sm-2 col-form-label">Tags</label>
                         <div class="col-sm-10">
-                            <select id="tags" name="tag_ids[]" multiple size="3" class="form-control">
+                            <select id="tags" class="prettyTags" name="tag_ids[]" multiple size="3" style="display: none;">
                                 <option value="None">None</option>
                                 @foreach($tags as $tag)
                                     <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
@@ -70,4 +70,5 @@
             </div>
         </div>
     </div>
+    @include('admin.partials.prettyTags')
 @stop

@@ -3,7 +3,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
-                <div class="center"><form class="small" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
+                <div class="center">
+                    <form class="dropzone"
+                          id="dropzone"
+                          enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="MAX_FILE_SIZE" value="43500000" />
                     <label for="files[]">Choose File(max size: 3.5 MB): </label><br />
@@ -29,4 +32,10 @@
     </div>
     @endif
 </div>
+    @push('scripts')
+    <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
+    @endpush
+    @push('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+    @endpush
 @stop

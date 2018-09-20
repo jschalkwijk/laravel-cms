@@ -36,7 +36,7 @@ class FoldersController extends Controller
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
         $files = $folder->files;
 //        dd($files[0]->user());
-        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => $folder,'folders' => $folders, 'files' => $files]);
+        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'files' => $files]);
     }
     public function create()
     {

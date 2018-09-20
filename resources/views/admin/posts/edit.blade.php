@@ -56,7 +56,7 @@
                     <div class="form-group row">
                         <label for="tags" class="col-sm-2 col-form-label">Tags</label>
                         <div class="col-sm-10">
-                        <select id="tags" name="tag_ids[]" multiple size="3">
+                        <select id="tags" class="prettyTags" name="tag_ids[]" multiple size="3" style="display: none;">
                             <option value="None">None</option>
                             @foreach($post->tags as $tag)
                                 <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
@@ -95,44 +95,6 @@
             </div>
         </div>
     </div>
-
-    {{--Selectize.js for adding tags on the fly --}}
-    <script type="text/javascript" src="{{ asset("/js/selectize/dist/js/standalone/selectize.js") }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset("/js/selectize/dist/css/selectize.css") }}" />
-    <script>
-        $(function() {
-            $('#tags').selectize({
-                plugins: ['remove_button'],
-                delimiter: ',',
-                create: function(input,callback) {
-                    console.log(input);
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: '/admin/tags',
-                        method: 'post',
-                        data: {
-                            title: input,
-                            tag_type:'post'
-                        },
-                        success: function (result) {
-                            if (result.success) {
-                                console.log(result.tag['tag_id']);
-                                return callback( { 'value': result.tag['tag_id'], 'text': input});
-                            } else {
-                                return {
-                                    value: input,
-                                    text: input
-                                }
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    @include('admin.partials.prettyTags')
 @stop
 

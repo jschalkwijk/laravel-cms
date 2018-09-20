@@ -64,6 +64,9 @@
             if(isset($r['delete-selected'])){
                 $model->removeMany($r['checkbox']);
             }
+            if(isset($r['delete-files'])){
+                $model->removeManyFiles($r['checkbox'],$r['folder_id']);
+            }
 
             return back();
         }

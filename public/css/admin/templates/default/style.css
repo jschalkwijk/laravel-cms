@@ -383,7 +383,7 @@ and (max-device-width : 480px) {
 #wrapper {
 	background-color: #f2f2f2;
 	width: 100%;
-	height: 100vh;
+	min-height: 93.5vh;
 }
 
 /* Display Header */
@@ -792,6 +792,12 @@ ul.tree li:last-child:before {
 	border-color: #e9453f;
 }
 
+/* Pop Up Overlay*/
+
+#my_popup{
+	background-color:#f2f2f2;
+	min-height: 100vh;
+}
 /* Widget */
 
 .widget-wrapper {

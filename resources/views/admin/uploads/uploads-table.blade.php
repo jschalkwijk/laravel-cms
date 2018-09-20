@@ -14,14 +14,16 @@
                     <td class="td-category"><p>{{ $file->type }}</p></td>
                     <td>{{ $file->created_at }}</td>
                     <td class="td-btn"><a href="{{ route('uploads.edit',$file->upload_id) }}">Edit</a></td>
-                    @if(isset($parent))
-                        <td><a class="btn btn-sm btn-danger form-action" href="{{ route('uploads.destroy',[$file->id(),$parent->folder_id]) }}"></a></td>
+                    @if(isset($folder))
+                        <td><a class="btn btn-sm btn-danger form-action" href="{{ route('uploads.destroy',[$file->id(),$folder->folder_id]) }}"></a></td>
+                        <input type="hidden" name="folder_id" value="{{$folder->folder_id}}"/>
                     @endif
                     <td class="td-btn"><p><input type="checkbox" name="checkbox[]" value="{{ $file->id() }}"/></p></td>
+
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <button type="submit" name="delete-selected" id="delete">Delete Selected</button>
+        <button type="submit" name="delete-files" id="delete">Delete Selected</button>
         <button type="submit" name="download_files" id="download_files">Download files</button>
     </form>

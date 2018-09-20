@@ -14,25 +14,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
                 <div class="center">
-                    <form class="small" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="MAX_FILE_SIZE" value="43500000" />
-                        <label for="files[]">Choose File(max size: 3.5 MB): </label><br />
-                        <input type="file" name="files[]" multiple/><br />
-                        <label for="destination">Select Destination</label>
-                        <select name="destination">
-                            <option value="0" selected>None</option>
-                            @foreach($folders as $folder)
-                                <option value="{{$folder->id()}}">{{$folder->name}}</option>
-                            @endforeach
-                        </select><br>
-                        <input type="text" name="name" placeholder="New Folder" maxlength="60"/>
-                        @if($parent != null)
-                        <input type="hidden" name="parent" value="{{$parent->id()}}">
-                        @endif
-                        {{--<input type="text" name="new_album_name" placeholder="Create New Sub Folder" maxlength="60"/>--}}
-                        <button type="submit" name="submit">Add File('s)</button>
-                    </form>
+                    @include('admin.uploads.upload-form')
                 </div>
             </div>
         </div>
@@ -64,7 +46,7 @@
                                 <td class="td-btn"><p><a href="{{ $folder->table.'/'.$folder->id().'/edit'}}">Edit</a></p></td>
                                 <td><a class="btn btn-sm btn-danger" href="{{ route('folders.destroy',$folder->folder_id) }}">Delete</a></td>
                                 <td><input class="checkbox" type="checkbox" name="checkbox[]" value="{{ $folder->id() }}"/></td>
-                                <td><input type="hidden" name="name" value="{{ $folder->name }}"/></td>
+                                <td><input type="hidden" name="folder_id" value="{{ $folder->name }}"/></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -73,7 +55,7 @@
                 </form>
             </div>
         </div>
-<!--        --><?php //system('find '.storage_path('app/public/uploads').' -empty -type d -delete');?>
+<?php  system('find '.storage_path('app/public/uploads').' -empty -type d -delete'); ?>
         @if(isset($files))
             <div class="row">
                 <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">

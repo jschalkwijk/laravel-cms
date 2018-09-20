@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
+use CMS\Models\Folder;
 use CMS\Models\Gallery;
 use CMS\Models\Tag;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
@@ -47,7 +48,8 @@ class PostsController extends Controller
         $categories = Category::where('type','post')->get();
         $tags = Tag::where('type','post')->get();
         $galleries = Gallery::all();
-        return view('admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'galleries'=>$galleries,'template'=>$this->adminTemplate()]);
+        $folders = Folder::all();
+        return view('admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'galleries'=>$galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)
@@ -141,7 +143,8 @@ class PostsController extends Controller
             $selectedTag[] = $tag->tag_id;
         };
         $galleries = Gallery::all();
-        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'template'=>$this->adminTemplate()]);
+        $folders = Folder::all();
+        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
     }
 
 }
