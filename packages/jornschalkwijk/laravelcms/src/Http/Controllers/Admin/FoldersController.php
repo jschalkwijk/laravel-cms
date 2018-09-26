@@ -31,11 +31,15 @@ class FoldersController extends Controller
         return view("admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
     }
 
-    public function show(Folder $folder)
+    public function show(Folder $folder,Request $r)
     {
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
         $files = $folder->files;
-//        dd($files[0]->user());
+        $back = '/admin/folders/'.$folder->parent_id;
+        if($r->ajax()){
+            $html = view('admin.uploads.file-manager.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'uploads' => $files,'back' => $back])->renderSections()['content'];
+            return response()->json(['success' => true,'html' => $html]);
+        }
         return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'files' => $files]);
     }
     public function create()

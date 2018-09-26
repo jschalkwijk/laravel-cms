@@ -128,9 +128,6 @@
             Route::group(['prefix'=>'/uploads'],function(){
                 Route::get('/{upload_id}/{folder_id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@destroy')->name('uploads.destroy');
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@action');
-                Route::post('/ajax','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@ajax');
-                Route::post('/gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@gallery');
-                Route::post('/createGallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\UploadsController@createGallery');
             });
 
             Route::resource('folders','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController',['except' => 'destroy']);
@@ -139,10 +136,20 @@
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FoldersController@action')->name('folders.action');
             });
 
+            Route::resource('file-manager','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController',['only' => 'index']);
+            Route::group(['prefix' =>'/file-manager'],function (){
+                Route::post('/search','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@search');
+                Route::get('/gallery/{id}','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@gallery');
+                Route::post('/create-gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@createGallery');
+                Route::post('/add-to-gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@addToGallery');
+                Route::post('/remove-from-gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@removeFromGallery');
+                Route::post('/add-gallery','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@addGalleryToEditor');
+                Route::get('/folders','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\FileManagerController@folders');
+            });
+
             Route::resource('galleries','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController',['except' => 'destroy']);
             Route::group(['prefix'=>'/galleries'],function(){
-                Route::post('/add','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@addToGallery');
-                Route::post('/remove','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\GalleriesController@removeFromGallery');
+
             });
             Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController',['except' => ['show']]);
             Route::group(['prefix' => '/products'],function(){

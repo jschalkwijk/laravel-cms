@@ -132,7 +132,7 @@ class PostsController extends Controller
         return back();
     }
 
-    public function edit(Post $post)
+    public function edit(Post $post,Request $r)
     {
         $post->load('category.user');
         // Get all the categories associated with Post
@@ -143,7 +143,7 @@ class PostsController extends Controller
             $selectedTag[] = $tag->tag_id;
         };
         $galleries = Gallery::all();
-        $folders = Folder::all();
+        $folders = Folder::where('parent_id',0)->get();
         return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
     }
 

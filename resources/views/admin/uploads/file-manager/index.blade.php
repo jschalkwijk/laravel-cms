@@ -1,13 +1,4 @@
-<!-- Add an optional button to open the popup -->
-{{-- Upload Images --}}
-{{--<div class="row">--}}
-    {{--<div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">--}}
-        {{--<div class="center">--}}
-            {{--@include('admin.uploads.upload-form',['reload'=> 0])--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
-
+@extends('admin.layout')
 <div class="row">
     <button class="my_popup_open">Open popup</button>
     <div id="my_popup" class="col-xs-5 col-sm-5 col-md-5">
@@ -53,11 +44,11 @@
 
         <div id="folders">
             <div class="row">
-                <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                <div class="col-md-6 col-lg-6">
                     <div class="row">
                         @if(isset($folders))
                             @foreach($folders as $folder)
-                                <div class="col">
+                                <div class="col-sm-4">
                                     <a href="{{ route('folders.show',$folder->id()) }}">
                                         <img src="{{asset('images/folder.png')}}">{{ $folder->name }}
                                     </a>

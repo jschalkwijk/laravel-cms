@@ -1,5 +1,4 @@
-
-<form id="check-folders" method="post" action="/admin/folders/action">
+<form id="check-folders" method="post" action="{{ route('folders.action') }}">
     {{ csrf_field() }}
     <table class="table table-sm table-striped">
         <thead class="thead-default">
@@ -18,12 +17,12 @@
         @foreach($folders as $folder)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td><a href="{{ route('folders.show',$folder->folder_id) }}">{{ $folder->name }}</a></td>
+                <td><a href="{{ route('folders.show',$folder->id()) }}">{{ $folder->name }}</a></td>
                 <td>Size</td>
                 <td class="td-btn"><p><a href="{{ $folder->table.'/'.$folder->id().'/edit'}}">Edit</a></p></td>
                 <td><a class="btn btn-sm btn-danger" href="{{ route('folders.destroy',$folder->folder_id) }}">Delete</a></td>
-                <td><input class="checkbox" type="checkbox" name="checkbox[]" value="{{ $folder->folder_id }}"/></td>
-                <td><input type="hidden" name="name" value="{{ $folder->name }}"/></td>
+                <td><input class="checkbox" type="checkbox" name="checkbox[]" value="{{ $folder->id() }}"/></td>
+                <td><input type="hidden" name="folder_id" value="{{ $folder->name }}"/></td>
             </tr>
         @endforeach
         </tbody>
