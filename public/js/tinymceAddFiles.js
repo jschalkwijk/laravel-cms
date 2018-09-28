@@ -2,6 +2,14 @@
  * Created by jorn on 14-08-18.
  */
 
+
+Array.prototype.empty = function () {
+    if(typeof this !== 'undefined' && this.length > 0){
+        return false;
+    } else {
+        return true;
+    }
+};
 function fileManager(){
    const manager = new FileManager({color:'blue'});
     handleFileManager(manager);
@@ -26,8 +34,13 @@ function insertGallery(html) {
     tinyMCE.execCommand('mceInsertRawHTML', false, html);
 }
 
-function FileManager (opt = {}){
-    let defaults = {
+function FileManager (options = {}){
+    // define this object to a var so we can use it in our event handlers.
+    const FileManager = this;
+    this.cache = [
+    ];
+    // Default values
+    this.defaults = {
         gallery: $('#gallery'),
         errors: $('#errors'),
         selectedGallery: $('#selected-gallery'),
@@ -36,9 +49,9 @@ function FileManager (opt = {}){
         searchFile: $('#search-file'),
         addGallery: $('#add-gallery'),
     };
-    let options = Object.assign({}, defaults, opt);
-    // define this object to a var so we can use it in our event handlers.
-    const FileManager = this;
+    // merge values from the options object to the defaults object and create new object
+    this.opt = Object.assign({}, this.defaults, options);
+
     // define the needed DOM elements we use.
     this.gallery = $('#gallery');
     this.errors = $('#errors');
@@ -62,7 +75,7 @@ function FileManager (opt = {}){
                 search: $('#search').val()
             },
             success: function (result) {
-                FileManager.selectedGallery.html(result.html);
+                FileManager.opt.selectedGallery.html(result.html);
                 // call image picker after adding the result, otherwise the script won't load.
                 $("#image-selector").imagepicker();
                 $.each($(".image_picker_image"),function () {
@@ -101,13 +114,20 @@ function FileManager (opt = {}){
         });
     };
     // Event Handlers
-    this.searchFile.click( function(e){FileManager.search(e);});
-    this.selectedGallery.on("click","#add-multiple",function () {
+    this.opt.searchFile.click( function(e){FileManager.search(e);});
+    this.opt.selectedGallery.on("click","#add-multiple",function () {
         FileManager.addFileToEditor();
     });
-    this.addGallery.click(function (e) {
+    this.opt.addGallery.click(function (e) {
         FileManager.addGalleryToEditor(e)
     });
+
+    // cache
+    // this.getCached = this.cache.filter(obj => {
+    //     if(obj.url === '/test'){
+    //         folders.html(obj.html);
+    //     }
+    // });
 }
 function handleFileManager(manager) {
 
@@ -272,12 +292,32 @@ function handleFileManager(manager) {
     });
 
     const folders = $('#folders');
+    function r(url){
+        // return manager.cache.filter(obj => {
+        //     if(obj.url === url){
+        //         folders.html(obj.html);
+        //         return obj;
+        //     }
+        // });
+        // return manager.cache.filter(obj => (obj.url === 'test'));
+        return manager.cache.find(obj => (obj.url === url));
+
+    }
     /*Folders*/
     folders.on('click','a',function (e) {
         e.preventDefault();
         let url = $(this).attr("href");
         let parts = url.split("/");
-        if(parts[parts.length-1] === '0'){
+        let rr = r(url);
+        console.log(manager.cache);
+        console.log(rr);
+        // Back URL causes problems because the url is not the full url but just /admin/folders/id. and the folder urls themselfs are http:// etc. fix this.
+        if(rr !== undefined){
+            folders.html(rr.html);
+            $("#dropzone").dropzone();
+            $('#image-folder-selector').imagepicker();
+            return;
+        } else if(parts[parts.length-1] === '0'){
             url = '/admin/file-manager/folders';
             $.ajax({
                 url:url,
@@ -314,6 +354,12 @@ function handleFileManager(manager) {
                     console.log(result);
                     if(result.success) {
                         folders.html(result.html);
+
+                        // Add visited page to the FileManager Cache array so when we go back to this page again no ajax request for data is required.
+                        manager.cache.push({
+                            url: url,
+                            html: result.html,
+                        });
                         $('#back').attr("href",back);
                         $("#dropzone").dropzone();
                         $('#image-folder-selector').imagepicker();
@@ -323,8 +369,6 @@ function handleFileManager(manager) {
                 }
             });
         }
-        return false;
-
     })
 }
 addLoadEvent(fileManager);

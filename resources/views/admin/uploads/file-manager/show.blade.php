@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
-                <a id="back" href="{{$back}}">Back</a>
+                <a id="back" href="{{url($back)}}">Back</a>
                 <div class="center">
                     @include('admin.uploads.upload-form',['reload'=> 0])
                 </div>
