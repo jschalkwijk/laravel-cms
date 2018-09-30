@@ -9,7 +9,7 @@
     </select><br>
     <input type="text" class="form-control" name="name" placeholder="New Folder" maxlength="60"/>
     @if(isset($folder) && $folder != null)
-        <input type="hidden" name="parent" value="{{$folder->id()}}">
+        <input type="hidden" name="parent" value="{{$folder->parent_id}}">
     @endif
     <input type="hidden" name="reload" value="{{(isset($reload)) ? $reload : true }}"/>
     <div class="fallback">

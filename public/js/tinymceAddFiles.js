@@ -10,11 +10,24 @@ Array.prototype.empty = function () {
         return true;
     }
 };
-function fileManager(){
-   const manager = new FileManager({color:'blue'});
-    handleFileManager(manager);
 
+function requestStatusError(x,e){
+        if (x.status === 0) {
+            alert('You are offline!!\n Please Check Your Network.');
+        } else if(x.status === 404) {
+            alert('Requested URL not found.');
+        } else if(x.status === 500) {
+            alert('Internel Server Error.');
+        } else if(e ==='parsererror') {
+            alert('Error.\nParsing JSON Request failed.');
+        } else if(e ==='timeout'){
+            alert('Request Time out.');
+        } else {
+            alert('Unknow Error.\n'+x.responseText);
+        }
 }
+
+fileManagerController(new FileManager({color:'blue'}));
 
 function insertImages(images,thumb) {
     console.log(images);
@@ -48,6 +61,7 @@ function FileManager (options = {}){
     // define the DOM element buttons we use for our click events
         searchFile: $('#search-file'),
         addGallery: $('#add-gallery'),
+        folders: $('#folders'),
     };
     // merge values from the options object to the defaults object and create new object
     this.opt = Object.assign({}, this.defaults, options);
@@ -95,7 +109,7 @@ function FileManager (options = {}){
     ;
     this.addGalleryToEditor = function (e) {
         e.preventDefault();
-        console.log(Number($('#gallery').val()));
+        console.log(Number(FileManager.opt.gallery.val()));
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -105,7 +119,7 @@ function FileManager (options = {}){
             url: "/admin/file-manager/add-gallery",
             method: 'post',
             data: {
-                gallery: Number(gallery.val())
+                gallery: Number(FileManager.opt.gallery.val())
             },
             success: function (result) {
                 console.log(result.html);
@@ -113,31 +127,84 @@ function FileManager (options = {}){
             }
         });
     };
-    // Event Handlers
-    this.opt.searchFile.click( function(e){FileManager.search(e);});
-    this.opt.selectedGallery.on("click","#add-multiple",function () {
-        FileManager.addFileToEditor();
-    });
-    this.opt.addGallery.click(function (e) {
-        FileManager.addGalleryToEditor(e)
-    });
+    // Folders
+    this.folder = function(requestUrl,update = false){
+        let url = requestUrl;
+        let parts = requestUrl.split("/");
+        let cached = FileManager.getCached(url);
+        console.log(url);
+        console.log(FileManager.cache);
+        console.log(cached);
 
+        if(cached && !update){
+            FileManager.opt.folders.html(cached.html);
+            $("#dropzone").dropzone();
+            $('#image-folder-selector').imagepicker();
+            return;
+        } else {
+            if(parts[parts.length-1] === '0'){
+                url = '/admin/file-manager/folders';
+            }
+            const back = $("#currentUrl").html();
+            $.ajax({
+                url:url,
+                method: 'GET',
+                success: function (result) {
+                    console.log(result);
+                    if(result.success) {
+                        FileManager.opt.folders.html(result.html);
+                        // Add visited page to the FileManager Cache array so when we go back to this page again no ajax request for data is required.
+                        FileManager.addCache(requestUrl,result.html);
+                        $('#back').attr("href",back);
+                        $("#dropzone").dropzone();
+                        $('#image-folder-selector').imagepicker();
+                    } else {
+                        errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                    }
+                },
+                error: function(x,e){requestStatusError(x,e)},
+            });
+        }
+    };
     // cache
-    // this.getCached = this.cache.filter(obj => {
-    //     if(obj.url === '/test'){
-    //         folders.html(obj.html);
-    //     }
-    // });
+    this.getCached = function(url){
+        // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
+        return FileManager.cache.find(obj => (obj.url === url)) || false;
+    };
+    this.addCache = function (url,html) {
+        this.removeCache(url);
+        // delete
+        if(!this.getCached(url)) {
+            this.cache.push({
+                url: url,
+                html: html,
+            });
+        }
+    };
+    this.removeCache = function(url){
+        let removeIndex = this.cache.map(function(item) { return item.url; }).indexOf(url);// get index of object with url given
+        if( removeIndex === -1 ){
+            removeIndex = 0;
+            return false;
+        }
+        this.cache.splice(removeIndex, 1);
+    }
 }
-function handleFileManager(manager) {
+function fileManagerController(fileManager) {
 
     const gallery = $('#gallery');
     const errors = $('#errors');
     const selectedGallery = $('#selected-gallery');
     const searchResults = $('#search-results');
 
-
-
+    // Event Handlers
+    fileManager.opt.searchFile.click( function(e){fileManager.search(e);});
+    fileManager.opt.selectedGallery.on("click","#add-multiple",function () {
+        fileManager.addFileToEditor();
+    });
+    fileManager.opt.addGallery.click(function (e) {
+        fileManager.addGalleryToEditor(e)
+    });
     $('#create-gallery').click(function (e) {
         e.preventDefault();
 
@@ -291,84 +358,11 @@ function handleFileManager(manager) {
         });
     });
 
-    const folders = $('#folders');
-    function r(url){
-        // return manager.cache.filter(obj => {
-        //     if(obj.url === url){
-        //         folders.html(obj.html);
-        //         return obj;
-        //     }
-        // });
-        // return manager.cache.filter(obj => (obj.url === 'test'));
-        return manager.cache.find(obj => (obj.url === url));
-
-    }
     /*Folders*/
-    folders.on('click','a',function (e) {
+    fileManager.opt.folders.on('click','a',function (e) {
         e.preventDefault();
         let url = $(this).attr("href");
-        let parts = url.split("/");
-        let rr = r(url);
-        console.log(manager.cache);
-        console.log(rr);
-        // Back URL causes problems because the url is not the full url but just /admin/folders/id. and the folder urls themselfs are http:// etc. fix this.
-        if(rr !== undefined){
-            folders.html(rr.html);
-            $("#dropzone").dropzone();
-            $('#image-folder-selector').imagepicker();
-            return;
-        } else if(parts[parts.length-1] === '0'){
-            url = '/admin/file-manager/folders';
-            $.ajax({
-                url:url,
-                method: 'GET',
-                success: function (result) {
-                    if(result.success) {
-                        folders.html(result.html);
-                    } else {
-                        errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
-                    }
-                },
-                error:function(x,e) {
-                    if (x.status==0) {
-                        alert('You are offline!!\n Please Check Your Network.');
-                    } else if(x.status==404) {
-                        alert('Requested URL not found.');
-                    } else if(x.status==500) {
-                        alert('Internel Server Error.');
-                    } else if(e=='parsererror') {
-                        alert('Error.\nParsing JSON Request failed.');
-                    } else if(e=='timeout'){
-                        alert('Request Time out.');
-                    } else {
-                        alert('Unknow Error.\n'+x.responseText);
-                    }
-                }
-            });
-        } else {
-            const back = $("#currentUrl").html();
-            $.ajax({
-                url:url,
-                method: 'GET',
-                success: function (result) {
-                    console.log(result);
-                    if(result.success) {
-                        folders.html(result.html);
-
-                        // Add visited page to the FileManager Cache array so when we go back to this page again no ajax request for data is required.
-                        manager.cache.push({
-                            url: url,
-                            html: result.html,
-                        });
-                        $('#back').attr("href",back);
-                        $("#dropzone").dropzone();
-                        $('#image-folder-selector').imagepicker();
-                    } else {
-                        errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
-                    }
-                }
-            });
-        }
+        fileManager.folder(url);
     })
 }
-addLoadEvent(fileManager);
+// addLoadEvent();
