@@ -2,7 +2,6 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Upload;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Http\Request;
