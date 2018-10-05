@@ -3,13 +3,13 @@
     <label for="destination" class="form-check-label"><h4>Select Destination</h4></label>
     <select name="destination" class="form-control">
         <option value="0" selected>None</option>
-        @foreach($folders as $folder)
-            <option value="{{$folder->id()}}">{{$folder->name}}</option>
+        @foreach($folders as $f)
+            <option value="{{$f->id()}}">{{$f->name}}</option>
         @endforeach
     </select><br>
     <input type="text" class="form-control" name="name" placeholder="New Folder" maxlength="60"/>
     @if(isset($folder) && $folder != null)
-        <input type="hidden" name="parent" value="{{$folder->parent_id}}">
+        <input type="hidden" name="parent" value="{{$folder->folder_id}}">
     @endif
     <input type="hidden" name="reload" value="{{(isset($reload)) ? $reload : true }}"/>
     <div class="fallback">

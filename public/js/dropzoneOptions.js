@@ -6,15 +6,15 @@ Dropzone.options.dropzone = {
     paramName: "files",
     dictDefaultMessage: "Drop files here or click to upload",
     init: function () {
-        this.on("success", function (file, response) {
-            this.removeAllFiles(file);
-            console.log(response);
-            if(response['reload']){
-                location.reload();
-            } else {
-                console.log('dont reload');
-            }
+        this.on("complete",function (file,response) {
+           console.log(file,response);
+        });
+        this.on("completemultiple", function (files) {
+            this.removeAllFiles(files);
+                // console.log('/admin/file-manager/folders/'+$('#dropzone').find("input[name='parent']").val());
+                fileManager.folder('http://laravelcms.test/admin/folders/'+$('#dropzone').find("input[name='parent']").val(),true);
 
-        })
+
+        });
     }
 };
