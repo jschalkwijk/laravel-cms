@@ -14,5 +14,11 @@
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3"
+  },
+  "dependencies": {
+    "image-picker": "^0.3.1",
+    "jquery-popup-overlay": "https://github.com/vast-engineering/jquery-popup-overlay",
+    "selectize": "^0.12.6",
+    "tinymce": "^4.4"
   }
 }
