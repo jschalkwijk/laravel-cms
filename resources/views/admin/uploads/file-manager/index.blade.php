@@ -20,9 +20,11 @@
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <select id="gallery" name="gallery" class="form-control">
                             <option value="None">None</option>
-                            @foreach($galleries as $gallery)
-                                <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
-                            @endforeach
+                            @if(isset($galleries))
+                                @foreach($galleries as $gallery)
+                                    <option value="{{$gallery->gallery_id}}">{{$gallery->name}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <button id="add-gallery" name="add-gallery">Add Gallery</button>

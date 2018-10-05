@@ -3,6 +3,8 @@
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
 use CMS\Models\Category;
+use CMS\Models\Folder;
+use CMS\Models\Gallery;
 use CMS\Models\Product;
 use CMS\Models\Tag;
 use CMS\Http\Controllers\Controller;
@@ -126,12 +128,15 @@ class ProductsController extends Controller
     public function edit(Product $product)
     {
         // Get all the categories associated with Product
-        $categories = Category::where('type','product')->get();
-        $tags = Tag::where('type','product')->get();
+        $categories = Category::where('type', 'product')->get();
+        $tags = Tag::where('type', 'product')->get();
         $selectedTag = [];
         foreach ($product->tags as $tag) {
             $selectedTag[] = $tag->tag_id;
         };
-        return view('admin.products.edit')->with(['product' => $product,'categories' => $categories,'tags' => $tags, 'selectedTag' => $selectedTag,'template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        $folders = Folder::where('parent_id', 0)->get();
+
+        return view('admin.products.edit')->with(['product' => $product, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
     }
 }
