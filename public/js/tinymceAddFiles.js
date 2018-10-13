@@ -270,42 +270,77 @@ function FileManager(options = {}) {
         let url = requestUrl;
         let parts = requestUrl.split("/");
 
-        let cached = Cache.get(url);
         console.log(url);
-        console.log(Cache.cache);
+        // console.log(Cache.cache);
 
-        console.log(cached);
-        if (cached && !update) {
-            _this.opt.folders.html(cached.html);
-            $("#dropzone").dropzone();
-            $('#image-folder-selector').imagepicker();
-        } else {
-            if (parts[parts.length - 1] === '0') {
-                url = '/admin/file-manager/folders';
-            }
-            const back = $("#currentUrl").html();
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (result) {
-                    console.log(result);
-                    if (result.success) {
-                        // Add visited page to the _this Cache array so when we go back to this page again no ajax request for data is required.
-                        _this.opt.folders.html(result.html);
-                        Cache.set(requestUrl, result.html);
-                        $('#back').attr("href", back);
-                        $("#dropzone").dropzone();
-                        $('#image-folder-selector').imagepicker();
-                    } else {
-                        _this.opt.errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
-                    }
-                },
-                error: function (x, e) {
-                    requestStatusError(x, e)
-                },
-            });
+        if (parts[parts.length - 1] === '0') {
+            url = '/admin/file-manager/folders';
         }
+        const back = $("#currentUrl").html();
+        $.ajax({
+            url: url,
+            method: 'GET',
+            cache: true,
+            ifModified: true,
+            beforeSend: function () {
+                let cached = Cache.get(requestUrl);
+                if (cached && !update) {
+                    _this.opt.folders.html(cached.html);
+                    $("#dropzone").dropzone();
+                    $('#image-folder-selector').imagepicker();
+                    return false;
+                }
+                $("#wait").css("display", "block");
+                return true;
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.success) {
+                    // Add visited page to the _this Cache array so when we go back to this page again no ajax request for data is required.
+                    _this.opt.folders.html(result.html);
+                    Cache.set(requestUrl, result.html);
+                    $('#back').attr("href", back);
+                    $("#dropzone").dropzone();
+                    $('#image-folder-selector').imagepicker();
+                } else {
+                    _this.opt.errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                }
+            },
+            error: function (x, e) {
+                requestStatusError(x, e)
+            },
+        });
     };
+
+    this.upload = function (e,url,formData) {
+        $.ajax({
+            url: url,
+            method:'post',
+            //When using FormData to parse the form the below settings need to be false otherwise it wont work.
+            processData: false,
+            contentType: false,
+            data: formData,
+            beforeSend: function () {
+                $("#wait").css("display", "block");
+            },
+            complete: function () {
+                $("#wait").css("display", "none");
+            },
+            success: function (result) {
+                console.log(result);
+                if(result.success && !result['reload']){
+                    _this.folder('http://laravelcms.test/admin/folders/'+$('#upload').find("input[name='parent']").val(),true);
+                } else if(result.success && result['reload']){
+                    location.reload();
+                } else {
+                    _this.opt.errors.html('<div class="alert alert-warning">Oops something went wrong</div>');
+                }
+            },
+            error: function (x, e) {
+                requestStatusError(x, e)
+            },
+        })
+    }
 }
 
 function FileManagerController(fileManager) {
@@ -344,39 +379,128 @@ function FileManagerController(fileManager) {
         let url = $(this).attr("href");
         fileManager.folder(url);
     });
+
+    fileManager.opt.folders.on('submit','#upload',function (e) {
+        e.preventDefault();
+        let url = $(this).attr("action");
+        let formData = new FormData(document.getElementById('upload'));
+        fileManager.upload(e,url,formData);
+    });
 }
 
+// var Cache = {
+//     // cache
+//     cache: [],
+//     get: function (url) {
+//         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
+//         return this.cache.find(obj => (obj.url === url)) || false;
+//     },
+//     set: function (url, html) {
+//         this.unset(url);
+//         // delete
+//         if (!this.get(url)) {
+//             this.cache.push({
+//                 url: url,
+//                 html: html,
+//             });
+//         }
+//     },
+//     unset: function (url) {
+//         let removeIndex = this.cache.map(function (item) {
+//             return item.url;
+//         }).indexOf(url);// get index of object with url given
+//         if (removeIndex === -1) {
+//             removeIndex = 0;
+//             return false;
+//         }
+//         this.cache.splice(removeIndex, 1);
+//     },
+//     reset: function () {
+//
+//     }
+// };
+
+
+// sessionStorage
 var Cache = {
     // cache
-    cache: [],
+    // cache : [{url: "test",html:"html"}],
     get: function (url) {
         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
-        return this.cache.find(obj => (obj.url === url)) || false;
+        // let cache = [{url: "test",html:"html"}];
+        // sessionStorage.setItem("cache", JSON.stringify(cache));
+        // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
+        // console.log(cache2);
+        // return cache2.find(obj => (obj.url === 'test')) || false;
+        if(sessionStorage.getItem("cache")){
+            let cache = JSON.parse(sessionStorage.getItem("cache"));
+            console.log(cache);
+            // sessionStorage.setItem("cache", JSON.stringify([]));
+            if(cache.find(obj => (obj.url === url)) !== undefined){
+                return cache.find(obj => (obj.url === url));
+            } else {
+                return false;
+            }
+        }
+
     },
     set: function (url, html) {
         this.unset(url);
         // delete
         if (!this.get(url)) {
-            this.cache.push({
+            let updatedCache = JSON.parse(sessionStorage.getItem("cache"));
+            updatedCache.push({
                 url: url,
                 html: html,
             });
+
+            sessionStorage.setItem("cache", JSON.stringify(updatedCache));
+            let cache = JSON.parse(sessionStorage.getItem("cache"));
+            console.log(cache);
         }
+
     },
     unset: function (url) {
-        let removeIndex = this.cache.map(function (item) {
+        let removeIndex = JSON.parse(sessionStorage.getItem("cache")).map(function (item) {
             return item.url;
         }).indexOf(url);// get index of object with url given
         if (removeIndex === -1) {
             removeIndex = 0;
             return false;
         }
-        this.cache.splice(removeIndex, 1);
+        JSON.parse(sessionStorage.getItem("cache")).splice(removeIndex, 1);
     },
     reset: function () {
 
     }
 };
+
+if(sessionStorage){
+    if(!sessionStorage.getItem('cache')) {
+        // Store data
+        let cache = [];
+        sessionStorage.setItem("cache", JSON.stringify(cache));
+
+        // let updatedCache = JSON.parse(sessionStorage.getItem("cache"));
+        // updatedCache.push({
+        //     url: 'test',
+        //     html: 'html',
+        // });
+        // updatedCache.push({
+        //     url: 'jorn',
+        //     html: 'porn',
+        // });
+        // sessionStorage.setItem("cache", JSON.stringify(updatedCache));
+        // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
+        // console.log(cache2);
+        // // let test = JSON.parse(sessionStorage.getItem("cache"));
+        // // Retrieve data
+        // console.log(JSON.parse(sessionStorage.getItem("cache")).find(obj => (obj.url === 'xxxx')));
+    }
+
+} else {
+    alert("Sorry, your browser do not support session storage.");
+}
 
 var fileManager = new FileManager();
 FileManagerController(fileManager);

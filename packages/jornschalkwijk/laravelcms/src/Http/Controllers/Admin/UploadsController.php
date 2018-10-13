@@ -99,7 +99,7 @@ class UploadsController extends Controller
         }
 
         if($r->ajax()) {
-            return response()->json(['success' => true,'reload' => (int)$r['reload']]);
+            return response()->json(['success' => true,'reload' => (int)$r['reload'],'fileCount' => count($r->file('files'))]);
         }
 
         return back();
