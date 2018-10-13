@@ -425,6 +425,7 @@ function FileManagerController(fileManager) {
 var Cache = {
     // cache
     // cache : [{url: "test",html:"html"}],
+    name: 'cache',
     get: function (url) {
         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
         // let cache = [{url: "test",html:"html"}];
@@ -432,10 +433,10 @@ var Cache = {
         // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
         // console.log(cache2);
         // return cache2.find(obj => (obj.url === 'test')) || false;
-        if(sessionStorage.getItem("cache")){
-            let cache = JSON.parse(sessionStorage.getItem("cache"));
+        if(sessionStorage.getItem(this.name)){
+            let cache = JSON.parse(sessionStorage.getItem(this.name));
             console.log(cache);
-            // sessionStorage.setItem("cache", JSON.stringify([]));
+            // sessionStorage.setItem(this.name, JSON.stringify([]));
             if(cache.find(obj => (obj.url === url)) !== undefined){
                 return cache.find(obj => (obj.url === url));
             } else {
@@ -448,27 +449,27 @@ var Cache = {
         this.unset(url);
         // delete
         if (!this.get(url)) {
-            let updatedCache = JSON.parse(sessionStorage.getItem("cache"));
+            let updatedCache = JSON.parse(sessionStorage.getItem(this.name));
             updatedCache.push({
                 url: url,
                 html: html,
             });
 
-            sessionStorage.setItem("cache", JSON.stringify(updatedCache));
-            let cache = JSON.parse(sessionStorage.getItem("cache"));
+            sessionStorage.setItem(this.name, JSON.stringify(updatedCache));
+            let cache = JSON.parse(sessionStorage.getItem(this.name));
             console.log(cache);
         }
 
     },
     unset: function (url) {
-        let removeIndex = JSON.parse(sessionStorage.getItem("cache")).map(function (item) {
+        let removeIndex = JSON.parse(sessionStorage.getItem(this.name)).map(function (item) {
             return item.url;
         }).indexOf(url);// get index of object with url given
         if (removeIndex === -1) {
             removeIndex = 0;
             return false;
         }
-        JSON.parse(sessionStorage.getItem("cache")).splice(removeIndex, 1);
+        JSON.parse(sessionStorage.getItem(this.name)).splice(removeIndex, 1);
     },
     reset: function () {
 
