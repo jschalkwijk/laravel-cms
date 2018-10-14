@@ -30,8 +30,9 @@ function requestStatusError(x, e) {
 
 function FileManager(options = {}) {
     // define this object to a var so we can use it in our event handlers.
+
     const _this = this;
-    this.cache = [];
+    this.cache = new Cache('cache');
     // Default values
     this.defaults = {
         searchFile: $('#search-file'),
@@ -283,7 +284,7 @@ function FileManager(options = {}) {
             cache: true,
             ifModified: true,
             beforeSend: function () {
-                let cached = Cache.get(requestUrl);
+                let cached = _this.cache.get('url',requestUrl);
                 if (cached && !update) {
                     _this.opt.folders.html(cached.html);
                     $("#dropzone").dropzone();
@@ -298,7 +299,7 @@ function FileManager(options = {}) {
                 if (result.success) {
                     // Add visited page to the _this Cache array so when we go back to this page again no ajax request for data is required.
                     _this.opt.folders.html(result.html);
-                    Cache.set(requestUrl, result.html);
+                    _this.cache.set({url: requestUrl, html: result.html},'url');
                     $('#back').attr("href", back);
                     $("#dropzone").dropzone();
                     $('#image-folder-selector').imagepicker();
@@ -421,82 +422,150 @@ function FileManagerController(fileManager) {
 // };
 
 
-// sessionStorage
-var Cache = {
-    // cache
-    // cache : [{url: "test",html:"html"}],
-    name: 'cache',
-    get: function (url) {
+// // sessionStorage
+// var Cache = {
+//     // cache
+//     // cache : [{url: "test",html:"html"}],
+//     name : 'cache',
+//     init: function(){
+//         if(sessionStorage){
+//             if(!sessionStorage.getItem(this.name)) {
+//                 // Store data
+//                 let cache = [];
+//                 sessionStorage.setItem(this.name, JSON.stringify(cache));
+//             }
+//
+//         } else {
+//             alert("Sorry, your browser do not support session storage.");
+//         }
+//     },
+//
+//     get : function () {
+//         return JSON.parse(sessionStorage.getItem(this.name));
+//     },
+//     set : function (values = {},referenceKey) {
+//         // remove value from array which has this reference value
+//         this.unset(referenceKey,values[referenceKey]);
+//         // Get current stored array and update with new data
+//         let updatedCache = this.get();
+//
+//         updatedCache.push(values);
+//         console.log('updated cache',updatedCache);
+//         //overwrite the old array with the update array
+//         sessionStorage.setItem(this.name, JSON.stringify(updatedCache));
+//         console.log(this.get());
+//     },
+//     unset: function (key,value) {
+//         console.log('unset value',value);
+//         let cache = JSON.parse(sessionStorage.getItem(this.name));
+//         let removeIndex = cache.map(function (item) {
+//             return item[key];
+//         }).indexOf(value);// get index of object with url given
+//         console.log('removeIndex',removeIndex);
+//         if (removeIndex === -1) {
+//             removeIndex = 0;
+//             return false;
+//         }
+//         cache.splice(removeIndex, 1);
+//         console.log('current cache',cache);
+//         sessionStorage.setItem(this.name,JSON.stringify(cache));
+// },
+//     reset: function () {
+//         sessionStorage.setItem(this.name, JSON.stringify([]));
+//     },
+//     getByKeyValue: function (key,value) {
+//         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
+//         // let cache = [{url: "test",html:"html"}];
+//         // sessionStorage.setItem("cache", JSON.stringify(cache));
+//         // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
+//         // console.log(cache2);
+//         // return cache2.find(obj => (obj.url === 'test')) || false;
+//         if (sessionStorage.getItem(this.name)) {
+//             let cache = this.get();
+//             console.log(cache);
+//             // sessionStorage.setItem(this.name, JSON.stringify([]));
+//             if (cache.find(obj => (obj[key] === value)) !== undefined) {
+//                 return cache.find(obj => (obj[key] === value));
+//             } else {
+//                 return false;
+//             }
+//         }
+//     }
+// };
+
+var Cache = function(name){
+    const _this = this;
+    this.name = name;
+    this.cache = function () {
+        return JSON.parse(sessionStorage.getItem(this.name));
+    };
+
+    (function init() {
+        if (sessionStorage) {
+            if (!sessionStorage.getItem(_this.name)) {
+                // Store data
+                let cache = [];
+                sessionStorage.setItem(_this.name, JSON.stringify(cache));
+            }
+            console.log('init');
+        } else {
+            alert("Sorry, your browser do not support session storage.");
+        }
+    }());
+
+    this.get = function (key, value) {
         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
         // let cache = [{url: "test",html:"html"}];
         // sessionStorage.setItem("cache", JSON.stringify(cache));
         // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
         // console.log(cache2);
         // return cache2.find(obj => (obj.url === 'test')) || false;
-        if(sessionStorage.getItem(this.name)){
-            let cache = JSON.parse(sessionStorage.getItem(this.name));
+        if (sessionStorage.getItem(this.name)) {
+            let cache = this.cache();
             console.log(cache);
             // sessionStorage.setItem(this.name, JSON.stringify([]));
-            if(cache.find(obj => (obj.url === url)) !== undefined){
-                return cache.find(obj => (obj.url === url));
+            if (cache.find(obj => (obj[key] === value)) !== undefined) {
+                return cache.find(obj => (obj[key] === value));
             } else {
                 return false;
             }
         }
+    };
 
-    },
-    set: function (url, html) {
-        this.unset(url);
-        // delete
-        if (!this.get(url)) {
-            let updatedCache = JSON.parse(sessionStorage.getItem(this.name));
-            updatedCache.push({
-                url: url,
-                html: html,
-            });
+    this.set = function (values = {}, referenceKey) {
+        // remove value from array which has this reference value
+        this.unset(referenceKey,values[referenceKey]);
+        // Get current stored array and update with new data
+        let updatedCache = this.cache();
+        updatedCache.push(values);
+        //overwrite the old array with the update array
+        sessionStorage.setItem(this.name, JSON.stringify(updatedCache));
+        console.log(this.cache());
+    };
 
-            sessionStorage.setItem(this.name, JSON.stringify(updatedCache));
-            let cache = JSON.parse(sessionStorage.getItem(this.name));
-            console.log(cache);
-        }
-
-    },
-    unset: function (url) {
-        let removeIndex = JSON.parse(sessionStorage.getItem(this.name)).map(function (item) {
-            return item.url;
-        }).indexOf(url);// get index of object with url given
+    this.unset = function (key,value) {
+        let cache = JSON.parse(sessionStorage.getItem(this.name));
+        let removeIndex = cache.map(function (item) {
+            return item[key];
+        }).indexOf(value);// get index of object with url given
         if (removeIndex === -1) {
             removeIndex = 0;
             return false;
         }
-        JSON.parse(sessionStorage.getItem(this.name)).splice(removeIndex, 1);
-    },
-    reset: function () {
+        cache.splice(removeIndex, 1);
+        sessionStorage.setItem(this.name, JSON.stringify(cache));
+    };
 
-    }
+    this.reset = function () {
+        sessionStorage.setItem(this.name, JSON.stringify([]));
+    };
 };
 
 if(sessionStorage){
     if(!sessionStorage.getItem('cache')) {
         // Store data
         let cache = [];
-        sessionStorage.setItem("cache", JSON.stringify(cache));
-
-        // let updatedCache = JSON.parse(sessionStorage.getItem("cache"));
-        // updatedCache.push({
-        //     url: 'test',
-        //     html: 'html',
-        // });
-        // updatedCache.push({
-        //     url: 'jorn',
-        //     html: 'porn',
-        // });
-        // sessionStorage.setItem("cache", JSON.stringify(updatedCache));
-        // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
-        // console.log(cache2);
-        // // let test = JSON.parse(sessionStorage.getItem("cache"));
-        // // Retrieve data
-        // console.log(JSON.parse(sessionStorage.getItem("cache")).find(obj => (obj.url === 'xxxx')));
+        sessionStorage.setItem('cache', JSON.stringify(cache));
     }
 
 } else {
