@@ -35,9 +35,10 @@ function FileManager(options = {}) {
     this.cache = new Cache('cache');
     // Default values
     this.defaults = {
-        searchFile: $('#search-file'),
         errors: $('#errors'),
+        searchFile: $('#search-file'),
         searchResults: $('#search-results'),
+        searchResultsSelector:$('#image-search-selector'),
         gallery: $('#gallery'),
         selectedGallery: $('#selected-gallery'),
         addGallery: $('#add-gallery'),
@@ -65,7 +66,7 @@ function FileManager(options = {}) {
             success: function (result) {
                 _this.opt.searchResults.html(result.html);
                 // call image picker after adding the result, otherwise the script won't load.
-                $("#image-selector").imagepicker();
+                $("#image-search-selector").imagepicker();
                 $.each($(".image_picker_image"), function () {
                     $(this).addClass('image');
                 });
@@ -73,11 +74,11 @@ function FileManager(options = {}) {
         });
     };
 
-    this.addFileToEditor = function (e,thumb = null) {
+    this.addFileToEditor = function (thumb = null) {
         let images = [];
 
         console.log("hello");
-        $.each($("select#image-selector option:selected"), function () {
+        $.each($("select#image-search-selector option:selected"), function () {
             images.push($(this).val());
         });
 
@@ -122,7 +123,7 @@ function FileManager(options = {}) {
     this.addImageToGallery = function (e) {
         e.preventDefault();
         const images = [];
-        $.each($("select#image-selector option:selected"), function () {
+        $.each($("select#image-search-selector option:selected"), function () {
             images.push($(this).attr('id'));
         });
         $.ajaxSetup({
@@ -350,8 +351,9 @@ function FileManagerController(fileManager) {
         fileManager.search(e);
     });
 
-    fileManager.opt.selectedGallery.on("click", "#add-multiple", function (e) {
-        fileManager.addFileToEditor(e);
+    fileManager.opt.searchResults.on("click", "#add-from-search", function (e) {
+        e.preventDefault();
+        fileManager.addFileToEditor();
     });
 
     fileManager.opt.addGallery.click(function (e) {
@@ -387,111 +389,11 @@ function FileManagerController(fileManager) {
         let formData = new FormData(document.getElementById('upload'));
         fileManager.upload(e,url,formData);
     });
+    fileManager.opt.folders.on('click','#add-from-folder',function (e) {
+        e.preventDefault();
+        fileManager.addFileToEditor();
+    });
 }
-
-// var Cache = {
-//     // cache
-//     cache: [],
-//     get: function (url) {
-//         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
-//         return this.cache.find(obj => (obj.url === url)) || false;
-//     },
-//     set: function (url, html) {
-//         this.unset(url);
-//         // delete
-//         if (!this.get(url)) {
-//             this.cache.push({
-//                 url: url,
-//                 html: html,
-//             });
-//         }
-//     },
-//     unset: function (url) {
-//         let removeIndex = this.cache.map(function (item) {
-//             return item.url;
-//         }).indexOf(url);// get index of object with url given
-//         if (removeIndex === -1) {
-//             removeIndex = 0;
-//             return false;
-//         }
-//         this.cache.splice(removeIndex, 1);
-//     },
-//     reset: function () {
-//
-//     }
-// };
-
-
-// // sessionStorage
-// var Cache = {
-//     // cache
-//     // cache : [{url: "test",html:"html"}],
-//     name : 'cache',
-//     init: function(){
-//         if(sessionStorage){
-//             if(!sessionStorage.getItem(this.name)) {
-//                 // Store data
-//                 let cache = [];
-//                 sessionStorage.setItem(this.name, JSON.stringify(cache));
-//             }
-//
-//         } else {
-//             alert("Sorry, your browser do not support session storage.");
-//         }
-//     },
-//
-//     get : function () {
-//         return JSON.parse(sessionStorage.getItem(this.name));
-//     },
-//     set : function (values = {},referenceKey) {
-//         // remove value from array which has this reference value
-//         this.unset(referenceKey,values[referenceKey]);
-//         // Get current stored array and update with new data
-//         let updatedCache = this.get();
-//
-//         updatedCache.push(values);
-//         console.log('updated cache',updatedCache);
-//         //overwrite the old array with the update array
-//         sessionStorage.setItem(this.name, JSON.stringify(updatedCache));
-//         console.log(this.get());
-//     },
-//     unset: function (key,value) {
-//         console.log('unset value',value);
-//         let cache = JSON.parse(sessionStorage.getItem(this.name));
-//         let removeIndex = cache.map(function (item) {
-//             return item[key];
-//         }).indexOf(value);// get index of object with url given
-//         console.log('removeIndex',removeIndex);
-//         if (removeIndex === -1) {
-//             removeIndex = 0;
-//             return false;
-//         }
-//         cache.splice(removeIndex, 1);
-//         console.log('current cache',cache);
-//         sessionStorage.setItem(this.name,JSON.stringify(cache));
-// },
-//     reset: function () {
-//         sessionStorage.setItem(this.name, JSON.stringify([]));
-//     },
-//     getByKeyValue: function (key,value) {
-//         // Finds an object in the cache array where the objects url == the given one and returns the object or undefined
-//         // let cache = [{url: "test",html:"html"}];
-//         // sessionStorage.setItem("cache", JSON.stringify(cache));
-//         // let cache2 = JSON.parse(sessionStorage.getItem("cache"));
-//         // console.log(cache2);
-//         // return cache2.find(obj => (obj.url === 'test')) || false;
-//         if (sessionStorage.getItem(this.name)) {
-//             let cache = this.get();
-//             console.log(cache);
-//             // sessionStorage.setItem(this.name, JSON.stringify([]));
-//             if (cache.find(obj => (obj[key] === value)) !== undefined) {
-//                 return cache.find(obj => (obj[key] === value));
-//             } else {
-//                 return false;
-//             }
-//         }
-//     }
-// };
 
 var Cache = function(name){
     const _this = this;
@@ -560,17 +462,6 @@ var Cache = function(name){
         sessionStorage.setItem(this.name, JSON.stringify([]));
     };
 };
-
-if(sessionStorage){
-    if(!sessionStorage.getItem('cache')) {
-        // Store data
-        let cache = [];
-        sessionStorage.setItem('cache', JSON.stringify(cache));
-    }
-
-} else {
-    alert("Sorry, your browser do not support session storage.");
-}
 
 var fileManager = new FileManager();
 FileManagerController(fileManager);

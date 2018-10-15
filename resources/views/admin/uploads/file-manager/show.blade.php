@@ -48,7 +48,7 @@
                 </select>
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="add-multiple" name="add-multiple">Add Selection</button>
+                        <button id="add-from-folder" name="add-from-folder">Add Selection</button>
                     </div>
                 </div>
             </div>
