@@ -32,7 +32,7 @@ function FileManager(options = {}) {
     // define this object to a var so we can use it in our event handlers.
 
     const _this = this;
-    this.cache = new Cache('cache');
+    this.cache = new Cache({});
     // Default values
     this.defaults = {
         errors: $('#errors'),
@@ -402,9 +402,9 @@ function FileManagerController(fileManager) {
  * Cache Constructor.
  * @constructor
  * @param {object} options - The options object.
- * @param {string} options.name=cache - Name of the cache storage array
- * @param {int} options.expired=900000 - Expiration time in milliseconds (15 minutes default)
- * @param {Storage} options.storageType=localStorage - Type of storage used
+ * @property {string} options.name - Name of the cache storage array
+ * @property{int} options.expired - Expiration time in milliseconds (15 minutes default)
+ * @property {Storage} options.storageType - Type of storage used
  */
 function Cache(options = {}){
     const _this = this;
