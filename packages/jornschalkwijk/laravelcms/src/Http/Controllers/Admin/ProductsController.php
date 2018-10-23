@@ -24,6 +24,11 @@ class ProductsController extends Controller
         return view('admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 0]);
     }
 
+    public function show(Product $product)
+    {
+        return view('admin.products.show')->with(['template'=>$this->adminTemplate(),'product'=>$product]);
+    }
+
     public function deleted()
     {
         $products = Product::with('category')->where('trashed',1)->orderBy('product_id','desc')->get();
@@ -36,7 +41,9 @@ class ProductsController extends Controller
         // Get all the categories associated with Product
         $categories = Category::where('type','product')->get();
         $tags = Tag::where('type','product')->get();
-        return view('admin.products.create')->with(['categories' => $categories,'tags' => $tags,'template'=>$this->adminTemplate()]);
+        $galleries = Gallery::all();
+        $folders = Folder::where('parent_id', 0)->get();
+        return view('admin.products.create')->with(['categories' => $categories, 'tags' => $tags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
 }
 
     public function store(Request $r)

@@ -16,7 +16,7 @@
             convert_urls: true
         });
     </script>
-    <div class="containter">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
                 @if (count($errors))
@@ -28,42 +28,69 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                <?php $action = '/admin/products';?>
-                <form id="addpost-form" class="large" action="{{$action}}" method="post">
+                <form action="{{route('products.store')}}" method="post">
+                    {{ method_field('PUT') }}
                     {{ csrf_field() }}
-                    <input type="text" name="name" placeholder="Name" value="{{ old('name')}}"><br />
-                    <input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price') }}">
-                    <input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity') }}"/>
-                    <label for="select">Category</label>
-                    <select id="categories" name="category_id">
-                        <option value="None">None</option>
-                        @foreach($categories as $category)
-                            <option value="{{$category->category_id}}">{{$category->title}}</option>
-                        @endforeach
-                    </select>
-                    <label for="select">Tags</label>
-                    <select id="categories" name="tag_ids[]" multiple size="3">
-                        <option value="None">None</option>
-                        @foreach($tags as $tag)
-                            <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
-                        @endforeach
-                    </select>
-
-                    <input type="text" name="category" placeholder="Category"/><br />
-                    <input type="hidden" name="cat_type" value="post"/><br />
-
-                    <input type="text" name="tag" placeholder="Tag('s) for multiple tags seperate with a dash ( - )"/><br />
-                    <input type="hidden" name="tag_type" value="post"/><br />
-
-                    <textarea type="text" name="description" placeholder="Description">{{ old('description') }}</textarea><br />
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10"><input type="text" name="name" placeholder="Name" value="{{ old('name')}}" class="form-control"></div>
+                        <label for="price" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10"><input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price')}}" class="form-control"></div>
+                        <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+                        <div class="col-sm-10"><input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity') }}" class="form-control"/></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="categories" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                            <select id="categories" name="category_id" class="form-control">
+                                <option value="None">None</option>
+                                @foreach($categories as $category)
+                                    @if($category->category_id == old('category_id'))
+                                        <option value="{{$category->category_id}}" selected>{{$category->title}}</option>
+                                    @else
+                                        <option value="{{$category->category_id}}">{{$category->title}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="category" placeholder="Create Category" class="form-control"/><br />
+                        <input type="hidden" name="cat_type" value="product"/><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+                        <div class="col-sm-10">
+                            <select id="tags" class="prettyTags" name="tag_ids[]" multiple size="3" style="display: none;">
+                                <option value="None">None</option>
+                                @foreach($tags as $tag)
+                                    @if(!in_array($tag->tag_id,old('tag_ids')) )
+                                        <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="tag" placeholder="Create Tag('s), for multiple tags seperate with a dash ( - )" class="form-control"/><br />
+                        <input type="hidden" name="tag_type" value="product"/><br />
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text" name="description" placeholder="Description" class="form-control">{{ old('description') }}</textarea><br />
+                        <p>Are you sure you want to edit the following product?</p>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="yes" name="confirm" value="true">
+                        <label class="form-check-label" for="yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="no" name="confirm" value="false" checked="checked">
+                        <label class="form-check-label" for="no">No</label>
+                    </div>
                     <button type="submit" name="submit">Submit</button>
+
                 </form>
-                <div id="return" class="container medium left">
-
-                    {{--@require('blocks/include-files-tinymce.php')--}}
-
-                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                @include('admin.uploads.file-manager.index')
             </div>
         </div>
     </div>
+    @include('admin.partials.prettyTags')
 @stop

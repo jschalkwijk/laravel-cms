@@ -32,6 +32,7 @@
                     <?php $action = '/admin/products/'.$product->product_id; $method = 'PATCH'; ?>
                 @else
                     <?php $action = '/admin/products/add'; $method = 'PUT'; ?>
+
                 @endif
                 <form action="{{$action}}" method="post">
                     {{ method_field($method) }}

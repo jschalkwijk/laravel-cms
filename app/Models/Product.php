@@ -35,7 +35,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     public function tags()
@@ -48,7 +48,66 @@ class Product extends Model
     {
         return $this->product_id;
     }
+
     public function getLink(){
         return preg_replace("/[\s-]+/", "-", $this->title);
+    }
+
+    public function getTax(){
+        $this->tax = ($this->price * $this->tax_percentage) / 100;
+        return $this->tax;
+    }
+
+    protected function discount($percentage){
+        $this->discount_price = ($this->price / 100) * $percentage;
+        $this->savings = $this->price * $percentage;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity($value)
+    {
+        $this->quantity = $value;
+    }
+
+    public function total(){
+        return $this->price + $this->getTax();
+    }
+    // SHOPPING Stock
+    public function lowStock()
+    {
+        if($this->outOfStock()){
+            return false;
+        }
+
+        return (bool) $this->quantity < 5;
+
+    }
+    public function outOfStock()
+    {
+        return (bool) ($this->quantity == 0);
+    }
+    public function inStock()
+    {
+        return $this->quantity >= 1;
+    }
+    public function hasStock($quantity){
+        if($this->quantity >= $quantity){
+            return true;
+        }
+    }
+    // total of the product price * the quantity orderd.
+    public function productTotal(){
+        return $this->getQuantity() * $this->Total();
+    }
+
+    public function setMaxStock($num){
+        $this->maxStock = $num;
+    }
+    public function maxStock(){
+        return $this->maxStock;
     }
 }

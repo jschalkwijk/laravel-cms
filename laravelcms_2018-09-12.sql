@@ -48,17 +48,6 @@ LOCK TABLES `categories` WRITE;
 INSERT INTO `categories` (`category_id`, `title`, `description`, `content`, `keywords`, `type`, `approved`, `trashed`, `parent_id`, `folder_id`, `user_id`, `created_at`, `updated_at`)
 VALUES
 	(67,'test','','','','post',0,0,0,0,33,NULL,NULL),
-	(68,'ssss','','','','post',0,0,0,0,33,NULL,NULL),
-	(69,'sss','','','','post',0,0,0,0,0,NULL,NULL),
-	(70,'Konijntjes','','','','product',0,0,71,0,33,NULL,NULL),
-	(71,'Dier','','','','product',0,0,0,0,33,NULL,NULL),
-	(72,'Konijn2','','','','product',0,0,70,0,33,NULL,NULL),
-	(73,'Hamster','','','','product',0,0,71,0,33,NULL,NULL),
-	(74,'Hamster2','','','','product',0,0,73,0,33,NULL,NULL),
-	(75,'Hamster3','','','','product',0,0,73,0,33,NULL,NULL),
-	(76,'Humor','','','','product',0,0,0,0,33,NULL,NULL),
-	(77,'Hello','','','','post',0,0,0,0,0,NULL,NULL),
-	(78,'Mens','','','','product',0,0,0,10,33,NULL,NULL);
 
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -232,7 +221,6 @@ INSERT INTO `galleries` (`gallery_id`, `name`, `created_at`, `updated_at`)
 VALUES
 	(1,'gallery','2018-08-24 19:51:20','2018-08-24 19:51:20'),
 	(11,'test','2018-08-24 21:15:40','2018-08-24 21:15:40'),
-	(12,'rape','2018-08-24 21:26:17','2018-08-24 21:26:17');
 
 /*!40000 ALTER TABLE `galleries` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -422,17 +410,7 @@ LOCK TABLES `posts` WRITE;
 INSERT INTO `posts` (`post_id`, `title`, `description`, `content`, `keywords`, `approved`, `category_id`, `trashed`, `user_id`, `locked_till`, `created_at`, `updated_at`)
 VALUES
 	(1,'Good','Good','<p>homo</p>',NULL,1,77,0,33,NULL,NULL,NULL),
-	(2,'darcula','','<p>dddddd</p>',NULL,1,68,0,33,NULL,NULL,NULL),
-	(3,'Testwwww','test','<p>sss</p>',NULL,1,68,0,36,NULL,NULL,NULL),
-	(4,'Bad','Bad','<p>homo</p>',NULL,1,77,0,33,NULL,NULL,NULL),
-	(5,'lotte','lotte','<p>test</p>',NULL,0,69,0,36,NULL,NULL,NULL),
-	(6,'lotte','lotte','<p>test</p>',NULL,0,69,0,36,NULL,NULL,NULL),
-	(7,'lotte','lotte','<p>test</p>',NULL,0,69,0,36,NULL,NULL,NULL),
-	(8,'lotte','lotte','<p>test</p>',NULL,0,69,0,36,NULL,NULL,NULL),
-	(9,'Floki','nieuw','<p>sdfgsffdg</p>',NULL,0,67,0,36,NULL,NULL,NULL),
-	(17,'doeidoei','','<p>sadas</p>',NULL,0,68,0,36,NULL,'2018-07-13 09:11:42','2018-07-13 09:11:42'),
-	(18,'juny','','<p>sadas</p>',NULL,0,68,0,36,NULL,'2018-07-13 09:12:16','2018-08-03 13:32:58'),
-	(19,'Jorn','test','<p>sssssssssssss</p>',NULL,0,67,0,36,NULL,'2018-07-13 14:53:07','2018-07-13 14:53:07'),
+	(3,'Test','test','<p>sss</p>',NULL,1,68,0,36,NULL,NULL,NULL),
 	(20,'Jorn','test','<div class=\"container\">\r\n<div class=\"container\">&nbsp;</div>\r\n<div class=\"container\">\r\n<h1 class=\"my-4 text-center text-lg-left\">Selected Gallery</h1>\r\n<div class=\"row text-center text-lg-left\">\r\n<div class=\"col-lg-3 col-md-4 col-xs-6\"><a class=\"d-block mb-4 h-100\" href=\"/storage/uploads/original/8/b3/360/8b3360dc1045f1f12722625cb36a15a7.jpg\"> <img class=\"img-thumbnail\" src=\"/storage/uploads/thumbnail/8/b3/360/8b3360dc1045f1f12722625cb36a15a7.jpg\" alt=\"\" /> </a></div>\r\n<div class=\"col-lg-3 col-md-4 col-xs-6\"><a class=\"d-block mb-4 h-100\" href=\"/storage/uploads/original/b/28/230/b28230090149a78ecfbd94dc88825509.jpg\"> <img class=\"img-thumbnail\" src=\"/storage/uploads/thumbnail/b/28/230/b28230090149a78ecfbd94dc88825509.jpg\" alt=\"\" /> </a></div>\r\n<div class=\"col-lg-3 col-md-4 col-xs-6\"><a class=\"d-block mb-4 h-100\" href=\"/storage/uploads/original/2/41/e4f/241e4f066de6450eed3acbf2a8811b58.jpg\"> <img class=\"img-thumbnail\" src=\"/storage/uploads/thumbnail/2/41/e4f/241e4f066de6450eed3acbf2a8811b58.jpg\" alt=\"\" /> </a></div>\r\n<div class=\"col-lg-3 col-md-4 col-xs-6\"><a class=\"d-block mb-4 h-100\" href=\"/storage/uploads/original/4/e0/df3/4e0df3261390fce0aa60c4e4560c20e9.jpg\"> <img class=\"img-thumbnail\" src=\"/storage/uploads/thumbnail/4/e0/df3/4e0df3261390fce0aa60c4e4560c20e9.jpg\" alt=\"\" /> </a></div>\r\n<div class=\"col-lg-3 col-md-4 col-xs-6\"><a class=\"d-block mb-4 h-100\" href=\"/storage/uploads/original/7/97/402/79740218dcd1211f7b193d7e5c7f0c45.jpg\"> <img class=\"img-thumbnail\" src=\"/storage/uploads/thumbnail/7/97/402/79740218dcd1211f7b193d7e5c7f0c45.jpg\" alt=\"\" /> </a></div>\r\n</div>\r\n</div>\r\n<h1 class=\"my-4 text-center text-lg-left\"><a href=\"/storage/uploads/original/4/e0/df3/4e0df3261390fce0aa60c4e4560c20e9.jpg\"><img src=\"/storage/uploads/original/4/e0/df3/4e0df3261390fce0aa60c4e4560c20e9.jpg\" width=\"100%\" /></a></h1>\r\n<h1 class=\"my-4 text-center text-lg-left\">&nbsp;</h1>\r\n<div class=\"row text-center text-lg-left\">&nbsp;</div>\r\n</div>',NULL,0,67,0,36,NULL,'2018-07-13 14:55:17','2018-09-03 16:20:40');
 
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
@@ -470,12 +448,8 @@ LOCK TABLES `products` WRITE;
 
 INSERT INTO `products` (`product_id`, `name`, `category_id`, `price`, `description`, `discount_price`, `savings`, `tax_percentage`, `tax`, `total`, `img_path`, `folder_id`, `approved`, `trashed`, `date`, `quantity`, `user_id`)
 VALUES
-	(27,'Joden',70,10,'<p>sssss</p>',0,0,0,0,0,'',171,1,0,'2017-03-04',10,33),
-	(28,'Jood',70,10,'<p>sssss</p>',0,0,0,0,0,'',0,1,0,'2017-03-04',10,33),
-	(29,'adolf',70,10,'<p>xxxx</p>',0,0,0,0,0,'',174,0,0,'2017-03-04',10,33),
-	(32,'Jaap',78,10,'<p>sssss</p>',0,0,0,0,0,'',27,0,0,'2017-10-13',10,33),
-	(33,'homo',78,10,'<p>dsfdsfs</p>',0,0,0,0,0,'',28,0,0,'2018-01-06',10,33),
-	(34,'lot',78,100,'<p>Hllo</p>',0,0,0,0,0,'',29,0,0,'2018-01-06',100,33);
+	(27,'Test',70,10,'<p>sssss</p>',0,0,0,0,0,'',171,1,0,'2017-03-04',10,33),
+
 
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -676,15 +650,7 @@ LOCK TABLES `uploads` WRITE;
 
 INSERT INTO `uploads` (`upload_id`, `name`, `file_name`, `thumb_name`, `type`, `file_path`, `thumb_path`, `folder_id`, `user_id`, `size`, `updated_at`, `created_at`)
 VALUES
-	(11,'Juny','4e0df3261390fce0aa60c4e4560c20e9.jpg','','jpg','','',9,36,'1721263','2018-08-03 13:31:54','2018-07-13 11:16:50'),
-	(12,'juny punny','d0712be61b96e0e0a733cd9cc97c7ba2.jpg','','jpg','','',32,36,'2568760','2018-08-03 13:32:29','2018-07-20 09:46:53'),
-	(13,'juny moony','8b3360dc1045f1f12722625cb36a15a7.jpg','','jpg','','',32,36,'2051234','2018-08-24 10:52:16','2018-08-03 13:04:58'),
-	(14,'juny spoony','241e4f066de6450eed3acbf2a8811b58.jpg','','jpg','','',32,36,'1573521','2018-08-24 10:52:40','2018-08-24 10:51:56'),
-	(15,'juny baloony','79740218dcd1211f7b193d7e5c7f0c45.jpg','','jpg','','',32,36,'2206103','2018-08-24 10:53:02','2018-08-24 10:51:58'),
-	(16,'juny macaroony','b28230090149a78ecfbd94dc88825509.jpg','','jpg','','',32,36,'2065212','2018-08-24 10:53:21','2018-08-24 10:51:59'),
-	(17,'2015-06-05 08.30.43','5d4e7eb6daee02c3769922632139d7bd.jpg','','jpg','','',32,36,'2645598','2018-08-24 10:51:59','2018-08-24 10:51:59'),
-	(18,'2015-06-06 09.09.38','d3defb0b1fb8aa357be5e9d684708e67.jpg','','jpg','','',32,36,'1420352','2018-08-24 10:52:00','2018-08-24 10:52:00'),
-	(20,'2018-05-03 17.11.56','1391e172490fd1a7e7a0d767c9489267.jpg','','jpg','','',32,36,'1412574','2018-08-24 17:46:52','2018-08-24 17:46:52');
+	(11,'Test','4e0df3261390fce0aa60c4e4560c20e9.jpg','','jpg','','',9,36,'1721263','2018-08-03 13:31:54','2018-07-13 11:16:50'),
 
 /*!40000 ALTER TABLE `uploads` ENABLE KEYS */;
 UNLOCK TABLES;

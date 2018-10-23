@@ -151,7 +151,7 @@
             Route::group(['prefix'=>'/galleries'],function(){
 
             });
-            Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController',['except' => ['show']]);
+            Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController');
             Route::group(['prefix' => '/products'],function(){
                 Route::get('/deleted-products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@deleted');
                 Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@action');
