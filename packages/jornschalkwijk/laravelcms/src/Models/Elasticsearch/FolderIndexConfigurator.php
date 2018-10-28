@@ -1,11 +1,11 @@
 <?php
 
-namespace CMS\Models\Elasticsearch;
+namespace JornSchalkwijk\LaravelCMS\Models\Elasticsearch;
 
 use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
 
-class UserIndexConfigurator extends IndexConfigurator
+class FolderIndexConfigurator extends IndexConfigurator
 {
     use Migratable;
 

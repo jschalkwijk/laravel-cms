@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-//$factory->define(CMS\Models\User::class, function (Faker\Generator $faker) {
+//$factory->define(JornSchalkwijk\LaravelCMS\Models::class, function (Faker\Generator $faker) {
 //    static $password;
 //
 //    return [
@@ -22,7 +22,7 @@
 //        'remember_token' => str_random(10),
 //    ];
 //});
-    $factory->define(CMS\Models\User::class, function (Faker\Generator $faker) {
+    $factory->define(JornSchalkwijk\LaravelCMS\Models::class, function (Faker\Generator $faker) {
         return [
             'user_id' => $faker->unique()->numberBetween(30,1000),
             'first_name' => $faker->firstName(),
@@ -44,9 +44,9 @@
     });
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-    $factory->define(CMS\Models\Post::class, function (Faker\Generator $faker) {
-        $categories = \CMS\Models\Category::where('type','post')->pluck('category_id')->toArray();
-        $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
+    $factory->define(JornSchalkwijk\LaravelCMS\Models\Post::class, function (Faker\Generator $faker) {
+        $categories = \JornSchalkwijk\LaravelCMS\Models\Category::where('type','post')->pluck('category_id')->toArray();
+        $users = \JornSchalkwijk\LaravelCMS\Models::all()->pluck('user_id')->toArray();
         return [
             'post_id' => $faker->unique()->numberBetween(1,1000),
             'title' => $faker->sentence(8,40),
@@ -62,9 +62,9 @@
     });
 
     /** @var \Illuminate\Database\Eloquent\Factory $factory */
-    $factory->define(CMS\Models\Category::class, function (Faker\Generator $faker) {
-        $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
-        $categories = \CMS\Models\Category::all()->pluck('category_id');
+    $factory->define(JornSchalkwijk\LaravelCMS\Models\Category::class, function (Faker\Generator $faker) {
+        $users = \JornSchalkwijk\LaravelCMS\Models::all()->pluck('user_id')->toArray();
+        $categories = \JornSchalkwijk\LaravelCMS\Models\Category::all()->pluck('category_id');
         if ($categories->count() < 1) {;
             return [
                 'category_id' => $faker->unique()->numberBetween(1,1000),
@@ -80,7 +80,7 @@
                 'updated_at' => $faker->dateTimeThisYear,
             ];
         } else {
-            $categories = \CMS\Models\Category::all()->pluck('category_id')->toArray();
+            $categories = JornSchalkwijk\LaravelCMS\Models\Category::all()->pluck('category_id')->toArray();
             return [
                 'category_id' => $faker->unique()->numberBetween(1,1000),
                 'title' => $faker->sentence(1,40),
@@ -98,8 +98,8 @@
 
     });
 
-    $factory->define(CMS\Models\Product::class, function (Faker\Generator $faker) {
-        $categories = \CMS\Models\Category::where('type','product')->pluck('category_id')->toArray();
+    $factory->define(JornSchalkwijk\LaravelCMS\Models\Product::class, function (Faker\Generator $faker) {
+        $categories = JornSchalkwijk\LaravelCMS\Models\Category::where('type','product')->pluck('category_id')->toArray();
         return [
             'product_id' => $faker->unique()->numberBetween(1,1000),
             'name' => $faker->sentence(8,40),
@@ -120,8 +120,8 @@
         ];
     });
 
-    $factory->define(\CMS\Models\Tag::class,function(\Faker\Generator $faker){
-        $users = \CMS\Models\User::all()->pluck('user_id')->toArray();
+    $factory->define(\JornSchalkwijk\LaravelCMS\Models\Tag::class,function(\Faker\Generator $faker){
+        $users = \JornSchalkwijk\LaravelCMS\Models\User::all()->pluck('user_id')->toArray();
         return [
             'tag_id' => $faker->unique()->numberBetween(1,1000),
             'title' => $faker->word(),

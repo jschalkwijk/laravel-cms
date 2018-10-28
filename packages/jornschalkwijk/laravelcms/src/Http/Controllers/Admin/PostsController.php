@@ -2,15 +2,15 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Folder;
-use CMS\Models\Gallery;
-use CMS\Models\Tag;
+use JornSchalkwijk\LaravelCMS\Models\Folder;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Tag;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\Post;
-use CMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Post;
+use JornSchalkwijk\LaravelCMS\Models\Category;
 
 class PostsController extends Controller
 {
@@ -90,7 +90,7 @@ class PostsController extends Controller
         }
         // Save selected categories, if all are deselected , detach all relations else sync selected
         $post->tags()->sync($tag_ids);
-        return redirect()->action('JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PostsController@index');
+        return redirect()->action('\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PostsController@index');
     }
 
     public function update(Request $r, Post $post)

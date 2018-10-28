@@ -5,9 +5,9 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 
 use CMS\Http\Controllers\Controller;
-use CMS\Models\Folder;
-use CMS\Models\Upload;
-use CMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Folder;
+use JornSchalkwijk\LaravelCMS\Models\Upload;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
 
 class FileManagerController extends Controller
 {

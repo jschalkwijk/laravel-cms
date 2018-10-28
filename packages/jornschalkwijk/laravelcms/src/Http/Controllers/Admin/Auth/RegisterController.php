@@ -2,8 +2,8 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
-use CMS\Models\User;
-use Validator;
+use JornSchalkwijk\LaravelCMS\Models\User;
+use Illuminate\Support\Facades\Validator;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

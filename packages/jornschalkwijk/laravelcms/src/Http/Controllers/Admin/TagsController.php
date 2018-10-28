@@ -5,7 +5,7 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
-use CMS\Models\Tag;
+use JornSchalkwijk\LaravelCMS\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 
 class TagsController extends Controller

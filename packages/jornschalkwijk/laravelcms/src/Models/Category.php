@@ -1,11 +1,11 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use ScoutElastic\Searchable;
-use CMS\Models\Elasticsearch\CategoryIndexConfigurator;
+use JornSchalkwijk\LaravelCMS\Models\Elasticsearch\CategoryIndexConfigurator;
 
 class Category extends Model
 {

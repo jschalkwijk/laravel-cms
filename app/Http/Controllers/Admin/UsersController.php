@@ -2,10 +2,10 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Permission;
-use CMS\Models\Role;
+use JornSchalkwijk\LaravelCMS\Models\Permission;
+use JornSchalkwijk\LaravelCMS\Models\Role;
 use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
-use CMS\Models\User;
+use JornSchalkwijk\LaravelCMS\Models\User;
 use Illuminate\Http\Request;
 
 use CMS\Http\Controllers\Controller;

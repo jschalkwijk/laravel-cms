@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Comment;
+use JornSchalkwijk\LaravelCMS\Models\Comment;
 use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;

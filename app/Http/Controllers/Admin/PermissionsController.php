@@ -5,8 +5,8 @@
     use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Http\Request;
     use CMS\Http\Controllers\Controller;
-    use CMS\Models\Permission;
-    use CMS\Models\Role;
+    use JornSchalkwijk\LaravelCMS\Models\Permission;
+    use JornSchalkwijk\LaravelCMS\Models\Role;
 
     class PermissionsController extends Controller
     {

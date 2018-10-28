@@ -1,9 +1,9 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Elasticsearch\UserIndexConfigurator;
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Elasticsearch\UserIndexConfigurator;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Notifications\Notifiable;
 use ScoutElastic\Searchable;
 

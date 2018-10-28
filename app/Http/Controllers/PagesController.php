@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers;
 
-use CMS\Models\Page;
+use JornSchalkwijk\LaravelCMS\Models\Page;
 
 class PagesController extends Controller
 {

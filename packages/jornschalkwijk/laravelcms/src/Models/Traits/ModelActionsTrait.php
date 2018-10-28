@@ -1,6 +1,6 @@
 <?php
 
-namespace CMS\Models\Traits;
+namespace JornSchalkwijk\LaravelCMS\Models\Traits;
 
 trait ModelActionsTrait
 {

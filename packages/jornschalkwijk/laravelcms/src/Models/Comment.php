@@ -6,9 +6,9 @@
      * Time: 11:11
      */
 
-    namespace CMS\Models;
+    namespace JornSchalkwijk\LaravelCMS\Models;
 
-    use CMS\Models\Traits\ModelActionsTrait;
+    use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
     use Illuminate\Database\Eloquent\Model;
     class Comment extends Model
     {

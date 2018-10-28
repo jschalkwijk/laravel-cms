@@ -1,9 +1,9 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 class Page extends Model
 {
     use ModelActionsTrait;

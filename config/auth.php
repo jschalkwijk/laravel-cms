@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => CMS\Models\User::class,
+            'model' => JornSchalkwijk\LaravelCMS\Models\User::class,
         ],
 
         // 'users' => [

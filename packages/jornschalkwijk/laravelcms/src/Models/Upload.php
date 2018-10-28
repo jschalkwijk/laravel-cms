@@ -1,12 +1,12 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use ScoutElastic\Searchable;
-use CMS\Models\Elasticsearch\UploadIndexConfigurator;
+use JornSchalkwijk\LaravelCMS\Models\Elasticsearch\UploadIndexConfigurator;
 use Illuminate\Support\Facades\DB;
 
 class Upload extends Model

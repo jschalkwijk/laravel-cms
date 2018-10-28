@@ -1,8 +1,8 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -39,7 +39,7 @@ class Product extends Model
 
     public function tags()
     {
-        return $this->morphToMany('CMS\Models\Tag', 'taggable',null,null,'tag_id');
+        return $this->morphToMany('JornSchalkwijk\LaravelCMS\Models\Tag', 'taggable',null,null,'tag_id');
     }
 
     public function folder()

@@ -2,13 +2,10 @@
 
 namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Category;
-use CMS\Models\Comment;
-use CMS\Models\Traits\ModelActionsTrait;
-use CMS\Models\User;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use ScoutElastic\Searchable;
-use CMS\Models\Elasticsearch\PostIndexConfigurator;
+use JornSchalkwijk\LaravelCMS\Models\Elasticsearch\PostIndexConfigurator;
 
 class Post extends Model
 {
@@ -154,7 +151,7 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->morphToMany('CMS\Models\Tag', 'taggable',null,null,'tag_id');
+        return $this->morphToMany('JornSchalkwijk\LaravelCMS\Models\Tag', 'taggable',null,null,'tag_id');
     }
     # Getters
     public function id()

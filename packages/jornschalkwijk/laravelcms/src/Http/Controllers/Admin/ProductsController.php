@@ -2,11 +2,11 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Category;
-use CMS\Models\Folder;
-use CMS\Models\Gallery;
-use CMS\Models\Product;
-use CMS\Models\Tag;
+use JornSchalkwijk\LaravelCMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Folder;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Product;
+use JornSchalkwijk\LaravelCMS\Models\Tag;
 use CMS\Http\Controllers\Controller;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
@@ -104,7 +104,7 @@ class ProductsController extends Controller
         // Save selected categories, if all are deselected , detach all relations else sync selected
         (!is_array($tag_ids)) ? $product->tags()->detach() : $product->tags()->sync($tag_ids);
 
-        return redirect()->action('ProductsController@index');
+        return redirect()->action('\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@index');
     }
 
     public function edit(Product $product)

@@ -2,13 +2,13 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Tag;
+use JornSchalkwijk\LaravelCMS\Models\Tag;
 use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\Post;
-use CMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Post;
+use JornSchalkwijk\LaravelCMS\Models\Category;
 
 class PostsController extends Controller
 {

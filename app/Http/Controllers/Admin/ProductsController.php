@@ -2,9 +2,9 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Category;
-use CMS\Models\Product;
-use CMS\Models\Tag;
+use JornSchalkwijk\LaravelCMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Product;
+use JornSchalkwijk\LaravelCMS\Models\Tag;
 use CMS\Http\Controllers\Controller;
 use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;

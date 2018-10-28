@@ -2,13 +2,13 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
-use CMS\Models\Upload;
-use CMS\Models\Folder;
+use JornSchalkwijk\LaravelCMS\Models\Upload;
+use JornSchalkwijk\LaravelCMS\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;

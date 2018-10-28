@@ -6,7 +6,7 @@ use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\Reply;
+use JornSchalkwijk\LaravelCMS\Models\Reply;
 
 class RepliesController extends Controller
 {

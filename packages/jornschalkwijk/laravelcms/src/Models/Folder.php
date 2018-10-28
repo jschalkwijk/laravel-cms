@@ -1,16 +1,16 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
 use Illuminate\Support\Collection;
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Storage;
 use ScoutElastic\Searchable;
-use CMS\Models\Elasticsearch\FolderIndexConfigurator;
+use JornSchalkwijk\LaravelCMS\Models\Elasticsearch\FolderIndexConfigurator;
 
 class Folder extends Model
 {

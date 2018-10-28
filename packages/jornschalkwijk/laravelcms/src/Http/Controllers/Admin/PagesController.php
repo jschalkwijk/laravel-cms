@@ -2,11 +2,11 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use CMS\Models\Page;
+use JornSchalkwijk\LaravelCMS\Models\Page;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 
 

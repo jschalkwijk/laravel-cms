@@ -1,8 +1,8 @@
 <?php
 
-namespace CMS\Models;
+namespace JornSchalkwijk\LaravelCMS\Models;
 
-use CMS\Models\Traits\ModelActionsTrait;
+use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
@@ -24,7 +24,7 @@ class Tag extends Model
 
 	public function posts()
 	{
-		return $this->morphedByMany('CMS\Models\Post', 'taggable_id');
+		return $this->morphedByMany('JornSchalkwijk\LaravelCMS\Models\Post', 'taggable_id');
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Tag extends Model
 	 */
 	public function products()
 	{
-		return $this->morphedByMany('CMS\Models\Product', 'taggable_id');
+		return $this->morphedByMany('JornSchalkwijk\LaravelCMS\Models\Product', 'taggable_id');
 	}
 	# Getters
 	public function id()

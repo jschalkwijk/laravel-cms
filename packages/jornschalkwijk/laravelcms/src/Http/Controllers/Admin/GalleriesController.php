@@ -5,7 +5,7 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use CMS\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use CMS\Models\Gallery;
+use JornSchalkwijk\LaravelCMS\Models\Gallery;
 
 class GalleriesController extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace CMS\Http\Controllers\Admin;
 
-use CMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Category;
 use CMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;

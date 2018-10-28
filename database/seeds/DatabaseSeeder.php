@@ -15,20 +15,20 @@
 //        factory(CMS\Models\Category::class, 40)->create()->each(function(git category){
 //            $category->posts()->save(factory(CMS\Models\Post::class)->make());
 //        });
-            factory(CMS\Models\User::class, 10)->create();
-            factory(CMS\Models\Category::class, 20)->create();
-            factory(CMS\Models\Category::class, 20)->create();
+            factory(JornSchalkwijk\LaravelCMS\Models\User::class, 10)->create();
+            factory(JornSchalkwijk\LaravelCMS\Models\Category::class, 20)->create();
+            factory(JornSchalkwijk\LaravelCMS\Models\Category::class, 20)->create();
 
-            factory(CMS\Models\Post::class, 20)->create()->each(
+            factory(JornSchalkwijk\LaravelCMS\Models\Post::class, 20)->create()->each(
                 function ($post) {
                     $post->tags()->save(
-                        factory(CMS\Models\Tag::class)->make()
+                        factory(JornSchalkwijk\LaravelCMS\Models\Tag::class)->make()
                     );
                 });
-            factory(CMS\Models\Product::class, 20)->create()->each(
+            factory(JornSchalkwijk\LaravelCMS\Models\Product::class, 20)->create()->each(
                 function ($product) {
                     $product->tags()->save(
-                        factory(CMS\Models\Tag::class)->make()
+                        factory(JornSchalkwijk\LaravelCMS\Models\Tag::class)->make()
                     );
                 });
 

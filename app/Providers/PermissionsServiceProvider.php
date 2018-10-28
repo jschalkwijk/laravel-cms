@@ -3,7 +3,7 @@
 namespace CMS\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use CMS\Models\Permission;
+use JornSchalkwijk\LaravelCMS\Models\Permission;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 

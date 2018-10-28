@@ -2,14 +2,15 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Models\Category;
-use CMS\Models\Folder;
-use CMS\Models\Post;
-use CMS\Models\Upload;
-use CMS\Models\User;
+use JornSchalkwijk\LaravelCMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\Folder;
+use JornSchalkwijk\LaravelCMS\Models\Post;
+use JornSchalkwijk\LaravelCMS\Models\Upload;
+use JornSchalkwijk\LaravelCMS\Models\User;
+use JornSchalkwijk\LaravelCMS\Models\Page;
 use Illuminate\Http\Request;
 use CMS\Http\Controllers\Controller;
-use CMS\Models\Search;
+use JornSchalkwijk\LaravelCMS\Models\Search;
 
 class SearchController extends Controller
 {
