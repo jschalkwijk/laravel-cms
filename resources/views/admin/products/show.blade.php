@@ -3,7 +3,6 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-
               <div class="d-flex justify-content-center">  <form class="dropzone" id="dropzone" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="reload" value="{{(isset($reload)) ? $reload : true }}"/>
@@ -18,72 +17,73 @@
               </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-                <form method="post" action="{{--{{route('products.action',$product->product_id)}}--}}">
-                    <input type="hidden" name="id" value="<?= $product->product_id; ?>"/>
-                    <input type="hidden" name="name" value="<?= $product->name ?>"/>
-                    <?php
-                    if ($product->trashed == 1) { // show restore button in deleted items ?>
-                    <button type="submit" name="restore">Restore</button>
-                    <button type="submit" name="delete"><img class="glyph-small" src="<?= 'delete-post.png'?>"/></button>
-                    <?php   }
-                    if ($product->trashed == 0) { ?>
-                    <button class="td-btn" type="submit" name="remove"><img class="glyph-small" src="<?= 'trash-post.png'?>"/></button>
-                    <button><a href="{{route('products.edit',$product->product_id)}}">Edit</a></button>
-                    <?php } ?>
-                </form>
+                <a href="{{route('products.edit',$product->product_id)}}" class="form-action">Edit</a>
+                @if ($product->trashed == 0)
+                    <a href="{{route($product->table.'.trash',$product->product_id)}}" class="form-action btn btn-sm btn-warning" aria-label="trash"></a>
+                @elseif ($product->trashed == 1)
+                    <a href="{{route($product->table.'.restore',$product->product_id)}}" class="form-action btn btn-sm btn-warning" aria-label="restore"></a>
+                    <a href="{{route($product->table.'.destroy',$product->product_id)}}" class="form-action btn btn-sm btn-danger" aria-label="destroy"></a>
+                @endif
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-                <form class="backend-form" method="post" action="<?="cart/add/".$product->product_id;?>">
+                <form class="backend-form" method="post" action="{{"cart/add/".$product->product_id}}">
                     <select name="quantity">
-                        <?php
-                        for($i = 0; $i < ($product->quantity + 1); $i++){ ?>
-                        <option value="<?= $i; ?>"><?= $i; ?></option>
-                        <?php } ?>
+                        @for($i = 0; $i < ($product->quantity + 1); $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
                     </select>
                     <button type="submit">Order</button>
                 </form>
-                <h1><?= $product->name; ?></h1>
-                <td><?php if($product->lowStock()) { echo "Low stock!"; } else if($product->outOfStock()) { echo "Out of stock!"; } else { echo "";}?></td>
+                <h1>{{ $product->name }}</h1>
+                <td>
 
                 <table class="table table-sm table-striped">
                     <tbody>
                     <tr>
                         <th class="align-middle">Name</th>
-                        <td class="align-middle"><?= $product->name; ?></td>
+                        <td class="align-middle">{{ $product->name }}</td>
                     </tr>
                     <tr>
                         <th class="align-middle">Price (Ex. Tax)</th>
-                        <td class="align-middle"><?= $product->price; ?></td>
+                        <td class="align-middle">{{ $product->price }}</td>
                     </tr>
                     <tr>
                         <th class="align-middle">Discount</th>
-                        <td class="align-middle">€ <?= $product->discount_value; ?></td>
+                        <td class="align-middle">€ {{ $product->discount_value }}</td>
                     </tr>
                     <tr>
                         <th class="align-middle">Discount Price</th>
-                        <td class="align-middle">€ <?= $product->discount_price; ?></td>
+                        <td class="align-middle">€ {{ $product->discount_price }}</td>
                     </tr>
                     <tr>
-                        <th class="align-middle">In Stock</th>
-                        <td class="align-middle"><?= $product->quantity; ?></td>
+                        @if($product->lowStock())
+                            <th class="align-middle alert-warning">Low Stock!</th>
+                            <td class="align-middle alert-warning">{{ $product->quantity }}</td>
+                        @elseif($product->outOfStock())
+                            <th class="align-middle alert-danger">Out of stock!</th>
+                            <td class="align-middle alert-danger">{{ $product->quantity }}</td>
+                        @else
+                            <th class="align-middle">In Stock</th>
+                            <td class="align-middle">{{ $product->quantity }}</td>
+                        @endif
+
                     </tr>
                     <tr>
                         <th class="align-middle">Category</th>
-                        <td class="align-middle"><?= $product->category->title; ?></td>
+                        <td class="align-middle">{{ $product->category->title }}</td>
                     </tr>
                     <tr>
                         <th class="align-middle">Tax %{{$product->tax_percentage}} </th>
-                        <td class="align-middle">€ <?= $product->tax_value; ?></td>
+                        <td class="align-middle">€ {{ $product->tax_value }}</td>
                     </tr>
                     <tr>
                         <th class="align-middle">Total Price (Inc. Tax)</th>
-                        <td class="align-middle">€ <?= $product->total(); ?></td>
+                        <td class="align-middle">€ {{ $product->total() }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -102,12 +102,12 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane container active" id="description"><?= $product->description; ?></div>
+                    <div class="tab-pane container active" id="description">{!! $product->description !!}</div>
                     <div class="tab-pane container fade" id="specifications">
-
+                        {!! $product->specifications !!}
                     </div>
                     <div class="tab-pane container fade" id="images">
-                        <select id="product-folder-selector" multiple="multiple" class="image-picker">
+                        <select id="product-folder-selector" multiple="multiple" class="image-picker" hidden>
                         @foreach($product->folder->files as $upload)
                                     <div class="col">
                                         <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"

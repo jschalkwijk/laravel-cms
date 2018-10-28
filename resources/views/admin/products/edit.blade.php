@@ -86,9 +86,15 @@
                         <input type="hidden" name="tag_type" value="product"/><br />
                     </div>
                     <div class="form-group">
-                        <textarea type="text" name="description" placeholder="Description" class="form-control">{{ old('description',$product->description) }}</textarea><br />
-                        <p>Are you sure you want to edit the following product?</p>
+                        <label for="description">Description</label>
+                        <textarea name="description" placeholder="Description" class="form-control">{{ old('description',$product->description) }}</textarea><br />
                     </div>
+                    <div class="form-group">
+                        <label for="specifications">Specifications</label>
+                        <textarea name="specifications" placeholder="" class="form-control">{{ old('specifications',$product->specifications) }}</textarea><br />
+
+                    </div>
+                    <p>Are you sure you want to edit the following product?</p>
                     <div class="form-check form-check-inline">
                         <input type="radio" class="form-check-input" id="yes" name="confirm" value="true">
                         <label class="form-check-label" for="yes">Yes</label>
@@ -123,7 +129,7 @@
                 <div class="row">
                     <div class="col-md-8 push-md-2">
                         <div class="d-flex justify-content-center">
-                        <select id="product-folder-selector" multiple="multiple" class="image-picker">
+                        <select id="product-folder-selector" multiple="multiple" class="image-picker" hidden>
                             @foreach($product->folder->files as $upload)
                                 <div class="col">
                                     <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"

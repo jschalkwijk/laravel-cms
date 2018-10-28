@@ -154,18 +154,19 @@
             Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController');
             Route::group(['prefix' => '/products'],function(){
                 Route::get('/deleted-products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@deleted');
-                Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@action');
+                Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@action')->name('products.action');
                 Route::get('/{id}/approve','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@approve')->name('products.approve');
                 Route::get('/{id}/hide','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@hide')->name('products.hide');
                 Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@destroy')->name('products.destroy');
                 Route::get('/{id}/trash', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@trash')->name('products.trash');
+                Route::get('/{id}/restore', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@trash')->name('products.restore');
             });
 
-            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);
-            Route::group(['prefix' => '/contacts'],function(){
-                Route::get('/deleted-contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController@deleted');
-                Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController@action');
-            });
+//            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);
+//            Route::group(['prefix' => '/contacts'],function(){
+//                Route::get('/deleted-contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController@deleted');
+//                Route::post('/action', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController@action');
+//            });
 
             // Elastic Search
             Route::resource('search','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\SearchController',['except' => ['show']]);

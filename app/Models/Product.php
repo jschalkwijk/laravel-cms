@@ -14,6 +14,7 @@ class Product extends Model
         'category_id',
         'price',
         'description',
+        'specifications',
         'discount_percentage',
         'discount_value',
         'tax_percentage',
@@ -93,7 +94,7 @@ class Product extends Model
             return false;
         }
 
-        return (bool) $this->quantity < 5;
+        return (bool) ($this->quantity < 5);
 
     }
     public function outOfStock()
