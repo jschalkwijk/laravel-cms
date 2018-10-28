@@ -67,7 +67,7 @@
                                 @foreach($post->comments as $c)
                                     <li class="comment">
                                         <a class="float-left" >
-                                            <img class="comment-object rounded-circle" src="{{ asset('storage/'.$c->user['img_path'])}}" alt="profile-picture">
+                                            <img class="comment-object rounded-circle" src="{{ asset('/storage/'.$c->user['img_path'])}}" alt="profile-picture">
                                         </a>
                                         <div class="comment-body comment-{{$c->comment_id}}">
                                             <h4 class="comment-heading text-uppercase reviews">{{$c->user['username']}}</h4>
@@ -102,7 +102,7 @@
                                                         @foreach($c->replies as $reply)
                                                             <li class="comment comment-replied ">
                                                                 <a class="float-left" >
-                                                                    <img class="comment-object rounded-circle" src="{{ asset('storage/'.$reply->user['img_path'])}}" alt="profile">
+                                                                    <img class="comment-object rounded-circle" src="{{ asset('/storage/'.$reply->user['img_path'])}}" alt="profile">
                                                                 </a>
                                                                 <div class="comment-body comment-{{$c->comment_id}}">
                                                                     <h4 class="comment-heading text-uppercase reviews"><span class="glyphicon glyphicon-share-alt"></span> {{$reply->user['username']}}</h4>
@@ -211,5 +211,5 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('js/reply/reply.js')}}"></script>
+    <script src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/reply/reply.js')}}"></script>
 @stop

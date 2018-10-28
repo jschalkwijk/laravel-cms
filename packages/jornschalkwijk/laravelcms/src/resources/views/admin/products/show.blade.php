@@ -110,8 +110,8 @@
                         <select id="product-folder-selector" multiple="multiple" class="image-picker" hidden>
                         @foreach($product->folder->files as $upload)
                                     <div class="col">
-                                        <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
-                                                value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+                                        <option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
+                                                value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
                                         </option>
                                     </div>
                         @endforeach
@@ -130,7 +130,7 @@
     </div>
 
     @push('scripts')
-    <script src="{{ asset('js/image-picker/image-picker.js') }}"></script>
+    <script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/image-picker/image-picker.js') }}"></script>
     <script>
         $(window).on('load',function(){
             $('#product-folder-selector').imagepicker();
@@ -138,15 +138,15 @@
     </script>
     @endpush
     @push('styles')
-    <link rel="stylesheet" href="{{ asset('js/image-picker/image-picker.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/image-picker/image-picker.css') }}"/>
     @endpush
 
     @push('scripts')
-    <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
-    <script src="{{asset("js/dropzoneOptions.js")}}"></script>
+    <script src="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.js")}}"></script>
+    <script src="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzoneOptions.js")}}"></script>
     @endpush
 
     @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.css")}}"/>
     @endpush
 @stop

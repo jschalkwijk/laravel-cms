@@ -59,7 +59,7 @@
                             @foreach($folders as $folder)
                                 <div class="col">
                                     <a href="{{ route('folders.show',$folder->id()) }}">
-                                        <img src="{{asset('images/folder.png')}}">{{ $folder->name }}
+                                        <img src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/images/folder.png')}}">{{ $folder->name }}
                                     </a>
                                 </div>
                             @endforeach
@@ -94,21 +94,21 @@
     });
 </script>
 @push('scripts')
-<script src="{{ asset('js/tinymceAddFiles.js') }}"></script>
+<script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/tinymceAddFiles.js') }}"></script>
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/image-picker/image-picker.js') }}"></script>
+<script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/image-picker/image-picker.js') }}"></script>
 @endpush
 @push('styles')
-<link rel="stylesheet" href="{{ asset('js/image-picker/image-picker.css') }}"/>
+<link rel="stylesheet" href="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/image-picker/image-picker.css') }}"/>
 @endpush
 
 @push('scripts')
-<script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
-<script src="{{asset("js/dropzoneOptions.js")}}"></script>
+<script src="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.js")}}"></script>
+<script src="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzoneOptions.js")}}"></script>
 @endpush
 
 @push('styles')
-<link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+<link rel="stylesheet" type="text/css" href="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.css")}}"/>
 @endpush

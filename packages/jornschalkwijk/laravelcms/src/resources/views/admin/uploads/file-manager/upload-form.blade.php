@@ -16,5 +16,5 @@
     <label for="files[]" class="form-check-label">Choose File(max size: 3.5 MB): </label><br/>
     <input type="file" class="form-control" name="files[]" multiple/><br/>
     <button id="submit-upload" type="submit" class="form-control" name="submit-upload">Add File('s)</button>
-    <div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src='{{asset('images/load.gif')}}' width="64" height="64" /><br>Loading..</div>
-</form
+    <div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src='{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/images/load.gif')}}' width="64" height="64" /><br>Loading..</div>
+</form>

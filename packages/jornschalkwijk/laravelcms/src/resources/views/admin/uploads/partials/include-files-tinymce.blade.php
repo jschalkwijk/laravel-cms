@@ -4,8 +4,8 @@
 		<select id="image-selector" multiple="multiple" class="image-picker">
 		@foreach ($uploads as $upload)
 			<div class="col-md-6">
-				<option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
-						value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+				<option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
+						value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
 				</option>
 			</div>
 		@endforeach
@@ -24,10 +24,10 @@
 				{{--<!--			// we can get this value with JS and then add the image with the correct src.-->--}}
 
 				{{--<a class="d-block image_link" href="#">--}}
-					{{--<input class="checkbox left" type="checkbox" name="checkbox[]" value="{{asset('storage/'.$file->path('thumbnail')) }}#{{ asset('storage/'.$file->path())}}"/>--}}
+					{{--<input class="checkbox left" type="checkbox" name="checkbox[]" value="{{asset('/storage/'.$file->path('thumbnail')) }}#{{ asset('/storage/'.$file->path())}}"/>--}}
 
-					{{--<img class="img-thumbnail image" src="{{ asset('storage/'.$file->path('thumbnail')) }}"--}}
-						 {{--name="{{ asset('storage/'.$file->path()) }}"/>--}}
+					{{--<img class="img-thumbnail image" src="{{ asset('/storage/'.$file->path('thumbnail')) }}"--}}
+						 {{--name="{{ asset('/storage/'.$file->path()) }}"/>--}}
 				{{--</a>--}}
 			{{--</div>--}}
 		{{--@endforeach--}}

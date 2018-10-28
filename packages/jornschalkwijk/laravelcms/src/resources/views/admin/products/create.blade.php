@@ -1,6 +1,6 @@
 @extends('JornSchalkwijk\LaravelCMS::admin.layout')
 @section('content')
-    <script type="text/javascript" src="{{ asset("/js/tinymce/tinymce/tinymce.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/tinymce/tinymce/tinymce.min.js") }}"></script>
     <script type="text/javascript">
         tinymce.init({
             setup: function (editor) {

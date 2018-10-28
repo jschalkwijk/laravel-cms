@@ -33,9 +33,9 @@
     @endif
 </div>
     @push('scripts')
-    <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
+    <script src="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.js")}}"></script>
     @endpush
     @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset("/vendor/jornschalkwijk/LaravelCMS/assets/js/dropzone/min/dropzone.min.css")}}"/>
     @endpush
 @stop

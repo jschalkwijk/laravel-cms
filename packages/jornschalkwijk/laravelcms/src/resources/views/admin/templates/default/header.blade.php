@@ -15,12 +15,12 @@
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script>	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-	<script src="{{ asset('js/helpers/addLoadEvent.js')}}"></script>
-	<script src="{{asset('js/cache/cache.js')}}"></script>
-	<script src="{{ asset('js/users/users.js') }}"></script>
+	<script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/helpers/addLoadEvent.js')}}"></script>
+	<script src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/cache/cache.js')}}"></script>
+	<script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/users/users.js') }}"></script>
 	@stack('scripts')
 
-	<link type="text/css" rel="stylesheet" href="/css/admin/templates/default/style.css"/>
+	<link type="text/css" rel="stylesheet" href="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/css/admin/templates/default/style.css')}}"/>
 </head>
 <body>
 	<div id="wrapper">

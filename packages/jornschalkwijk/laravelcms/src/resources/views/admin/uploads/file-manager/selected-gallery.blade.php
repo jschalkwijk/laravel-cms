@@ -9,8 +9,8 @@
         <select id="gallery-image-selector" multiple="multiple" class="image-picker">
             @foreach ($uploads as $upload)
                 <div class="col-md-6">
-                    <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
-                            value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+                    <option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
+                            value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
                     </option>
                 </div>
             @endforeach

@@ -6,7 +6,7 @@
                     @foreach($folders as $folder)
                         <div class="col">
                             <a href="{{ route('folders.show',$folder->id()) }}">
-                                <img src="{{asset('images/folder.png')}}">{{ $folder->name }}
+                                <img src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/images/folder.png')}}">{{ $folder->name }}
                             </a>
                         </div>
                     @endforeach

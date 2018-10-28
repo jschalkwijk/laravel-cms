@@ -20,5 +20,5 @@
             </div>
         </div>
     </div>
-    <script src="{{asset('js/reply/reply.js')}}"></script>
+    <script src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/reply/reply.js')}}"></script>
 @stop

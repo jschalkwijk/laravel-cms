@@ -8,7 +8,7 @@
             <tbody>
             @foreach ($files as $file)
                 <tr>
-                    <td class="media"><a class="image_link" href="{{ asset('storage/'.$file->path()) }}"><img src="{{ asset('storage/'.$file->path('thumbnail')) }}"/></a></td>
+                    <td class="media"><a class="image_link" href="{{ asset('/storage/'.$file->path()) }}"><img src="{{ asset('/storage/'.$file->path('thumbnail')) }}"/></a></td>
                     <td class="td-title">{{ $file->name }}</td>
                     <td>{{ $file->user->username }}</td>
                     <td class="td-category"><p>{{ $file->type }}</p></td>

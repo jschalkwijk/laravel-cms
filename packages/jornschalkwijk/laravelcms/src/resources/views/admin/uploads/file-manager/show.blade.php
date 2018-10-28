@@ -27,7 +27,7 @@
                         @foreach($folders as $folder)
                             <div class="col">
                                 <a href="{{ route('folders.show',$folder->id()) }}">
-                                    <img src="{{asset('images/folder.png')}}">{{ $folder->name }}
+                                    <img src="{{asset('/vendor/jornschalkwijk/LaravelCMS/assets/images/folder.png')}}">{{ $folder->name }}
                                 </a>
                             </div>
                         @endforeach
@@ -41,8 +41,8 @@
                 <select id="image-folder-selector" multiple="multiple" class="image-picker">
                     @foreach ($uploads as $upload)
                         <div class="col">
-                            <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
-                                    value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+                            <option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
+                                    value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
                             </option>
                         </div>
                     @endforeach
