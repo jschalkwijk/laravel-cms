@@ -14,12 +14,12 @@ class ContactsController extends Controller
     public function index()
     {
         $contacts = Contact::with('user')->where('trashed',0)->orderBy('contact_id','desc')->get();
-        return view('admin.contacts.contacts')->with(['template'=>$this->adminTemplate(),'contacts'=>$contacts,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.contacts.contacts')->with(['template'=>$this->adminTemplate(),'contacts'=>$contacts,'trashed' => 0]);
     }
     public function deleted()
     {
         $contacts = Contact::with('user')->where('trashed',1)->orderBy('contact_id','desc')->get();
-        return view('admin.contacts.contacts')->with(['template'=>$this->adminTemplate(),'contacts'=>$contacts,'trashed' => 1]);
+        return view('JornSchalkwijk\LaravelCMS::admin.contacts.contacts')->with(['template'=>$this->adminTemplate(),'contacts'=>$contacts,'trashed' => 1]);
     }
     public function create()
     {

@@ -22,7 +22,7 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('admin.auth.passwords.email');
+        return view('JornSchalkwijk\LaravelCMS::admin.auth.passwords.email');
     }
     /**
      * Create a new controller instance.

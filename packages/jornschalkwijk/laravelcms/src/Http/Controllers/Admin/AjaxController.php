@@ -9,7 +9,7 @@
     {
 
         public function index(){
-            return view('admin.ajax.ajax');
+            return view('JornSchalkwijk\LaravelCMS::admin.ajax.ajax');
         }
         public function ajax(Request $r)
         {

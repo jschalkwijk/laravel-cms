@@ -18,7 +18,7 @@ class FileManagerController extends Controller
 //    {
 //        $galleries = Gallery::all();
 //        $folders = Folder::where('parent_id',0)->get();
-//        $html =  view('admin.uploads.file-manager.index')->with(['galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
+//        $html =  view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.index')->with(['galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
 ////        return response()->json(['success' => true,'html' => $html]);
 //        return $html;
 //    }
@@ -26,7 +26,7 @@ class FileManagerController extends Controller
     public function folders()
     {
         $folders = Folder::where('parent_id',0)->get();
-        $html = view('admin.uploads.file-manager.folders')->with(['template' => $this->adminTemplate(), 'folders' => $folders])->renderSections()['content'];
+        $html = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.folders')->with(['template' => $this->adminTemplate(), 'folders' => $folders])->renderSections()['content'];
 //        $html = require_once resource_path('/views/admin/uploads/file-manager/folders.blade.php');
         return response()->json(['success' => true,'html' => $html]);
     }
@@ -35,7 +35,7 @@ class FileManagerController extends Controller
         $folders = Folder::all()->where('parent_id',$folder->folder_id);
         $files = $folder->files;
         $back = '/admin/folders/'.$folder->parent_id;
-        $html = view('admin.uploads.file-manager.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'uploads' => $files,'back' => $back])->renderSections()['content'];
+        $html = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'uploads' => $files,'back' => $back])->renderSections()['content'];
         return response()->json(['success' => true,'html' => $html]);
     }
 
@@ -43,7 +43,7 @@ class FileManagerController extends Controller
     {
         $uploads = Upload::search($r['search'])->get();
 
-        $returnHTML = view('admin.uploads.file-manager.search-results')->with(['uploads' => $uploads])->renderSections()['content'];
+        $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.search-results')->with(['uploads' => $uploads])->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }
@@ -51,7 +51,7 @@ class FileManagerController extends Controller
     public function gallery($id)
     {
         $gallery = Gallery::find($id);
-        $returnHTML = view('admin.uploads.file-manager.selected-gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
+        $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.selected-gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
         return response()->json(array('success' => true, 'html' => $returnHTML));
 
     }
@@ -85,7 +85,7 @@ class FileManagerController extends Controller
     public function addGalleryToEditor(Request $r){
 
         $gallery = Gallery::find($r['gallery']);
-        $returnHTML = view('admin.uploads.file-manager.gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
+        $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }

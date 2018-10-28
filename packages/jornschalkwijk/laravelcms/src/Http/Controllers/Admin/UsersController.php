@@ -39,7 +39,7 @@ class UsersController extends Controller
         } else {
             $users = User::where('users.trashed', 0)->orderBy('user_id', 'desc')->get();
         }
-        return view('admin.users.users')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.users.users')->with(
         [
             'users' => $users,
             'trashed' => 0,
@@ -49,13 +49,13 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return view('admin.users.show')->with(['user'=>$user,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.users.show')->with(['user'=>$user,'template' => $this->adminTemplate()]);
     }
 
     public function deleted()
     {
         $users = User::where('users.trashed',1)->orderBy('user_id','desc')->get();
-        return view('admin.users.users')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.users.users')->with(
             [
                 'users' => $users,
                 'trashed' => 1,
@@ -67,7 +67,7 @@ class UsersController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
-        return view('admin.users.create')->with(['roles'=>$roles,'permissions'=> $permissions,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.users.create')->with(['roles'=>$roles,'permissions'=> $permissions,'template'=>$this->adminTemplate()]);
     }
     /**
      * Create a new user instance after a valid registration.
@@ -107,7 +107,7 @@ class UsersController extends Controller
         $rolePermissions = $user->permissionsThroughRole()->pluck('permission_id')->toArray();
         $userPermissions = $user->permissions->pluck('permission_id')->toArray();
 
-        return view('admin.users.edit')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.users.edit')->with(
             [
                 'user' => $user,
                 'roles'=> $roles,

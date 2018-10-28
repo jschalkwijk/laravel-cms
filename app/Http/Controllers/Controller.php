@@ -28,7 +28,7 @@ class Controller extends BaseController
 		return $this->template;
 	}
     protected function adminTemplate() {
-		$this->template = "admin/templates/default";
+		$this->template = "JornSchalkwijk\LaravelCMS::admin.templates.default";
 		return $this->template;
 	}
 }

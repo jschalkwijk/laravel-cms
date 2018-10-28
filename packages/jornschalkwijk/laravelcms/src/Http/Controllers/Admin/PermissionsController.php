@@ -18,7 +18,7 @@
         {
             $permissions = Permission::all();
 
-            return view('admin.permissions.permissions')->with(
+            return view('JornSchalkwijk\LaravelCMS::admin.permissions.permissions')->with(
                 [
                     'permissions' => $permissions,
                     'template' => $this->adminTemplate()
@@ -27,13 +27,13 @@
 
         public function show(Permission $permission)
         {
-            return view('admin.permissions.show')->with(['permission' => $permission,'template' =>$this->adminTemplate()]);
+            return view('JornSchalkwijk\LaravelCMS::admin.permissions.show')->with(['permission' => $permission,'template' =>$this->adminTemplate()]);
         }
 
         public function deleted()
         {
             $permissions = Permission::all();
-            return view('admin.permissions.permissions')->with(
+            return view('JornSchalkwijk\LaravelCMS::admin.permissions.permissions')->with(
                 [
                     'permissions' => $permissions,
                     'template' => $this->adminTemplate()
@@ -42,7 +42,7 @@
         public function create()
         {
             $roles = Role::all();
-            return view('admin.permissions.create')->with(['roles'=> $roles,'template'=>$this->adminTemplate()]);
+            return view('JornSchalkwijk\LaravelCMS::admin.permissions.create')->with(['roles'=> $roles,'template'=>$this->adminTemplate()]);
         }
         /**
          * Create a new permission instance after a valid registration.
@@ -71,7 +71,7 @@
         {
             $roles = Role::all();
             $currentRoles = $permission->roles->pluck('role_id')->toArray();
-            return view('admin.permissions.edit')->with(['permission'=>$permission,'roles' => $roles,'currentRoles'=>$currentRoles,'template' =>$this->adminTemplate()]);
+            return view('JornSchalkwijk\LaravelCMS::admin.permissions.edit')->with(['permission'=>$permission,'roles' => $roles,'currentRoles'=>$currentRoles,'template' =>$this->adminTemplate()]);
         }
         public function update(Request $r,Permission $permission)
         {

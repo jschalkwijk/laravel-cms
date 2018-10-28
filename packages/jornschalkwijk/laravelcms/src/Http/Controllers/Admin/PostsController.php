@@ -27,19 +27,19 @@ class PostsController extends Controller
         } else {
             $posts = Post::with('category', 'user', 'tags:title')->where('posts.trashed', 0)->orderBy('post_id', 'desc')->get();
         }
-        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts' => $posts]);
+        return view('JornSchalkwijk\LaravelCMS::admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts' => $posts]);
 
     }
 
     public function show(Post $post)
     {
-        return view('admin.posts.show')->with(['template'=>$this->adminTemplate(),'post' => $post]);
+        return view('JornSchalkwijk\LaravelCMS::admin.posts.show')->with(['template'=>$this->adminTemplate(),'post' => $post]);
     }
 
     public function deleted(){
         $posts = Post::with('category','user','comments')->where('posts.trashed',1)->orderBy('post_id','desc')->get();
 
-        return view('admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
+        return view('JornSchalkwijk\LaravelCMS::admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
 
     public function create()
@@ -49,7 +49,7 @@ class PostsController extends Controller
         $tags = Tag::where('type','post')->get();
         $galleries = Gallery::all();
         $folders = Folder::all();
-        return view('admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'galleries'=>$galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.posts.create')->with(['categories' => $categories,'tags' => $tags,'galleries'=>$galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)
@@ -144,7 +144,7 @@ class PostsController extends Controller
         };
         $galleries = Gallery::all();
         $folders = Folder::where('parent_id',0)->get();
-        return view('admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.posts.edit')->with(['post' => $post, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag,'galleries' => $galleries,'folders' => $folders,'template'=>$this->adminTemplate()]);
     }
 
 }

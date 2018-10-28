@@ -37,14 +37,14 @@ class FoldersController extends Controller
         $files = $folder->files;
         $back = '/admin/folders/'.$folder->parent_id;
         if($r->ajax()){
-            $html = view('admin.uploads.file-manager.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'uploads' => $files,'back' => $back])->renderSections()['content'];
+            $html = view('JornSchalkwijk\LaravelCMS::admin.uploads.file-manager.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'uploads' => $files,'back' => $back])->renderSections()['content'];
             return response()->json(['success' => true,'html' => $html]);
         }
-        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'files' => $files]);
+        return view('JornSchalkwijk\LaravelCMS::admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'folder' => $folder,'folders' => $folders, 'files' => $files]);
     }
     public function create()
     {
-        return view('admin.uploads.folders.create')->with(['template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.uploads.folders.create')->with(['template' => $this->adminTemplate()]);
     }
 
     public function store(Request $r)

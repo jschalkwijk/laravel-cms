@@ -21,18 +21,18 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::with('category')->where('trashed',0)->orderBy('product_id','desc')->get();
-        return view('admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 0]);
     }
 
     public function show(Product $product)
     {
-        return view('admin.products.show')->with(['template'=>$this->adminTemplate(),'product'=>$product]);
+        return view('JornSchalkwijk\LaravelCMS::admin.products.show')->with(['template'=>$this->adminTemplate(),'product'=>$product]);
     }
 
     public function deleted()
     {
         $products = Product::with('category')->where('trashed',1)->orderBy('product_id','desc')->get();
-        return view('admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 1]);
+        return view('JornSchalkwijk\LaravelCMS::admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 1]);
     }
 
 
@@ -43,7 +43,7 @@ class ProductsController extends Controller
         $tags = Tag::where('type','product')->get();
         $galleries = Gallery::all();
         $folders = Folder::where('parent_id', 0)->get();
-        return view('admin.products.create')->with(['categories' => $categories, 'tags' => $tags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.products.create')->with(['categories' => $categories, 'tags' => $tags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
 }
 
     public function store(Request $r)
@@ -119,7 +119,7 @@ class ProductsController extends Controller
         $galleries = Gallery::all();
         $folders = Folder::where('parent_id', 0)->get();
 
-        return view('admin.products.edit')->with(['product' => $product, 'categories' => $categories, 'tags' => $tags, 'selectedTags' => $selectedTags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.products.edit')->with(['product' => $product, 'categories' => $categories, 'tags' => $tags, 'selectedTags' => $selectedTags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
     }
 
     public function update(Request $r,Product $product)

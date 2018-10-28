@@ -10,6 +10,6 @@ class AdminController extends Controller
     public function index()
     {
         $posts = Post::with('category','user')->where('posts.trashed',0)->orderBy('post_id','desc')->get();
-        return view('admin.admin')->with(['template' => $this->adminTemplate(),'posts' => $posts,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.admin')->with(['template' => $this->adminTemplate(),'posts' => $posts,'trashed' => 0]);
     }
 }

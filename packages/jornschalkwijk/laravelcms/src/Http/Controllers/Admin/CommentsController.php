@@ -18,7 +18,7 @@ class CommentsController extends Controller
     public function index()
     {
         $comments = Comment::with('user')->where('trashed',0)->orderBy('comment_id','desc')->get();
-        return view('admin.comments.comments')->with(['template'=>$this->adminTemplate(),'comments' => $comments,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.comments.comments')->with(['template'=>$this->adminTemplate(),'comments' => $comments,'trashed' => 0]);
     }
 
     public function show(Comment $c)

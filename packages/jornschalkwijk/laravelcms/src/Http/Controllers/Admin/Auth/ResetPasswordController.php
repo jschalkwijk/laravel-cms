@@ -23,7 +23,7 @@ class ResetPasswordController extends Controller
     // overwrite trait function to set right admin view path
     public function showResetForm(Request $request, $token = null)
     {
-        return view('admin.auth.passwords.reset')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

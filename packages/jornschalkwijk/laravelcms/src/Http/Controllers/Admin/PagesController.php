@@ -27,23 +27,23 @@ class PagesController extends Controller
             $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
         }
 
-        return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 0]);
     }
 
     public function deleted()
     {
         $pages = Page::with('user')->orderBy('page_id', 'desc')->get();
-        return view('admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 1]);
+        return view('JornSchalkwijk\LaravelCMS::admin.pages.pages')->with(['template' => $this->adminTemplate(),'pages' => $pages,'trashed' => 1]);
     }
 
     public function show(Page $page)
     {
-        return view('admin.pages.show')->with(['page' => $page,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.pages.show')->with(['page' => $page,'template'=>$this->adminTemplate()]);
     }
     public function create()
     {
         $galleries = Gallery::all();
-        return view('admin.pages.create')->with(['galleries' => $galleries,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.pages.create')->with(['galleries' => $galleries,'template'=>$this->adminTemplate()]);
     }
 
     public function store(Request $r)
@@ -67,7 +67,7 @@ class PagesController extends Controller
     public function edit(Page $page)
     {
         $galleries = Gallery::all();
-        return view('admin.pages.edit')->with(['galleries'=>$galleries,'page' => $page,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.pages.edit')->with(['galleries'=>$galleries,'page' => $page,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Page $page)

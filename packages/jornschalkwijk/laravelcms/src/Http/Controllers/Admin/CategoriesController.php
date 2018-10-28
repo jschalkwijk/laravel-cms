@@ -23,23 +23,23 @@ class CategoriesController extends Controller
         } else {
             $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
         }
-        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 
     public function show(Category $category)
     {
-        return view('admin.categories.category')->with(['template'=>$this->adminTemplate(),'category' => $category ]);
+        return view('JornSchalkwijk\LaravelCMS::admin.categories.category')->with(['template'=>$this->adminTemplate(),'category' => $category ]);
     }
 
     public function deleted(){
         $categories = Category::with('user')->where('categories.trashed',0)->orderBy('category_id', 'desc')->get();
-        return view('admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
+        return view('JornSchalkwijk\LaravelCMS::admin.categories.categories')->with(['template'=>$this->adminTemplate(),'categories' => $categories,'trashed' => 0]);
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('admin.categories.create')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.categories.create')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
     }
     public function store(Request $r)
     {
@@ -56,7 +56,7 @@ class CategoriesController extends Controller
     public function edit(Category $category)
     {
         $categories = Category::all();
-        return view('admin.categories.edit')->with(['category' => $category,'categories' => $categories, 'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.categories.edit')->with(['category' => $category,'categories' => $categories, 'template' => $this->adminTemplate()]);
     }
 
     public function update(Request $r, Category $category)

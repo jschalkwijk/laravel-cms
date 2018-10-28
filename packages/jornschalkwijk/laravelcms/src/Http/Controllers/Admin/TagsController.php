@@ -17,7 +17,7 @@ class TagsController extends Controller
     public function index()
     {
         $tags = Tag::all();
-        return view('admin.tags.tags')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.tags.tags')->with(
             [
                 'tags' => $tags,
                 'template'=>$this->adminTemplate(),
@@ -64,7 +64,7 @@ class TagsController extends Controller
 
     public function edit(Tag $tag)
     {
-        return view('admin.tags.edit')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.tags.edit')->with(
             [
                 'tag' =>$tag,
                 'template'=>$this->adminTemplate(),

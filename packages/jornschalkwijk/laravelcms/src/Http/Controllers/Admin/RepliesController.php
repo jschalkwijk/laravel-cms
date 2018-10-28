@@ -17,7 +17,7 @@ class RepliesController extends Controller
     public function index()
     {
         $replies = Reply::with('user','comment')->orderBy('reply_id','DESC')->get();
-        return view('admin.comments.replies.replies')->with(['template'=>$this->adminTemplate(),'replies' => $replies]);
+        return view('JornSchalkwijk\LaravelCMS::admin.comments.replies.replies')->with(['template'=>$this->adminTemplate(),'replies' => $replies]);
     }
 
     public function show(Reply $c)

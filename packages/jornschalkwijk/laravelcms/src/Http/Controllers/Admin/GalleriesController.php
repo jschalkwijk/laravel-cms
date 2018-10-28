@@ -14,7 +14,7 @@ class GalleriesController extends Controller
     public function index()
     {
         $galleries = Gallery::all();
-        return view('admin.uploads.galleries.galleries')->with(['galleries' => $galleries,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.uploads.galleries.galleries')->with(['galleries' => $galleries,'template' => $this->adminTemplate()]);
     }
 
 
@@ -63,7 +63,7 @@ class GalleriesController extends Controller
         $gallery = Gallery::find($id);
         if($r->ajax()) {
             if ($gallery) {
-                $returnHTML = view('admin.uploads.partials.selected-gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
+                $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.partials.selected-gallery')->with(['gallery'=>$gallery,'uploads' =>$gallery->uploads])->renderSections()['content'];
                 return response()->json(array('success' => true, 'html' => $returnHTML));
             } else {
                 return response()->json(array('success' => false));

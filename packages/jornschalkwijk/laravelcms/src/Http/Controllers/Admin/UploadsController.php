@@ -24,7 +24,7 @@ class UploadsController extends Controller
     {
         $folders = Folder::all()->where('parent_id',0);
 
-        return view('admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => null,'folders' => $folders]);
+        return view('JornSchalkwijk\LaravelCMS::admin.uploads.folders.show')->with(['template' => $this->adminTemplate(), 'parent' => null,'folders' => $folders]);
     }
 
     public function create()
@@ -110,7 +110,7 @@ class UploadsController extends Controller
     {
         $upload->load('folders');
 
-        return view('admin.uploads.edit')->with(['upload' => $upload,'template'=>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.uploads.edit')->with(['upload' => $upload,'template'=>$this->adminTemplate()]);
     }
 
     public function update(Request $r, Upload $upload)
@@ -179,7 +179,7 @@ class UploadsController extends Controller
     {
         $uploads = Upload::search($r['search'])->get();
 
-        $returnHTML = view('admin.uploads.partials.include-files-tinymce')->with(['uploads' => $uploads])->renderSections()['content'];
+        $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.partials.include-files-tinymce')->with(['uploads' => $uploads])->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }
@@ -187,7 +187,7 @@ class UploadsController extends Controller
     public function gallery(Request $r)
     {
         $gallery = Gallery::find($r['gallery']);
-        $returnHTML = view('admin.uploads.partials.gallery')->with('uploads', $gallery->uploads)->renderSections()['content'];
+        $returnHTML = view('JornSchalkwijk\LaravelCMS::admin.uploads.partials.gallery')->with('uploads', $gallery->uploads)->renderSections()['content'];
 
         return response()->json(array('success' => true,'html' => $returnHTML));
     }

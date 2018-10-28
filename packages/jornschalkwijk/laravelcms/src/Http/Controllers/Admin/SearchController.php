@@ -22,7 +22,7 @@ class SearchController extends Controller
         $results = Search::omnisearch($r['search']);
         $results['template'] = $this->adminTemplate();
         $results['trashed'] = 0;
-        return view('admin.search.show')->with($results);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with($results);
     }
 
     public function show(Request $r)
@@ -32,7 +32,7 @@ class SearchController extends Controller
         ]);
         $results = Search::omnisearch($r['search']);
         $results['template'] = $this->adminTemplate();
-        return view('admin.search.show')->with($results);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with($results);
     }
 
     public function posts(Request $r)
@@ -42,7 +42,7 @@ class SearchController extends Controller
         ]);
         $posts = Post::search($r['search'])->get();
 
-        return view('admin.search.show')->with(['posts' => $posts,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['posts' => $posts,'template' => $this->adminTemplate()]);
     }
     public function pages(Request $r)
     {
@@ -51,7 +51,7 @@ class SearchController extends Controller
         ]);
         $pages = Page::search($r['search'])->get();
 
-        return view('admin.search.show')->with(['pages' => $pages,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['pages' => $pages,'template' => $this->adminTemplate()]);
     }
 
     public function categories(Request $r)
@@ -60,7 +60,7 @@ class SearchController extends Controller
             'search' => 'min:3',
         ]);
         $categories = Category::search($r['search'])->get();
-        return view('admin.search.show')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['categories' => $categories,'template' => $this->adminTemplate()]);
     }
 
     public function users(Request $r)
@@ -69,7 +69,7 @@ class SearchController extends Controller
             'search' => 'min:3',
         ]);
         $users = User::search($r['search'])->get();
-        return view('admin.search.show')->with(['users' => $users,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['users' => $users,'template' => $this->adminTemplate()]);
     }
 
     public function folders(Request $r)
@@ -78,7 +78,7 @@ class SearchController extends Controller
             'search' => 'min:3',
         ]);
         $folders = Folder::search($r['search'])->get();
-        return view('admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
     }
 
     public function uploads(Request $r)
@@ -87,6 +87,6 @@ class SearchController extends Controller
             'search' => 'min:3',
         ]);
         $folders = Upload::search($r['search'])->get();
-        return view('admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['folders' => $folders,'template' => $this->adminTemplate()]);
     }
 }

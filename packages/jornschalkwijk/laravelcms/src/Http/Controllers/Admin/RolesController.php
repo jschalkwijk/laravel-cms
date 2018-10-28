@@ -18,7 +18,7 @@ class RolesController extends Controller
     {
         $roles = Role::all();
 
-        return view('admin.roles.roles')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.roles.roles')->with(
             [
                 'roles' => $roles,
                 'template' => $this->adminTemplate()
@@ -27,13 +27,13 @@ class RolesController extends Controller
 
     public function show(Role $role)
     {
-        return view('admin.roles.show')->with(['role' => $role,'template' =>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.roles.show')->with(['role' => $role,'template' =>$this->adminTemplate()]);
     }
 
     public function deleted()
     {
         $roles = Role::all();
-        return view('admin.roles.roles')->with(
+        return view('JornSchalkwijk\LaravelCMS::admin.roles.roles')->with(
             [
                 'roles' => $roles,
                 'template' => $this->adminTemplate()
@@ -42,7 +42,7 @@ class RolesController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        return view('admin.roles.create')->with(['template'=>$this->adminTemplate(),'permissions' => $permissions]);
+        return view('JornSchalkwijk\LaravelCMS::admin.roles.create')->with(['template'=>$this->adminTemplate(),'permissions' => $permissions]);
     }
     /**
      * Create a new role instance after a valid registration.
@@ -72,7 +72,7 @@ class RolesController extends Controller
     {
         $permissions = Permission::all();
         $rolePermissions = $role->permissions->pluck('permission_id')->toArray();
-        return view('admin.roles.edit')->with(['role'=>$role,'permissions' => $permissions,'rolePermissions' => $rolePermissions,'template' =>$this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.roles.edit')->with(['role'=>$role,'permissions' => $permissions,'rolePermissions' => $rolePermissions,'template' =>$this->adminTemplate()]);
     }
     public function update(Request $r,Role $role)
     {
