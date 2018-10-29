@@ -90,7 +90,7 @@ class PostsController extends Controller
         }
         // Save selected categories, if all are deselected , detach all relations else sync selected
         $post->tags()->sync($tag_ids);
-        return redirect()->action('Admin\PostsController@index');
+        return redirect()->action('JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PostsController@index');
     }
 
     public function update(Request $r, Post $post)

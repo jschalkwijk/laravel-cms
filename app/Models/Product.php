@@ -14,12 +14,10 @@ class Product extends Model
         'category_id',
         'price',
         'description',
-        'discount_price',
-        'savings',
+        'discount_percentage',
+        'discount_value',
         'tax_percentage',
-        'tax',
-        'total',
-        'img_path',
+        'tax_value',
         'folder_id',
         'quantity',
     ];
@@ -53,14 +51,16 @@ class Product extends Model
         return preg_replace("/[\s-]+/", "-", $this->title);
     }
 
-    public function getTax(){
-        $this->tax = ($this->price * $this->tax_percentage) / 100;
-        return $this->tax;
+    public function setTaxValue(){
+        if($this->discount_percentage > 0) {
+            return $this->tax_value = (($this->price - $this->discount_value)) * $this->tax_percentage / 100;
+        }
+        return $this->tax_value = ($this->price * $this->tax_percentage) / 100;
     }
 
-    protected function discount($percentage){
-        $this->discount_price = ($this->price / 100) * $percentage;
-        $this->savings = $this->price * $percentage;
+    public  function setDiscount(){
+        $this->discount_value = ($this->price / 100) * $this->discount_percentage;
+        $this->discount_price = $this->price - $this->discount_value;
     }
 
     public function getQuantity()
@@ -74,7 +74,11 @@ class Product extends Model
     }
 
     public function total(){
-        return $this->price + $this->getTax();
+
+        if($this->discount_percentage > 0){
+            return $this->discount_price + $this->tax_value;
+        }
+        return $this->price + $this->tax_value;
     }
     // SHOPPING Stock
     public function lowStock()

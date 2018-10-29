@@ -28,22 +28,21 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                @if (isset($product->product_id))
-                    <?php $action = '/admin/products/'.$product->product_id; $method = 'PATCH'; ?>
-                @else
-                    <?php $action = '/admin/products/add'; $method = 'PUT'; ?>
-
-                @endif
-                <form action="{{$action}}" method="post">
-                    {{ method_field($method) }}
+                <form action="{{route('products.update',$product->product_id)}}" method="post">
+                    {{method_field('PATCH')}}
                     {{ csrf_field() }}
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10"><input type="text" name="name" placeholder="Name" value="{{ old('name',$product->name)}}" class="form-control"></div>
                         <label for="price" class="col-sm-2 col-form-label">Price</label>
-                        <div class="col-sm-10"><input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price',$product->price) }}" class="form-control"></div>
+                        <div class="col-sm-10"><input type="number" name="price" placeholder="Price" pattern="(^\d+(\.|\,)\d{2}$)" min="0" value="{{ old('price',$product->price)}}" class="form-control"></div>
                         <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
-                        <div class="col-sm-10"><input type="number" name="quantity" placeholder="Quantity between 0 and 1000" min="0" max="1000" value="{{ old('quantity',$product->quantity) }}" class="form-control"/></div>
+                        <div class="col-sm-10"><input type="number" name="quantity" placeholder="Between 0 and 1000" min="0" max="1000" value="{{ old('quantity',$product->quantity) }}" class="form-control"/></div>
+                        <label for="tax_percentage" class="col-sm-2 col-form-label">Tax %</label>
+                        <div class="col-sm-10"><input type="number" name="tax_percentage" placeholder="Between 0 and 100" min="0" max="100" value="{{ old('tax_percentage',$product->tax_percentage) }}" class="form-control"/></div>
+                        <label for="discount_percentage" class="col-sm-2 col-form-label">Discount %</label>
+                        <div class="col-sm-10"><input type="number" name="discount_percentage" placeholder="Between 0 and 100" min="0" max="1000" value="{{ old('discount_percentage',$product->discount_percentage) }}" class="form-control"/></div>
+
                     </div>
                     <div class="form-group row">
                         <label for="categories" class="col-sm-2 col-form-label">Category</label>
@@ -66,18 +65,15 @@
                         <label for="tags" class="col-sm-2 col-form-label">Tags</label>
                         <div class="col-sm-10">
                             <select id="tags" class="prettyTags" name="tag_ids[]" multiple size="3" style="display: none;">
-                                <option value="None">None</option>
-                                @foreach($product->tags as $tag)
-                                    <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
-                                @endforeach
                                 @foreach($tags as $tag)
-                                    @if(!in_array($tag->tag_id,$selectedTag) )
-                                        <option value="{{$tag->tag_id}}">{{$tag->title}}</option>
+                                    @if(in_array($tag->tag_id,$selectedTags)) )
+                                    <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
+                                    @else
+                                        <option value="{{$tag->tag_id}}" selected>{{$tag->title}}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
-                        <input type="text" name="tag" placeholder="Create Tag('s), for multiple tags seperate with a dash ( - )" class="form-control"/><br />
                         <input type="hidden" name="tag_type" value="product"/><br />
                     </div>
                     <div class="form-group">

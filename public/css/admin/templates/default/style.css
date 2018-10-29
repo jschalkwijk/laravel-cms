@@ -794,7 +794,7 @@ ul.tree li:last-child:before {
 
 /* Pop Up Overlay*/
 
-#my_popup{
+#mce-my_popup{
 	background-color:#f2f2f2;
 	min-height: 100vh;
 }

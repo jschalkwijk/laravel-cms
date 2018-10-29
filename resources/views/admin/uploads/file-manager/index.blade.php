@@ -1,7 +1,7 @@
 @extends('admin.layout')
 <div class="row">
-    <button class="my_popup_open">Open popup</button>
-    <div id="my_popup" class="col-xs-5 col-sm-5 col-md-5">
+    <button class="mce-my_popup_open">Open popup</button>
+    <div id="mce-my_popup" class="col-xs-5 col-sm-5 col-md-5">
         {{-- Searching uploads--}}
         <div id="add-image">
             <form class="search">
@@ -61,13 +61,15 @@
                 </div>
             </div>
         </div>
-        <button class="my_popup_close">Close</button>
+        <button class="mce-my_popup_close">Close</button>
     </div>
 </div>
 <!-- Include jQuery Popup Overlay -->
+@push('scripts')
 <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+@endpush
 <script>
-    $('#my_popup').popup({
+    $('#mce-my_popup').popup({
         opacity: 0.3,
         transition: 'all 0.3s',
         horizontal: 'right',

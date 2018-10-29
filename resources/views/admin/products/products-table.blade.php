@@ -20,7 +20,7 @@
         @foreach($products as $single)
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
-                <td class="td-title"><p>{{ $single->name }}</p></td>
+                <td class="td-title"><a href="{{route('products.edit',$single->product_id)}}">{{ $single->name }}</a></td>
                 <td>{{ $single->price}}</td>
                 <td class="td-category">
                     {{ $single->category['title']}}

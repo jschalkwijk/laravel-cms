@@ -5,29 +5,33 @@
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
 
-                <form class="small" enctype="multipart/form-data" method="post" action="">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="43500000" />
-                    <label for="files[]">Choose File(max size: 3.5 MB): </label><br />
-                    <input type="file" name="files[]" multiple/><br />
-                    <input type="checkbox" name="public" value="public"/>
-                    <label for='public'>Public</label>
-                    <input type="checkbox" name="secure" value="secure"/>
-                    <label for='secure'>Secure</label>
-                    <input type="hidden" name="album_name" value=""/>
-                    <input type="hidden" name="category_name" value="<?= $product->category; ?>"/>
-                    <input type="hidden" name="album_id" value="<?= $product->folder_id; ?>"/>
-                    {{-- select folder--}}
-
-                    <input type="text" name="new_album_name" placeholder="Create New Folder" maxlength="60"/>
-
-                    <button type="submit" name="submit_file">Add File('s)</button>
+              <div class="d-flex justify-content-center">  <form class="dropzone" id="dropzone" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="reload" value="{{(isset($reload)) ? $reload : true }}"/>
+                    <input type="hidden" name="destination" value="{{$product->folder_id}}">
+                    <div class="fallback">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="43500000"/>
+                        <label for="files[]" class="form-check-label">Choose File(max size: 3.5 MB): </label><br/>
+                        <input type="file" class="form-control" name="files[]" multiple/><br/>
+                        <button type="submit" class="form-control" name="submit">Add File('s)</button>
+                    </div>
                 </form>
+              </div>
+
+                @push('scripts')
+                <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
+                <script src="{{asset("js/dropzoneOptions.js")}}"></script>
+                @endpush
+
+                @push('styles')
+                <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+                @endpush
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-                <form method="post" action="<?= 'products/info/'.$product->product_id.'/'.$product->name; ?>">
+                <form method="post" action="{{--{{route('products.action',$product->product_id)}}--}}">
                     <input type="hidden" name="id" value="<?= $product->product_id; ?>"/>
                     <input type="hidden" name="name" value="<?= $product->name ?>"/>
                     <?php
@@ -37,7 +41,7 @@
                     <?php   }
                     if ($product->trashed == 0) { ?>
                     <button class="td-btn" type="submit" name="remove"><img class="glyph-small" src="<?= 'trash-post.png'?>"/></button>
-                    <button><?= '<a href="'.'/products/edit/'.$product->product_id.'">Edit</a>'?></button>
+                    <button><a href="{{route('products.edit',$product->product_id)}}">Edit</a></button>
                     <?php } ?>
                 </form>
             </div>
@@ -56,35 +60,62 @@
                 </form>
                 <h1><?= $product->name; ?></h1>
                 <td><?php if($product->lowStock()) { echo "Low stock!"; } else if($product->outOfStock()) { echo "Out of stock!"; } else { echo "";}?></td>
-                <img class="left" src="<?= '/admin/'.$product->img_path; ?>"/>
-                <table>
+
+                <table class="table table-sm table-striped">
                     <tbody>
                     <tr>
-                        <td>Product Name</td>
-                        <td><?= $product->name; ?></td>
+                        <th class="align-middle">Name</th>
+                        <td class="align-middle"><?= $product->name; ?></td>
                     </tr>
                     <tr>
-                        <td>Price</td>
-                        <td><?= $product->price; ?></td>
+                        <th class="align-middle">Price (Ex. Tax)</th>
+                        <td class="align-middle"><?= $product->price; ?></td>
                     </tr>
                     <tr>
-                        <td>In Stock</td>
-                        <td><?= $product->quantity; ?></td>
+                        <th class="align-middle">Discount</th>
+                        <td class="align-middle">€ <?= $product->discount_value; ?></td>
                     </tr>
                     <tr>
-                        <td>Category</td>
-                        <td><?= $product->category->title; ?></td>
+                        <th class="align-middle">Discount Price</th>
+                        <td class="align-middle">€ <?= $product->discount_price; ?></td>
                     </tr>
                     <tr>
-                        <td>Description</td>
-                        <td><?= $product->description; ?></td>
+                        <th class="align-middle">In Stock</th>
+                        <td class="align-middle"><?= $product->quantity; ?></td>
                     </tr>
                     <tr>
-                        <td>VAT</td>
-                        <td><?= $product->getTax(); ?></td>
+                        <th class="align-middle">Category</th>
+                        <td class="align-middle"><?= $product->category->title; ?></td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle">Tax %{{$product->tax_percentage}} </th>
+                        <td class="align-middle">€ <?= $product->tax_value; ?></td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle">Total Price (Inc. Tax)</th>
+                        <td class="align-middle">€ <?= $product->total(); ?></td>
                     </tr>
                     </tbody>
                 </table>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#specifications">Specifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#images">Images</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane container active" id="description"><?= $product->description; ?></div>
+                    <div class="tab-pane container fade" id="specifications"><p>Some content in menu 1.</p></div>
+                    <div class="tab-pane container fade" id="images"></div>
+                </div>
             </div>
         </div>
     </div>

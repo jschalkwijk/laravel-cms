@@ -50,12 +50,30 @@ class ProductsController extends Controller
     {
         $this->validate($r, [
             'name' => 'required|min:4',
-            'description' => 'required|min:5',
             'price' => 'required|numeric|min:1|',
-            'quantity' => 'required|numeric|min:1|',
+            'description' => 'required|min:5',
+            'quantity' => 'required|numeric|min:1',
+            'tax_percentage' => 'required|numeric|min:1',
+            'discount_percentage' => 'required|numeric|min:0',
         ]);
+
+        // Set values and calculate Discount and Tax Value
         $product = new Product($r->all());
-//        $product->user_id = Auth::user()->user_id;
+        $product->user_id = Auth::user()->user_id;
+        $product->setDiscount();
+        $product->setTaxValue();
+
+        // Create Folder
+        $folder = new Folder();
+        $folder->name = $product->name;
+        $folder->user_id = Auth::user()->user_id;
+        $folder->parent_id = 9;
+
+        $folder->save();
+
+        // Set folder_id after creation
+        $product->folder_id = $folder->folder_id;
+
         $product->save();
 
 
@@ -86,19 +104,54 @@ class ProductsController extends Controller
         // Save selected categories, if all are deselected , detach all relations else sync selected
         (!is_array($tag_ids)) ? $product->tags()->detach() : $product->tags()->sync($tag_ids);
 
-        return redirect()->action('Admin\ProductsController@index');
+        return redirect()->action('ProductsController@index');
+    }
+
+    public function edit(Product $product)
+    {
+        // Get all the categories associated with Product
+        $categories = Category::where('type', 'product')->get();
+        $tags = Tag::where('type', 'product')->get();
+        $selectedTags = [];
+        foreach ($product->tags as $tag) {
+            $selectedTag[] = $tag->tag_id;
+        };
+        $galleries = Gallery::all();
+        $folders = Folder::where('parent_id', 0)->get();
+
+        return view('admin.products.edit')->with(['product' => $product, 'categories' => $categories, 'tags' => $tags, 'selectedTags' => $selectedTags, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
     }
 
     public function update(Request $r,Product $product)
     {
         if($r['confirm']) {
             $this->validate($r, [
-                'name'        => 'required|min:4',
+                'name' => 'required|min:4',
+                'price' => 'required|numeric|min:1|',
                 'description' => 'required|min:5',
-                'price'       => 'required|numeric|min:1|',
-                'quantity'    => 'required|numeric|min:1|',
+                'quantity' => 'required|numeric|min:1',
+                'tax_percentage' => 'required|numeric|min:1',
+                'discount_percentage' => 'required|numeric|min:0',
             ]);
+            // Set values and calculate Discount and Tax Value
             $product->update($r->all());
+            $product->user_id = Auth::user()->user_id;
+            $product->setDiscount();
+            $product->setTaxValue();
+
+            // Create Folder
+            if(!Folder::findOrFail($product->folder_id)) {
+                $folder = new Folder();
+                $folder->name = $product->name;
+                $folder->user_id = Auth::user()->user_id;
+                $folder->parent_id = 9;
+
+                $folder->save();
+                // Set folder_id after creation
+                $product->folder_id = $folder->folder_id;
+            }
+
+            $product->save();
 
             if(!empty($r['category'])){
                 $category = new Category();
@@ -127,23 +180,7 @@ class ProductsController extends Controller
 
             // Save selected tags, if all are deselected , detach all relations else sync selected
             (!is_array($tag_ids)) ? $product->tags()->detach() : $product->tags()->sync($tag_ids);
-
-            return back();
         }
-    }
-
-    public function edit(Product $product)
-    {
-        // Get all the categories associated with Product
-        $categories = Category::where('type', 'product')->get();
-        $tags = Tag::where('type', 'product')->get();
-        $selectedTag = [];
-        foreach ($product->tags as $tag) {
-            $selectedTag[] = $tag->tag_id;
-        };
-        $galleries = Gallery::all();
-        $folders = Folder::where('parent_id', 0)->get();
-
-        return view('admin.products.edit')->with(['product' => $product, 'categories' => $categories, 'tags' => $tags, 'selectedTag' => $selectedTag, 'galleries' => $galleries,'folders' => $folders,'template' => $this->adminTemplate()]);
+        return back();
     }
 }
