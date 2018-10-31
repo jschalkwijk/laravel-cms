@@ -41,6 +41,12 @@ class Product extends Model
         return $this->morphToMany('CMS\Models\Tag', 'taggable',null,null,'tag_id');
     }
 
+    public function folder()
+    {
+
+        return $this->hasOne(Folder::class,'folder_id','folder_id');
+    }
+
     # Getters
     public function id()
     {

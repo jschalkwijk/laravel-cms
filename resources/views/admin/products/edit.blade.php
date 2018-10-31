@@ -3,6 +3,14 @@
     <script type="text/javascript" src="{{ asset("/js/tinymce/tinymce/tinymce.min.js") }}"></script>
     <script type="text/javascript">
         tinymce.init({
+            setup: function (editor) {
+                editor.addButton('filemanager', {
+                    text: 'File Manager',
+                    icon: 'image',
+                    id: 'file_manager',
+                    classes: 'my_popup_open',
+                });
+            },
             selector: "textarea",
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
@@ -10,10 +18,11 @@
                 "insertdatetime media table contextmenu paste",
 
             ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link filemanager",
             paste_data_images: true,
             relative_urls :false,
-            convert_urls: true
+            convert_urls: true,
+
         });
     </script>
     <div class="container-fluid">

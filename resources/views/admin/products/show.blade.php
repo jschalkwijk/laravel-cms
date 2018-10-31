@@ -1,6 +1,5 @@
 @extends('admin.layout')
 @section('content')
-
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
@@ -17,15 +16,6 @@
                     </div>
                 </form>
               </div>
-
-                @push('scripts')
-                <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
-                <script src="{{asset("js/dropzoneOptions.js")}}"></script>
-                @endpush
-
-                @push('styles')
-                <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
-                @endpush
             </div>
         </div>
 
@@ -113,13 +103,50 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane container active" id="description"><?= $product->description; ?></div>
-                    <div class="tab-pane container fade" id="specifications"><p>Some content in menu 1.</p></div>
-                    <div class="tab-pane container fade" id="images"></div>
+                    <div class="tab-pane container fade" id="specifications">
+
+                    </div>
+                    <div class="tab-pane container fade" id="images">
+                        <select id="product-folder-selector" multiple="multiple" class="image-picker">
+                        @foreach($product->folder->files as $upload)
+                                    <div class="col">
+                                        <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
+                                                value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+                                        </option>
+                                    </div>
+                        @endforeach
+                        </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="remove-image-from-product" name="remove-image-from-product">Delete Selection</button>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
     </div>
 
+    @push('scripts')
+    <script src="{{ asset('js/image-picker/image-picker.js') }}"></script>
+    <script>
+        $(window).on('load',function(){
+            $('#product-folder-selector').imagepicker();
+        });
+    </script>
+    @endpush
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('js/image-picker/image-picker.css') }}"/>
+    @endpush
 
+    @push('scripts')
+    <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
+    <script src="{{asset("js/dropzoneOptions.js")}}"></script>
+    @endpush
 
+    @push('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+    @endpush
 @stop

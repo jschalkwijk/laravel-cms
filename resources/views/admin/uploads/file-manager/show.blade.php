@@ -18,11 +18,12 @@
             </div>
         </div>
     </div>
+
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
-                <div class="row">
-                    @if(isset($folders))
+        @if(isset($folders))
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                    <div class="row">
                         @foreach($folders as $folder)
                             <div class="col">
                                 <a href="{{ route('folders.show',$folder->id()) }}">
@@ -30,10 +31,10 @@
                                 </a>
                             </div>
                         @endforeach
-                    @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
         <?php  /*system('find '.storage_path('app/public/uploads').' -empty -type d -delete')*/; ?>
         @if(isset($uploads))
             <div class="row">
