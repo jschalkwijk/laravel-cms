@@ -340,9 +340,13 @@ button {
 }
 
 button:hover  {
-	color: white;
-	text-decoration: none;
-	background-color: black;
+	 color: white;
+	 text-decoration: none;
+	 background-color: black;
+ }
+
+.mce-btn button:hover  {
+	background-color: transparent;
 }
 
 /* if a link needs to look like a button  */

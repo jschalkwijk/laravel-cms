@@ -102,9 +102,66 @@
                 </form>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                @include('admin.uploads.file-manager.index')
+                {{--@include('admin.uploads.file-manager.index')--}}
+                <div class="row">
+                    <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
+
+                        <div class="d-flex justify-content-center">  <form class="dropzone" id="dropzone" enctype="multipart/form-data" method="post" action="{{ route('uploads.store') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="reload" value="{{(isset($reload)) ? $reload : true }}"/>
+                                <input type="hidden" name="destination" value="{{$product->folder_id}}">
+                                <div class="fallback">
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="43500000"/>
+                                    <label for="files[]" class="form-check-label">Choose File(max size: 3.5 MB): </label><br/>
+                                    <input type="file" class="form-control" name="files[]" multiple/><br/>
+                                    <button type="submit" class="form-control" name="submit">Add File('s)</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 push-md-2">
+                        <div class="d-flex justify-content-center">
+                        <select id="product-folder-selector" multiple="multiple" class="image-picker">
+                            @foreach($product->folder->files as $upload)
+                                <div class="col">
+                                    <option id="{{$upload->upload_id}}" data-img-src="{{ asset('storage/'.$upload->path('thumbnail')) }}"
+                                            value="{{ asset('storage/'.$upload->path()) }}">{{$upload->name}}
+                                    </option>
+                                </div>
+                            @endforeach
+                        </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="remove-image-from-product" name="remove-image-from-product">Delete Selection</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     @include('admin.partials.prettyTags')
+    @push('scripts')
+    <script src="{{ asset('js/image-picker/image-picker.js') }}"></script>
+    <script>
+        $(window).on('load',function(){
+            $('#product-folder-selector').imagepicker();
+        });
+    </script>
+    @endpush
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('js/image-picker/image-picker.css') }}"/>
+    @endpush
+
+    @push('scripts')
+    <script src="{{asset("js/dropzone/min/dropzone.min.js")}}"></script>
+    <script src="{{asset("js/dropzoneOptions.js")}}"></script>
+    @endpush
+
+    @push('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset("js/dropzone/min/dropzone.min.css")}}"/>
+    @endpush
 @stop
