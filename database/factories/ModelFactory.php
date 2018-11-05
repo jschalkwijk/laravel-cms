@@ -12,32 +12,19 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-//$factory->define(JornSchalkwijk\LaravelCMS\Models::class, function (Faker\Generator $faker) {
-//    static $password;
-//
-//    return [
-//        'name' => $faker->name,
-//        'email' => $faker->unique()->safeEmail,
-//        'password' => $password ?: $password = bcrypt('secret'),
-//        'remember_token' => str_random(10),
-//    ];
-//});
-    $factory->define(JornSchalkwijk\LaravelCMS\Models::class, function (Faker\Generator $faker) {
+    $factory->define(JornSchalkwijk\LaravelCMS\Models\User::class, function (Faker\Generator $faker) {
         return [
-            'user_id' => $faker->unique()->numberBetween(30,1000),
+            'user_id' => $faker->unique()->numberBetween(50,1000),
+            'username' => $faker->userName(),
             'first_name' => $faker->firstName(),
             'last_name' => $faker->lastName(),
             'email' => $faker->companyEmail(),
             'password' => bcrypt('root'),
             'dob' => $faker->date(),
             'function' => $faker->randomElement(['manager','programmer','hr','marketing']),
-            'rights' => $faker->randomElement(['Admin','Content Manager','Author']),
-            'approved' => $faker->boolean(),
-            'trashed' => $faker->boolean(),
-            'remember_token' => null,
-            'album_id' => 1,
-            'img_path' => $faker->file(storage_path('app/public/uploads','/users')),
-            'created_by' => 26,
+            'approved' => $faker->randomElement([0,1]),
+            'trashed' => $faker->randomElement([0,1]),
+            'remember_token' => str_random(10),
             'created_at' => $faker->dateTimeThisYear,
             'updated_at' => $faker->dateTimeThisYear,
         ];
@@ -46,14 +33,14 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
     $factory->define(JornSchalkwijk\LaravelCMS\Models\Post::class, function (Faker\Generator $faker) {
         $categories = \JornSchalkwijk\LaravelCMS\Models\Category::where('type','post')->pluck('category_id')->toArray();
-        $users = \JornSchalkwijk\LaravelCMS\Models::all()->pluck('user_id')->toArray();
+        $users = \JornSchalkwijk\LaravelCMS\Models\User::all()->pluck('user_id')->toArray();
         return [
             'post_id' => $faker->unique()->numberBetween(1,1000),
             'title' => $faker->sentence(8,40),
             'description' => $faker->text(50),
             'content' => $faker->paragraph(rand(3,5)),
-            'approved' => $faker->boolean(),
-            'trashed' => $faker->boolean(),
+            'approved' => $faker->randomElement([0,1]),
+            'trashed' => $faker->randomElement([0,1]),
             'user_id' => $faker->randomElement($users),
             'category_id' => $faker->randomElement($categories),
             'created_at' => $faker->dateTimeThisYear,
@@ -63,7 +50,7 @@
 
     /** @var \Illuminate\Database\Eloquent\Factory $factory */
     $factory->define(JornSchalkwijk\LaravelCMS\Models\Category::class, function (Faker\Generator $faker) {
-        $users = \JornSchalkwijk\LaravelCMS\Models::all()->pluck('user_id')->toArray();
+        $users = \JornSchalkwijk\LaravelCMS\Models\User::all()->pluck('user_id')->toArray();
         $categories = \JornSchalkwijk\LaravelCMS\Models\Category::all()->pluck('category_id');
         if ($categories->count() < 1) {;
             return [
@@ -71,8 +58,8 @@
                 'title' => $faker->sentence(1,40),
                 'description' => $faker->text(50),
                 'content' => $faker->paragraph(rand(3,5)),
-                'approved' => $faker->boolean(),
-                'trashed' => $faker->boolean(),
+                'approved' => $faker->randomElement([0,1]),
+                'trashed' => $faker->randomElement([0,1]),
                 'type' => $faker->randomElement(['post','product']),
                 'user_id' => $faker->randomElement($users),
                 'parent_id' => 0,
@@ -86,8 +73,8 @@
                 'title' => $faker->sentence(1,40),
                 'description' => $faker->text(50),
                 'content' => $faker->paragraph(rand(3,5)),
-                'approved' => $faker->boolean(),
-                'trashed' => $faker->boolean(),
+                'approved' => $faker->randomElement([0,1]),
+                'trashed' => $faker->randomElement([0,1]),
                 'type' => $faker->randomElement(['post','product']),
                 'user_id' => $faker->randomElement($users),
                 'parent_id' => $faker->randomElement($categories),
@@ -113,8 +100,8 @@
             'img_path' => $faker->file(storage_path('app/public/uploads','/products')),
             'category_id' => $faker->randomElement($categories),
             'folder_id' => 0,
-            'approved' => $faker->boolean(),
-            'trashed' => $faker->boolean(),
+            'approved' => $faker->randomElement([0,1]),
+            'trashed' => $faker->randomElement([0,1]),
             'created_at' => $faker->dateTimeThisYear,
             'updated_at' => $faker->dateTimeThisYear,
         ];
@@ -125,10 +112,9 @@
         return [
             'tag_id' => $faker->unique()->numberBetween(1,1000),
             'title' => $faker->word(),
-            'type' => null,
+            'type' => $faker->randomElement(['post','product']),
             'user_id' => $faker->randomElement($users),
-            'approved' => $faker->boolean(),
-            'trashed' => $faker->boolean(),
+            'approved' => $faker->randomElement([0,1]),
             'created_at' => $faker->dateTime,
             'updated_at' => $faker->dateTimeThisYear,
         ];

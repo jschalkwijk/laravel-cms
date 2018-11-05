@@ -11,26 +11,32 @@
          */
         public function run()
         {
-            // $this->call(UsersTableSeeder::class);
-//        factory(CMS\Models\Category::class, 40)->create()->each(function(git category){
-//            $category->posts()->save(factory(CMS\Models\Post::class)->make());
-//        });
-            factory(JornSchalkwijk\LaravelCMS\Models\User::class, 10)->create();
-            factory(JornSchalkwijk\LaravelCMS\Models\Category::class, 20)->create();
-            factory(JornSchalkwijk\LaravelCMS\Models\Category::class, 20)->create();
+
+//            $this->call(FoldersTableSeeder::class);
+//            $this->call(PermissionsTableSeeder::class);
+//            $this->call(RolesTableSeeder::class);
+//            $this->call(RolePermissionTableSeeder::class);
+//            $this->call(TagsTableSeeder::class);
+
+//            factory(JornSchalkwijk\LaravelCMS\Models\User::class, 10)->create()->each(function ($user) {
+//                $user->roles()->attach(\JornSchalkwijk\LaravelCMS\Models\Role::all()->random()->role_id);
+//            });
+//            factory(JornSchalkwijk\LaravelCMS\Models\Category::class, 20)->create();
+//
+            factory(JornSchalkwijk\LaravelCMS\Models\Tag::class, 20)->create();
 
             factory(JornSchalkwijk\LaravelCMS\Models\Post::class, 20)->create()->each(
                 function ($post) {
-                    $post->tags()->save(
-                        factory(JornSchalkwijk\LaravelCMS\Models\Tag::class)->make()
+                    $post->tags()->attach(
+                        JornSchalkwijk\LaravelCMS\Models\Tag::where('type','post')->get()->random()->tag_id
                     );
                 });
-            factory(JornSchalkwijk\LaravelCMS\Models\Product::class, 20)->create()->each(
-                function ($product) {
-                    $product->tags()->save(
-                        factory(JornSchalkwijk\LaravelCMS\Models\Tag::class)->make()
-                    );
-                });
+//            factory(JornSchalkwijk\LaravelCMS\Models\Product::class, 20)->create()->each(
+//                function ($product) {
+//                    $product->tags()->save(
+//                        factory(JornSchalkwijk\LaravelCMS\Models\Tag::class)->make()
+//                    );
+//                });
 
 //            factory(CMS\Models\Product::class, 20)->create();
 //            foreach ((range(1, 20)) as $index) {
