@@ -24,10 +24,13 @@ class LaravelCMSServiceProvider extends ServiceProvider
             __DIR__.'/database/migrations/' => database_path('migrations')
         ], 'migrations');
         $this->publishes([
-            __DIR__.'/database/seeds/' => database_path('migrations')
+            __DIR__.'/database/seeds/' => database_path('seeds')
         ], 'migrations');
         $this->publishes([
-            __DIR__.'/database/factories/' => database_path('migrations')
+            __DIR__.'/database/factories/' => database_path('factories')
+        ], 'migrations');
+        $this->publishes([
+            __DIR__.'/database/mysql/' => database_path('mysql')
         ], 'migrations');
     }
 

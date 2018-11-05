@@ -5,5 +5,16 @@
   "main": "cache.js",
   "author": "Jorn Schalkwijk <jornschalkwijk@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jschalkwijk/cache.git"
+  },
+  "keywords": [
+    "javascript",
+    "cache",
+    "ajax",
+    "localstorage",
+    "sessonstorage"
+  ]
 }

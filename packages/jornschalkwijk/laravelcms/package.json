@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "install-depends": "yarn install --production=true --modules-folder src/public/assets/js",
+    "install-devDepends": "yarn install --production=false"
+  },
+  "dependencies": {
+    "image-picker": "^0.3.1",
+    "jquery-popup-overlay": "https://github.com/vast-engineering/jquery-popup-overlay",
+    "selectize": "^0.12.6",
+    "tinymce": "^4.4",
+    "dropzone": "^5.5.1"
+  }
+}
