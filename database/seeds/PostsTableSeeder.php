@@ -2,7 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use JornSchalkwijk\LaravelCMS\Models\Tag;
+USE JornSchalkwijk\LaravelCMS\Models\Category;
+use JornSchalkwijk\LaravelCMS\Models\User;
 class PostsTableSeeder extends Seeder
 {
     /**
@@ -12,22 +14,22 @@ class PostsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            [
-                'name' => 'admin',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'user',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'author',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]
-        ]);
+        if (User::all()->isEmpty()){
+            $this->call(UserTableSeeder::class);
+        }
+        if(Tag::all()->isEmpty()) {
+            $this->call(TagsTableSeeder::class);
+        }
+        if(Category::all()->isEmpty()) {
+            $this->call(CategoryTableSeeder::class);
+        }
+
+        factory(JornSchalkwijk\LaravelCMS\Models\Post::class, 20)->create()->each(
+            function ($post) {
+                $post->tags()->attach(
+                    JornSchalkwijk\LaravelCMS\Models\Tag::where('type','post')->get()->random()->tag_id
+                );
+            }
+        );
     }
 }
