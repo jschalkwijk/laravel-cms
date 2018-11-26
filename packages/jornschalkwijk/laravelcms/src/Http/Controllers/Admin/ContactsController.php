@@ -5,7 +5,7 @@ namespace CMS\Http\Controllers\admin;
 use JornSchalkwijk\LaravelCMS\Models\Contact;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
-use CMS\Http\Controllers\Controller;
+
 
 class ContactsController extends Controller
 {

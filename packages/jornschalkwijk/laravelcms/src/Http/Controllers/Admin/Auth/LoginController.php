@@ -2,10 +2,11 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Controller;
 
 class LoginController extends Controller
 {

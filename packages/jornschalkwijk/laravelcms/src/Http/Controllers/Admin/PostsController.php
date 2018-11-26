@@ -7,7 +7,7 @@ use JornSchalkwijk\LaravelCMS\Models\Gallery;
 use JornSchalkwijk\LaravelCMS\Models\Tag;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
 use JornSchalkwijk\LaravelCMS\Models\Post;
 use JornSchalkwijk\LaravelCMS\Models\Category;

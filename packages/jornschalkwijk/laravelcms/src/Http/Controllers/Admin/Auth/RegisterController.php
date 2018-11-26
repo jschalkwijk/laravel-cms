@@ -4,7 +4,7 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
 use JornSchalkwijk\LaravelCMS\Models\User;
 use Illuminate\Support\Facades\Validator;
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller

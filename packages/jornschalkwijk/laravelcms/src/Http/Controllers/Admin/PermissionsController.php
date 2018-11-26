@@ -4,7 +4,7 @@
 
     use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Http\Request;
-    use CMS\Http\Controllers\Controller;
+
     use JornSchalkwijk\LaravelCMS\Models\Permission;
     use JornSchalkwijk\LaravelCMS\Models\Role;
 

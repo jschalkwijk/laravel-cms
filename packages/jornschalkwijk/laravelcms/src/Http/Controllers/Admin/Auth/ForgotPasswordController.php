@@ -2,7 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

@@ -8,7 +8,7 @@ use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTra
 use JornSchalkwijk\LaravelCMS\Models\User;
 use Illuminate\Http\Request;
 
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;

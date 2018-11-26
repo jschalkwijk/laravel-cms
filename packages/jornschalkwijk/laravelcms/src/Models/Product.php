@@ -5,6 +5,7 @@ namespace JornSchalkwijk\LaravelCMS\Models;
 use JornSchalkwijk\LaravelCMS\Models\Traits\ModelActionsTrait;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
     use ModelActionsTrait;

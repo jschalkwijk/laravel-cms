@@ -4,7 +4,7 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
-use CMS\Http\Controllers\Controller;
+
 use JornSchalkwijk\LaravelCMS\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 

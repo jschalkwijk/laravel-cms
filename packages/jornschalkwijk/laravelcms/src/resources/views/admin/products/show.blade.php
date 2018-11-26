@@ -31,14 +31,13 @@
 
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-                <form class="backend-form" method="post" action="{{"cart/add/".$product->product_id}}">
-                    <select name="quantity">
-                        @for($i = 0; $i < ($product->quantity + 1); $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
-                    <button type="submit">Order</button>
-                </form>
+                <select name="quantity">
+                    @for($i = 0; $i < ($product->quantity + 1); $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+                <a href="{{route('cart.add',[$product->product_id,1])}}">Order</a>
+
                 <h1>{{ $product->name }}</h1>
                 <td>
 

@@ -3,7 +3,7 @@
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use JornSchalkwijk\LaravelCMS\Models\Gallery;
 

@@ -3,7 +3,7 @@
     namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
     use Illuminate\Http\Request;
 
-    use CMS\Http\Controllers\Controller;
+
 
     class AjaxController extends Controller
     {

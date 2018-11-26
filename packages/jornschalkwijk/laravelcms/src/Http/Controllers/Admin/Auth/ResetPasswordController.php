@@ -2,7 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
 
-use CMS\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 

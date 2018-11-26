@@ -41,6 +41,10 @@ class LaravelCMSServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // bind the interface to the class that needs to be used
+        $this->app->bind(
+            'JornSchalkwijk\LaravelCMS\Models\Support\StorageInterface',
+            'JornSchalkwijk\LaravelCMS\Models\Support\SessionStorage'
+        );
     }
 }

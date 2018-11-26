@@ -9,7 +9,7 @@ use JornSchalkwijk\LaravelCMS\Models\Upload;
 use JornSchalkwijk\LaravelCMS\Models\User;
 use JornSchalkwijk\LaravelCMS\Models\Page;
 use Illuminate\Http\Request;
-use CMS\Http\Controllers\Controller;
+
 use JornSchalkwijk\LaravelCMS\Models\Search;
 
 class SearchController extends Controller

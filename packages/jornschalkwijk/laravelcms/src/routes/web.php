@@ -151,6 +151,7 @@
             Route::group(['prefix'=>'/galleries'],function(){
 
             });
+            
             Route::resource('products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController');
             Route::group(['prefix' => '/products'],function(){
                 Route::get('/deleted-products','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@deleted');
@@ -160,8 +161,13 @@
                 Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@destroy')->name('products.destroy');
                 Route::get('/{id}/trash', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@trash')->name('products.trash');
                 Route::get('/{id}/restore', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@trash')->name('products.restore');
+            }); 
+            
+            Route::resource('cart','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController')->only(['index']);
+            Route::group(['prefix' => '/cart'],function(){
+                Route::get('/add/{product}/{quantity}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@add')->name('cart.add');
             });
-
+            
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);
 //            Route::group(['prefix' => '/contacts'],function(){
 //                Route::get('/deleted-contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController@deleted');

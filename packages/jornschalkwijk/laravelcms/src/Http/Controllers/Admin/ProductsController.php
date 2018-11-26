@@ -7,7 +7,7 @@ use JornSchalkwijk\LaravelCMS\Models\Folder;
 use JornSchalkwijk\LaravelCMS\Models\Gallery;
 use JornSchalkwijk\LaravelCMS\Models\Product;
 use JornSchalkwijk\LaravelCMS\Models\Tag;
-use CMS\Http\Controllers\Controller;
+
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

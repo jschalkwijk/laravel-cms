@@ -2,7 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
-use CMS\Http\Controllers\Controller;
+
 use JornSchalkwijk\LaravelCMS\Models\Post;
 
 class AdminController extends Controller

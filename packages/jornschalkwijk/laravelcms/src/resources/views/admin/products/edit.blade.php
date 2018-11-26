@@ -130,13 +130,15 @@
                     <div class="col-md-8 push-md-2">
                         <div class="d-flex justify-content-center">
                         <select id="product-folder-selector" multiple="multiple" class="image-picker" hidden>
-                            @foreach($product->folder->files as $upload)
-                                <div class="col">
-                                    <option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
-                                            value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
-                                    </option>
-                                </div>
-                            @endforeach
+                            @if(!empty($product->folder->files))
+                                @foreach($product->folder->files as $upload)
+                                    <div class="col">
+                                        <option id="{{$upload->upload_id}}" data-img-src="{{ asset('/storage/'.$upload->path('thumbnail')) }}"
+                                                value="{{ asset('/storage/'.$upload->path()) }}">{{$upload->name}}
+                                        </option>
+                                    </div>
+                                @endforeach
+                            @endif
                         </select>
                         </div>
                         <div class="row">
