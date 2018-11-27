@@ -82,7 +82,7 @@ class Cart
         if(!empty($this->storage->all())) {
             foreach ($this->storage->all() as $product) {
                 print_r($product);
-                $ids[] = $product[0]['product_id'];
+                $ids[] = $product['product_id'];
             }
 
 //            print_r($ids);

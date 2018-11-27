@@ -39,7 +39,12 @@ class SessionStorage implements Store, Countable
         // Set new product to current bucket session which holds the ID as key, and as values, the ID and quantity
 //        $_SESSION['default'] = ['10' => [ 'product_id' => 10, 'quantity' => 1,]];
 //        $_SESSION[$this->bucket][$index] = $value;
-        $this->r->session()->push($this->bucket.'.'.$index, $item[$index] );
+
+//        $bucket = Session::get($this->bucket);
+//        $bucket[$index] = $value;
+//        Session::put($this->bucket,$bucket);
+        Session::put($this->bucket.'.'.$index, $value);
+//        $this->r->session()->push($this->bucket.'.'.$index, $value );
         print_r($this->r->session()->get('default'));
 //        print_r($_SESSION);
 //        die('oops');
