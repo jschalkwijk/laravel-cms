@@ -167,9 +167,6 @@
             Route::group(['prefix' => '/cart'],function(){
                 Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@add')->name('cart.add');
                 Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@update')->name('cart.update');
-                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
-                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
-
             });
             
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);

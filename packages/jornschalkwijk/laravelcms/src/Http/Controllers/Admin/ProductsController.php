@@ -7,7 +7,7 @@ use JornSchalkwijk\LaravelCMS\Models\Folder;
 use JornSchalkwijk\LaravelCMS\Models\Gallery;
 use JornSchalkwijk\LaravelCMS\Models\Product;
 use JornSchalkwijk\LaravelCMS\Models\Tag;
-
+use JornSchalkwijk\LaravelCMS\Models\Cart;
 use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,12 @@ class ProductsController extends Controller
     use ControllerActionsTrait;
 
     protected $model = Product::class;
+    protected $cart;
 
+    public function __construct(Cart $cart)
+    {
+        $this->cart = $cart;
+    }
     public function index()
     {
         $products = Product::with('category')->where('trashed',0)->orderBy('product_id','desc')->get();
@@ -26,7 +31,10 @@ class ProductsController extends Controller
 
     public function show(Product $product)
     {
-        return view('JornSchalkwijk\LaravelCMS::admin.products.show')->with(['template'=>$this->adminTemplate(),'product'=>$product]);
+        // calc quantity left when user already has added the item to its cart before so he cant exceed the amount in stock.
+        $cart_quantity = $this->cart->get($product)['quantity'];
+        $quantity_left = $product->getQuantity() - $cart_quantity;
+        return view('JornSchalkwijk\LaravelCMS::admin.products.show')->with(['quantity_left'=>$quantity_left,'template'=>$this->adminTemplate(),'product'=>$product]);
     }
 
     public function deleted()

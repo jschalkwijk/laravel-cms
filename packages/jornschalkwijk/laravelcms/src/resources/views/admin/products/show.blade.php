@@ -35,12 +35,8 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="product_id" value="{{$product->product_id}}">
                     <select name="quantity">
-                        @for($i = 0; $i < $product->quantity+1; $i++)
-                            @if($i == $product->getQuantity())
-                                <option value="{{ $i }}" selected="selected">{{ $i }}</option>
-                            @else
+                        @for($i = 0; $i < $quantity_left+1; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
-                            @endif
                         @endfor
                     </select>
                     <button type="submit">Add to Cart</button>

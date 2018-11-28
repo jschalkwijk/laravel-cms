@@ -9,11 +9,16 @@
                         <thead class="thead-default">
                         <th>#</th>
                         <th>Product</th>
-                        <th>Price</th>
+                        <th>Price (inc. tax)</th>
                         <th>Tax</th>
                         <th>Quantity</th>
+                        <th>Total Tax</th>
                         <th>Total</th>
-                        <th></th>
+                        <th>
+                            @if(count($cart->all()) != 0)
+                                <a href="{{route('cart.empty')}}" class="btn btn-sm btn-danger">Empty Cart</a>
+                            @endif
+                        </th>
                         </thead>
                         @foreach($cart->all() as $product)
                             <tr>
@@ -37,16 +42,17 @@
                                         <button type="submit">Update</button>
                                     </form>
                                 </td>
+                                <td>{{$product->tax_value * $product->getQuantity()}}</td>
                                 <td class="align-middle">{{$product->productTotal()}}</td>
-                                <td class="align-middle"><a href="#" class="form-action btn btn-sm btn-danger">X</a></td>
+                                <td class="align-middle"><a href="{{route('cart.destroy',$product->product_id)}}" class="form-action btn btn-sm btn-danger">X</a></td>
                             </tr>
                         @endforeach
                         <tr style="height: 15px !important"></tr>
-                        <tr><td></td><td></td><td></td><td>{{$cart->totalTax}}</td><td>{{$cart->totalQuantity()}}</td><td>{{$cart->subTotal()}}</td></tr>
+                        <tr><td></td><td></td><td></td><td>{{$cart->totalTax}}</td><td>{{$cart->totalQuantity()}}</td><td>total tax</td><td>{{$cart->subTotal()}}</td></tr>
                     </table>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button>Place Order</button>
+                    <button class="btn btn-md btn-success">Place Order</button>
                 </div>
             </div>
         </div>

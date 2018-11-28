@@ -64,7 +64,7 @@ class SessionStorage implements Store, Countable
     {
         // Check if a product is in the current bucket session
         // $_SESSION['default']['10']
-        return isset($this->r->session()->get($this->bucket)[$index]);
+        return $this->r->session()->exists($this->bucket.'.'.$index);
     }
 
     public function all()
@@ -77,13 +77,13 @@ class SessionStorage implements Store, Countable
     {
         // Remove a product from the session by it's ID, if it exist
         if($this->exists($index)){
-            unset($this->r->session()->get($this->bucket)[$index]);
+            $this->r->session()->pull($this->bucket.'.'.$index);
         }
     }
 
     public function clear(){
         // Remove entire bucket session by it's name
-        unset($_SESSION[$this->bucket]);
+        $this->r->session()->forget($this->bucket);
     }
 
     public function count(){

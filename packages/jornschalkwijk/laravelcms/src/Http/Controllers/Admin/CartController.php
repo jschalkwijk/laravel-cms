@@ -112,6 +112,17 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        try {
+            $this->cart->remove($product);
+        } catch (QuantityExceededException $e) {
+            echo $e->getMessage();
+        }
+        return back();
+    }
+
+    public function empty()
+    {
+        $this->cart->clear();
     }
 }
