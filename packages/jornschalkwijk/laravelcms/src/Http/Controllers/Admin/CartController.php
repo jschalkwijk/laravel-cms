@@ -101,7 +101,12 @@ class CartController extends Controller
         } catch (QuantityExceededException $e) {
             echo $e->getMessage();
         }
-        return back();
+        if($r->ajax()){
+            return response()->json(['success' => true,'data' => $r->product_id]);
+        }
+        else {
+            return back();
+        }
     }
 
     /**

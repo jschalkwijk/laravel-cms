@@ -30,7 +30,7 @@
                                     <form method="post" action="{{route('cart.update')}}">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="product_id" value="{{$product->product_id}}">
-                                        <select name="quantity">
+                                        <select name="quantity" class="quantity">
                                             @for($i = 0; $i < $product->maxStock()+1; $i++)
                                                 @if($i == $product->getQuantity())
                                                     <option value="{{ $i }}" selected="selected">{{ $i }}</option>
