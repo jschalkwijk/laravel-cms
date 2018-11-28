@@ -39,7 +39,7 @@
                                                 @endif
                                             @endfor
                                         </select>
-                                        <button type="submit">Update</button>
+                                        <button class="update" type="submit">Update</button>
                                     </form>
                                 </td>
                                 <td>{{$product->tax_value * $product->getQuantity()}}</td>
@@ -54,7 +54,11 @@
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-md btn-success">Place Order</button>
                 </div>
+                <button id="test" type="button">test</button >
             </div>
         </div>
     </div>
+    @push('scripts')
+    <script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/shopping/cart/cart.js') }}"></script>
+    @endpush
 @stop

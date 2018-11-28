@@ -19,22 +19,23 @@ function Cart(options = {}) {
             url: "/cart/update",
             method: 'post',
             data: {
-                product: this.$('.product_id').val(),
-                quantity: this.$('.quantity').val()
+                product: this.$('[name="product_id"]').val(),
+                quantity: this.$('[name="quantity"]').val()
             },
             success: function (result) {
-                _this.opt.searchResults.html(result.html);
-                // call image picker after adding the result, otherwise the script won't load.
-                $("#image-search-selector").imagepicker();
-                $.each($(".image_picker_image"), function () {
-                    $(this).addClass('image');
-                });
+                // _this.opt.searchResults.html(result.html);
+                // // call image picker after adding the result, otherwise the script won't load.
+                // $("#image-search-selector").imagepicker();
+                // $.each($(".image_picker_image"), function () {
+                //     $(this).addClass('image');
+                // });
             }
         });
-    }
-
-}
-
-function () {
+    };
+    $('[name="update"]').click(function (e) {
+        e.preventDefault();
+        console.log('update clicked');
+        // _this.update(e);
+        });
 
 }
