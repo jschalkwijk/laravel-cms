@@ -45,7 +45,7 @@ class SessionStorage implements Store, Countable
 //        Session::put($this->bucket,$bucket);
         Session::put($this->bucket.'.'.$index, $value);
 //        $this->r->session()->push($this->bucket.'.'.$index, $value );
-        print_r($this->r->session()->get('default'));
+        print_r($this->r->session()->get($this->bucket));
 //        print_r($_SESSION);
 //        die('oops');
     }
@@ -57,14 +57,14 @@ class SessionStorage implements Store, Countable
             return null;
         }
 
-        return $_SESSION[$this->bucket][$index];
+        return $this->r->session()->get($this->bucket)[$index];
     }
 
     public function exists($index)
     {
         // Check if a product is in the current bucket session
         // $_SESSION['default']['10']
-        return isset($_SESSION[$this->bucket][$index]);
+        return isset($this->r->session()->get($this->bucket)[$index]);
     }
 
     public function all()
@@ -77,7 +77,7 @@ class SessionStorage implements Store, Countable
     {
         // Remove a product from the session by it's ID, if it exist
         if($this->exists($index)){
-            unset($_SESSION[$this->bucket][$index]);
+            unset($this->r->session()->get($this->bucket)[$index]);
         }
     }
 

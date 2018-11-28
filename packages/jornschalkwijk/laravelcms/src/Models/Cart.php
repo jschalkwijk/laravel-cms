@@ -24,7 +24,6 @@ class Cart
             // If we already have the product in the basket
             // We get the product by the ID and set the quantity to current quantity + new quantity
             $quantity = $this->get($product)['quantity'] + $quantity;
-            echo $quantity;
         }
         // update session with product and quantity
         $this->update($product,$quantity);
