@@ -8,7 +8,7 @@ class Cart
 {
     protected $storage;
     protected $product;
-    public $subTotal;
+    public $subTotal = 0;
     public $totalTax;
     public $totalQuantity;
 

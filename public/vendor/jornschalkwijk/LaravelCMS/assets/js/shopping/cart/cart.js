@@ -19,14 +19,22 @@ function requestStatusError(x, e) {
 }
 
 function Cart(options = {}) {
+    (function(){
+        //remove update button when javascript is enabled
+        $(".update").hide();
+    })();
+
     const _this = this;
     // this.cache = new Cache({});
     // Default values
     this.defaults = {
         update: $('.update'),
         form: $('form'),
+        cart: $('#cart'),
         table: $('#cart-table'),
         quantity: $('.quantity'),
+        empty: $('#empty'),
+        remove: $('.remove'),
     };
     // merge values from the options object to the defaults object and create new object
     this.opt = Object.assign({}, this.defaults, options)
@@ -43,10 +51,14 @@ function Cart(options = {}) {
             cache: false,
             data:$(form).serialize(),
             success: function (result) {
-                $('#cart').html(result.html);
-                if(result.success) {
-                    console.log(result);
-                    console.log(this.data);
+                if(result.success === true){
+                    $('#cart').html(result.html);
+                    if(result.success) {
+                        console.log(result);
+                        console.log(this.data);
+                    }
+                } else {
+                    $('#errors').html(result.message);
                 }
             },
             error: function (x, e) {
@@ -54,33 +66,70 @@ function Cart(options = {}) {
             },
         });
     };
-    $('#cart').on('change','form > .quantity',function (e) {
+    this.remove = function (url,e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: url,
+            method: 'get',
+            cache: false,
+            success: function (result) {
+                if(result.success === true){
+                    $('#cart').html(result.html);
+                    if(result.success) {
+                        console.log(result);
+                    }
+                } else {
+                    $('#errors').html(result.message);
+                }
+            },
+            error: function (x, e) {
+                requestStatusError(x, e)
+            },
+        });
+    };
+    this.empty = function (url) {
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: url,
+            method: 'get',
+            cache: false,
+            success: function (result) {
+                if(result.success === true){
+                    $('#cart').html(result.html);
+                } else {
+                    $('#errors').html(result.message);
+                }
+            },
+            error: function (x, e) {
+                requestStatusError(x, e)
+            },
+        });
+    };
+    this.opt.cart.on('change','form > .quantity',function (e) {
         e.preventDefault();
         _this.update($(this).parent('form'),e);
     });
-}
-
-
-function CartController(cart) {
-    console.log('hello');
-
-    // $('#cart').find('form').on('change',cart.opt.quantity,function (e) {
-    //     e.preventDefault();
-    //     cart.update(this,e);
-    // });
-    $('#cart').on('submit','form',function (e) {
+    this.opt.cart.on('click','.remove',function (e) {
         e.preventDefault();
-        cart.update($(this).find('form'),e);
+        let url = $(this).attr("href");
+        _this.remove(url,e);
     });
-
+    this.opt.empty.on('click',function (e) {
+        e.preventDefault();
+        let url = $(this).attr("href");
+        _this.empty(url,e);
+    });
 }
 function CartInit() {
-    // $('#test').click(function (e) {
-    //     e.preventDefault();
-    //     console.log('update clicked');
-    //     // cart.update(e);
-    // });
-    var cart = new Cart();
-    CartController(cart);
+    new Cart();
 }
 addLoadEvent(CartInit);

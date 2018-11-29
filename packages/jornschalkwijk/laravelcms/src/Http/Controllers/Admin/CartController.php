@@ -16,12 +16,6 @@ class CartController extends Controller
     {
         $this->cart = $cart;
         $this->product = $product;
-//        $this->basket = new Basket($this->cart);
-        // immediatly run the basket->all() method so that every page from this controller has
-        // instant access to this basket class.
-        // if not instantiated here,you have to call the basket all method in the methods of this cntroller to get access, otherwise
-        // the basket class is not.
-//        $this->basket->all();
     }
 
     /**
@@ -31,8 +25,6 @@ class CartController extends Controller
      */
     public function index(Request $r)
     {
-//        print_r($this->cart->all());
-//        print_r($r->session()->get('default'));
         return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'template' => $this->adminTemplate()]);
     }
 
@@ -100,15 +92,12 @@ class CartController extends Controller
             $this->cart->update($product, $r->quantity);
         } catch (QuantityExceededException $e) {
             $message = $e->getMessage();
+            return response()->json(['success' => false,$message]);
         }
         if($r->ajax()){
             $cart = $this->cart;
-            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.product-row')->with(['cart' => $cart])->renderSections()['content'];
-            return response()->json(['success' => true,'product_id' => $product->product_id,'html' => $html]);
-
-//            $cart = $this->cart->all();
-//            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.product-row')->with(['cart' => $cart])->renderSections()['content'];
-//            return response()->json(['success' => true,'html' => $html]);
+            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
+            return response()->json(['success' => true,'html' => $html]);
         }
         else {
             return back();
@@ -117,23 +106,37 @@ class CartController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @param  \Illuminate\Http\Request  $r
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $r,$id)
     {
         $product = Product::findOrFail($id);
         try {
             $this->cart->remove($product);
         } catch (QuantityExceededException $e) {
-            echo $e->getMessage();
+            $message = $e->getMessage();
+            return response()->json(['success' => false,$message]);
         }
-        return back();
+        if($r->ajax()){
+            $cart = $this->cart;
+            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
+            return response()->json(['success' => true,'html' => $html]);
+        } else {
+            return back();
+        }
     }
 
-    public function empty()
+    public function empty(Request $r)
     {
         $this->cart->clear();
+        if($r->ajax()){
+            $cart = $this->cart;
+            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
+            return response()->json(['success' => true,'html' => $html]);
+        } else {
+            return back();
+        }
     }
 }
