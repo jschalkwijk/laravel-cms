@@ -80,11 +80,9 @@ class Cart
         $items = [];
         $subTotal = 0;
         $countAll = 0;
-        $totalTax = 0;
-        //        print_r($this->storage->all());
+
         if(!empty($this->storage->all())) {
             foreach ($this->storage->all() as $product) {
-                print_r($product);
                 $ids[] = $product['product_id'];
             }
 
@@ -123,8 +121,6 @@ class Cart
             }
             $this->subTotal = $subTotal;
             $this->totalQuantity = $countAll;
-
-
 
         }
 
