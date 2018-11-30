@@ -8,6 +8,9 @@ class Cart
 {
     protected $storage;
     protected $product;
+    public $subTotal;
+    public $totalTax;
+    public $totalQuantity;
 
     public function __construct(StorageInterface $storage,Product $product)
     {
@@ -77,7 +80,8 @@ class Cart
         $items = [];
         $subTotal = 0;
         $countAll = 0;
-        print_r($this->storage->all());
+        $totalTax = 0;
+        //        print_r($this->storage->all());
         if(!empty($this->storage->all())) {
             foreach ($this->storage->all() as $product) {
                 print_r($product);
@@ -108,11 +112,19 @@ class Cart
                 }
 
                 $items[] = $product;
+
                 $subTotal = $subTotal + ($product->total() * $product->getQuantity());
+
                 $countAll = $countAll + $product->getQuantity();
+
+                $productsTax = $product->tax_value * $product->getQuantity();
+
+                $this->totalTax = $productsTax + $this->totalTax;
             }
             $this->subTotal = $subTotal;
             $this->totalQuantity = $countAll;
+
+
 
         }
 

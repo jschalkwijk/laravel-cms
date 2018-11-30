@@ -31,9 +31,9 @@ class CartController extends Controller
      */
     public function index(Request $r)
     {
-        print_r($this->cart->all());
-        print_r($r->session()->get('default'));
-        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['template' => $this->adminTemplate()]);
+//        print_r($this->cart->all());
+//        print_r($r->session()->get('default'));
+        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'template' => $this->adminTemplate()]);
     }
 
     /**
