@@ -31,12 +31,20 @@
 
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
-                <select name="quantity">
-                    @for($i = 0; $i < ($product->quantity + 1); $i++)
-                    <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
-                <a href="{{route('cart.add',[$product->product_id,1])}}">Order</a>
+                <form method="post" action="{{route('cart.add')}}">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="product_id" value="{{$product->product_id}}">
+                    <select name="quantity">
+                        @for($i = 0; $i < $product->quantity+1; $i++)
+                            @if($i == $product->getQuantity())
+                                <option value="{{ $i }}" selected="selected">{{ $i }}</option>
+                            @else
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
+                        @endfor
+                    </select>
+                    <button type="submit">Add to Cart</button>
+                </form>
 
                 <h1>{{ $product->name }}</h1>
                 <td>

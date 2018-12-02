@@ -18,8 +18,9 @@ class Cart
         $this->product = $product;
     }
 
-    public function add(Product $product, $quantity)
+    public function add($product, $quantity)
     {
+        $product = Product::findOrFail($product);
         // Takes a product class which holds all the information.
         $this->product = $product;
         // Check if the product is already in the basket.
@@ -32,8 +33,9 @@ class Cart
         $this->update($product,$quantity);
     }
 
-    public function update(Product $product, $quantity)
+    public function update($product, $quantity)
     {
+        $product = Product::findOrFail($product);
         // Check is the Product has enough stock for the desired amount given by user
         if(!$product->hasStock($quantity)) {
 

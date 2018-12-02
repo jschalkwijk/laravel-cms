@@ -52,10 +52,10 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function add(Product $product,$quantity,Request $r)
+    public function add(Request $r)
     {
         try {
-            $this->cart->add($product, $quantity);
+            $this->cart->add($r->product_id, $r->quantity);
         } catch (QuantityExceededException $e) {
            echo $e->getMessage();
         }
@@ -91,9 +91,14 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $r)
     {
-        //
+        try {
+            $this->cart->update($r->product_id, $r->quantity);
+        } catch (QuantityExceededException $e) {
+            echo $e->getMessage();
+        }
+        return back();
     }
 
     /**

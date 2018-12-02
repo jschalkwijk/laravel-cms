@@ -22,7 +22,9 @@
                                 <td class="align-middle">{{$product->total()}}</td>
                                 <td class="align-middle">{{$product->tax_value}}</td>
                                 <td class="align-middle">
-                                    <form method="post" action="#">
+                                    <form method="post" action="{{route('cart.update')}}">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="product_id" value="{{$product->product_id}}">
                                         <select name="quantity">
                                             @for($i = 0; $i < $product->maxStock()+1; $i++)
                                                 @if($i == $product->getQuantity())
@@ -32,6 +34,7 @@
                                                 @endif
                                             @endfor
                                         </select>
+                                        <button type="submit">Update</button>
                                     </form>
                                 </td>
                                 <td class="align-middle">{{$product->productTotal()}}</td>
