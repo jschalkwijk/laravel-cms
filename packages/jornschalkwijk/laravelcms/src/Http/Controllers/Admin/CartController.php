@@ -54,10 +54,12 @@ class CartController extends Controller
      */
     public function add(Request $r)
     {
+        $product = Product::findOrFail($r->product_id);
         try {
-            $this->cart->add($r->product_id, $r->quantity);
+            $this->cart->add($product, $r->quantity);
         } catch (QuantityExceededException $e) {
-           echo $e->getMessage();
+           // add to flash messages anf return to page
+            echo $e->getMessage();
         }
         return back();
     }
@@ -93,8 +95,9 @@ class CartController extends Controller
      */
     public function update(Request $r)
     {
+        $product = Product::findOrFail($r->product_id);
         try {
-            $this->cart->update($r->product_id, $r->quantity);
+            $this->cart->update($product, $r->quantity);
         } catch (QuantityExceededException $e) {
             echo $e->getMessage();
         }
