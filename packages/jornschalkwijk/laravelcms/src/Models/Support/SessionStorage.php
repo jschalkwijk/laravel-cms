@@ -45,7 +45,7 @@ class SessionStorage implements Store, Countable
 //        Session::put($this->bucket,$bucket);
         Session::put($this->bucket.'.'.$index, $value);
 //        $this->r->session()->push($this->bucket.'.'.$index, $value );
-        print_r($this->r->session()->get($this->bucket));
+//        print_r($this->r->session()->get($this->bucket));
 //        print_r($_SESSION);
 //        die('oops');
     }

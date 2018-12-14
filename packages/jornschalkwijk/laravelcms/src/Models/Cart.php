@@ -81,7 +81,7 @@ class Cart
         $items = [];
         $subTotal = 0;
         $countAll = 0;
-
+        $this->totalTax = 0;
         if(!empty($this->storage->all())) {
             foreach ($this->storage->all() as $product) {
                 $ids[] = $product['product_id'];

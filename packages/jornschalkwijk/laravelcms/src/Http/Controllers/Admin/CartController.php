@@ -99,10 +99,16 @@ class CartController extends Controller
         try {
             $this->cart->update($product, $r->quantity);
         } catch (QuantityExceededException $e) {
-            echo $e->getMessage();
+            $message = $e->getMessage();
         }
         if($r->ajax()){
-            return response()->json(['success' => true,'data' => $r->product_id]);
+            $cart = $this->cart;
+            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.product-row')->with(['cart' => $cart])->renderSections()['content'];
+            return response()->json(['success' => true,'product_id' => $product->product_id,'html' => $html]);
+
+//            $cart = $this->cart->all();
+//            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.product-row')->with(['cart' => $cart])->renderSections()['content'];
+//            return response()->json(['success' => true,'html' => $html]);
         }
         else {
             return back();
