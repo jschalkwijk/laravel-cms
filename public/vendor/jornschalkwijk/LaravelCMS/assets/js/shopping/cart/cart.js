@@ -19,11 +19,6 @@ function requestStatusError(x, e) {
 }
 
 function Cart(options = {}) {
-    (function(){
-        //remove update button when javascript is enabled
-        $(".update").hide();
-    })();
-
     const _this = this;
     // this.cache = new Cache({});
     // Default values
@@ -35,6 +30,7 @@ function Cart(options = {}) {
         quantity: $('.quantity'),
         empty: $('#empty'),
         remove: $('.remove'),
+        refresh: $('#refresh'),
     };
     // merge values from the options object to the defaults object and create new object
     this.opt = Object.assign({}, this.defaults, options)
@@ -114,6 +110,28 @@ function Cart(options = {}) {
             },
         });
     };
+    this.refresh = function (url) {
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: url,
+            method: 'get',
+            cache: false,
+            success: function (result) {
+                if(result.success === true){
+                    $('#cart').html(result.html);
+                } else {
+                    $('#errors').html(result.message);
+                }
+            },
+            error: function (x, e) {
+                requestStatusError(x, e)
+            },
+        });
+    };
     this.opt.cart.on('change','form > .quantity',function (e) {
         e.preventDefault();
         _this.update($(this).parent('form'),e);
@@ -128,8 +146,18 @@ function Cart(options = {}) {
         let url = $(this).attr("href");
         _this.empty(url,e);
     });
+    this.hideUpdate = function(){
+        //remove update button when javascript is enabled
+        $(".update").hide();
+    };
+    this.opt.refresh.on('click',function (e) {
+        e.preventDefault();
+        let url = $(this).attr("href");
+        _this.refresh(url);
+    });
 }
 function CartInit() {
+
     new Cart();
 }
 addLoadEvent(CartInit);

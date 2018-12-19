@@ -21,7 +21,7 @@ class Product extends Model
         'tax_percentage',
         'tax_value',
         'folder_id',
-        'quantity',
+        'stock',
     ];
 
     public $table = "products";
@@ -95,19 +95,19 @@ class Product extends Model
             return false;
         }
 
-        return (bool) ($this->quantity < 5);
+        return (bool) ($this->stock < 5);
 
     }
     public function outOfStock()
     {
-        return (bool) ($this->quantity == 0);
+        return (bool) ($this->stock== 0);
     }
     public function inStock()
     {
-        return $this->quantity >= 1;
+        return $this->stock >= 1;
     }
     public function hasStock($quantity){
-        if($this->quantity >= $quantity){
+        if($this->stock >= $quantity){
             return true;
         }
     }

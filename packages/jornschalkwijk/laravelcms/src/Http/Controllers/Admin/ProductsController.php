@@ -33,7 +33,7 @@ class ProductsController extends Controller
     {
         // calc quantity left when user already has added the item to its cart before so he cant exceed the amount in stock.
         $cart_quantity = $this->cart->get($product)['quantity'];
-        $quantity_left = $product->getQuantity() - $cart_quantity;
+        $quantity_left = $product->stock - $cart_quantity;
         return view('JornSchalkwijk\LaravelCMS::admin.products.show')->with(['quantity_left'=>$quantity_left,'template'=>$this->adminTemplate(),'product'=>$product]);
     }
 

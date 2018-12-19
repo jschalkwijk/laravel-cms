@@ -41,7 +41,7 @@ class Cart
             throw new QuantityExceededException;
         }
         // if the quantity is set to 0 remove the product from the basket session
-        if ($quantity === 0) {
+        if ((int)$quantity === 0) {
             $this->remove($product);
             return;
         }
@@ -73,6 +73,27 @@ class Cart
     public function clear() {
         // Removes the entire basket session
         $this->storage->clear();
+    }
+
+    public function refresh(){
+        $count = 0;
+        $message = 'Someone else purchased the same item(\'s) as you, we updated your cart with the maximum
+        available stock. ';
+//        foreach ($this->all() as $item){
+//            if (!$item->hasStock($this->get($item)['quantity'])){
+//                $count++;
+//                $message .= $item->name;
+//                $this->update($item,$item->stock);
+//                die('hello');
+//            }
+//        }
+
+        if($count === 0){
+            $message = "Refresh";
+        }
+
+        return $message;
+
     }
 
     public function all(){
@@ -107,7 +128,7 @@ class Cart
                     // is we have enough stock, we change the product objects qty to the desired qty.
                     $product->setQuantity($this->get($product)['quantity']);
                 } else {
-                    $this->update($product,$product->getQuantity());
+                    $this->update($product,$product->stock);
                 }
 
                 $items[] = $product;

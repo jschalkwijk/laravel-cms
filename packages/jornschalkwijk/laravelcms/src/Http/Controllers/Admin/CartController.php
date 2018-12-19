@@ -25,7 +25,8 @@ class CartController extends Controller
      */
     public function index(Request $r)
     {
-        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'template' => $this->adminTemplate()]);
+        $message = $this->cart->refresh();
+        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'message' => $message,'template' => $this->adminTemplate()]);
     }
 
     /**
@@ -103,7 +104,17 @@ class CartController extends Controller
             return back();
         }
     }
+     public function refresh(Request $r){
 
+         if($r->ajax()){
+             $message = $this->cart->refresh();
+             $cart = $this->cart;
+             $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart,'message' => $message])->render();
+             return response()->json(['success' => true,'html' => $html]);
+         } else {
+             return back();
+         }
+     }
     /**
      * Remove the specified resource from storage.
      * @param  \Illuminate\Http\Request  $r

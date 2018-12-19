@@ -169,6 +169,7 @@
                 Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@update')->name('cart.update');
                 Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
                 Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
+                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
 
             });
             

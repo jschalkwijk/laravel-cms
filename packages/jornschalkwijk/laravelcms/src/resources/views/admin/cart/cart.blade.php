@@ -4,7 +4,9 @@
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-sm-offset-3 push-lg-3">
                 <h1 class="d-flex justify-content-center">Cart</h1>
-                <div id="errors"></div>
+                <div id="errors">
+
+                </div>
                     <table id="cart-table" class="table table-sm table-striped">
                         <thead class="thead-default">
                         <th>#</th>
@@ -26,6 +28,7 @@
                     </table>
                     <div class="d-flex justify-content-center">
                         <button class="btn btn-md btn-success">Place Order</button>
+                        <a href="{{route('cart.refresh')}}" id="refresh" class="btn btn-sm btn-danger">Refresh</a>
                     </div>
                 </div>
 
