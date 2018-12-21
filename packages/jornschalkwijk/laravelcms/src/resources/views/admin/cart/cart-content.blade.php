@@ -25,6 +25,13 @@
         <td class="align-middle">{{$product->productTotal()}}</td>
         <td class="align-middle"><a href="{{route('cart.destroy',$product->product_id)}}" class="remove form-action btn btn-sm btn-danger">X</a></td>
     </tr>
+    @if(Session::has($product->product_id))
+        <tr><td colspan="8" class="alert alert-warning">{{Session::get($product->product_id) }}</td> </tr>
+    @endif
 @endforeach
 <tr style="height: 15px !important"></tr>
 <tr><td></td><td></td><td></td><td></td><td>{{$cart->totalQuantity()}}</td><td>{{$cart->totalTax}}</td><td class="alert-info">{{$cart->subTotal()}}</td></tr>
+
+{{--<tr id="message">--}}
+    {{--<td>{{$message}}</td>--}}
+{{--</tr>--}}

@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS\Models;
 
+use Illuminate\Support\Facades\Session;
 use JornSchalkwijk\LaravelCMS\Models\Support\StorageInterface;
 use JornSchalkwijk\LaravelCMS\Exeptions\Cart\QuantityExceededException;
 class Cart
@@ -129,6 +130,7 @@ class Cart
                     $product->setQuantity($this->get($product)['quantity']);
                 } else {
                     $this->update($product,$product->stock);
+                    Session::flash($product->product_id, 'The quantity of '.$product->name .' had been decreased because someone else placed an order');
                 }
 
                 $items[] = $product;
