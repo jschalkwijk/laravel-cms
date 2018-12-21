@@ -26,4 +26,9 @@
         {
             return $this->belongsToMany(Product::class,'orders_products','order_id','product_id');
         }
+
+        public function user()
+        {
+            return $this->hasOne(User::class,'user_id','user_id');
+        }
     }

@@ -63,14 +63,43 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="well">
-                    @include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')
-                    @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
-                    <button class="btn btn-default btn-success">Place Order</button>
+                <div class="row">
+                    <div class="well">
+                        @include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')
+                        @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
+                        <button class="btn btn-default btn-success">Place Order</button>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
+    <div class="row">
+
+        @if ($message = Session::get('success'))
+            <div class="w3-panel w3-green w3-display-container">
+                <span onclick="this.parentElement.style.display='none'" class="w3-button w3-green w3-large w3-display-topright">&times;</span>
+                <p>{!! $message !!}</p>
+            </div>
+            <?php Session::forget('success');?>
+        @endif
+
+        @if ($message = Session::get('error'))
+            <div class="w3-panel w3-red w3-display-container">
+            <span onclick="this.parentElement.style.display='none'"
+                  class="w3-button w3-red w3-large w3-display-topright">&times;</span>
+                <p>{!! $message !!}</p>
+            </div>
+            <?php Session::forget('error');?>
+        @endif
+
+        <form class="w3-container w3-display-middle w3-card-4 w3-padding-16" method="POST" id="payment-form"
+              action="{{route('payment.paypal')}}">
+            {{method_field('POST')}}
+            {{ csrf_field() }}
+            <button class="w3-btn w3-blue">Pay with PayPal</button>
+        </form>
+
+    </div>
 </div>
 @push('scripts')
 <script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/assets/js/shopping/cart/cart.js') }}"></script>

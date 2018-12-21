@@ -180,6 +180,12 @@
                 Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@empty')->name('order.empty');
                 Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@refresh')->name('order.refresh');
             });
+
+            Route::resource('payment','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController')->only(['index']);
+            Route::group(['prefix' => '/payment'],function(){
+                Route::post('/paywithpaypal', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@payWithPaypal')->name('payment.paypal');
+                Route::get('/paypalstatus', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@getPaymentStatus')->name('payment.paypalstatus');
+            });
             
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);
 //            Route::group(['prefix' => '/contacts'],function(){
