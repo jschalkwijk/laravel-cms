@@ -7,28 +7,32 @@
                 <div id="errors">
 
                 </div>
-                    <table id="cart-table" class="table table-sm table-striped">
-                        <thead class="thead-default">
-                        <th>#</th>
-                        <th>Product</th>
-                        <th>Price (inc. tax)</th>
-                        <th>Tax</th>
-                        <th>Quantity</th>
-                        <th>Total Tax</th>
-                        <th>Total</th>
-                        <th>
-                            @if(count($cart->all()) != 0)
-                                <a href="{{route('cart.empty')}}" id="empty" class="btn btn-sm btn-danger">Empty Cart</a>
-                            @endif
-                        </th>
-                        </thead>
-                        <tbody id="cart">
-                            @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center">
+                <table id="cart-table" class="table table-sm table-striped">
+                    <thead class="thead-default">
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Price (inc. tax)</th>
+                    <th>Tax</th>
+                    <th>Quantity</th>
+                    <th>Total Tax</th>
+                    <th>Total</th>
+                    <th>
+                        @if(count($cart->all()) != 0)
+                            <a href="{{route('cart.empty')}}" id="empty" class="btn btn-sm btn-danger">Empty Cart</a>
+                        @endif
+                    </th>
+                    </thead>
+                    <tbody id="cart">
+                        @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center">
+                    <a href="{{route('cart.refresh')}}" id="refresh" class="btn btn-sm btn-info">Refresh</a>
+                </div>
+
+                <div class="d-flex justify-content-center">
                         <button class="btn btn-md btn-success">Place Order</button>
-                        <a href="{{route('cart.refresh')}}" id="refresh" class="btn btn-sm btn-danger justify-content-center">Refresh</a>
                     </div>
                 </div>
 
