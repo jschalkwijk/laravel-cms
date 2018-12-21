@@ -172,7 +172,7 @@
                 Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
             });
 
-            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index']);
+            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create']);
             Route::group(['prefix' => '/order'],function(){
                 Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@add')->name('order.add');
                 Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@update')->name('order.update');

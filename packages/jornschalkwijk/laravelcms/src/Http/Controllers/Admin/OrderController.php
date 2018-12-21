@@ -11,17 +11,15 @@
     class OrderController extends Controller
     {
         use ControllerActionsTrait;
+        protected $cart;
 
-        public function __construct(Cart $cart,Product $product)
+        public function __construct(Cart $cart)
         {
             $this->cart = $cart;
-            $this->product = $product;
         }
 
         public function index(Request $r){
-
-            $this->cart->refresh();
-            if(!$this->cart->subTotal()) {
+            if($this->cart->refresh()) {
                 return back();
             }
 
@@ -33,9 +31,12 @@
 
         }
 
-        public function create()
+        public function create(Request $r)
         {
-            
+            if($this->cart->refresh() || !$this->cart->subTotal()){
+                return back();
+            }
+
         }
         public function edit()
         {

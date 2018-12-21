@@ -25,14 +25,15 @@
         <td class="align-middle">{{$product->productTotal()}}</td>
         <td class="align-middle"><a href="{{route('cart.destroy',$product->product_id)}}" class="remove form-action btn btn-sm btn-danger">X</a></td>
     </tr>
-    @if(Session::has($product->product_id))
+    @if(Session::has('refreshed.'.$product->product_id))
         <tr class="alert alert-warning alert-dismissible fade show" role="alert">
-            <td colspan="7" class="alert alert-warning">{{Session::get($product->product_id) }}</td>
+            <td colspan="7" class="alert alert-warning">{{Session::get('refreshed.'.$product->product_id) }}</td>
             <td colspan="1">
                 <span class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </span>
             </td>
         </tr>
+        @php(Session::forget('refreshed.'.$product->product_id))
     @endif
 @endforeach

@@ -13,6 +13,7 @@ class Cart
     public $totalTax;
     public $totalQuantity;
     public $shipping = 5;
+    public $refreshed = false;
     public function __construct(StorageInterface $storage,Product $product)
     {
         $this->storage = $storage;
@@ -110,7 +111,8 @@ class Cart
                 } else {
                     $this->update($product,$product->stock);
                     $product->setQuantity($product->stock);
-                    Session::flash($product->product_id, 'The quantity of '.$product->name .' had been decreased because someone else placed an order');
+                    Session::put('refreshed.'.$product->product_id, 'The quantity of '.$product->name .' had been decreased because someone else placed an order');
+                    $this->refreshed = true;
                 }
 
                 $items[] = $product;
@@ -127,14 +129,27 @@ class Cart
             $this->totalQuantity = $countAll;
 
         }
-
+        // save session because the lifecycle may not be finished when we redirect back to the cart from order.index.
+        // then the session wont ne saved thus the message not shown.
+        Session::save();
         return $items;
 
     }
+//
+//    public function refresh()
+//    {
+//       $this->all();
+//    }
 
     public function refresh()
     {
-       $this->all();
+        $this->all();
+        if($this->refreshed){
+            $this->refreshed = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function itemCount(){

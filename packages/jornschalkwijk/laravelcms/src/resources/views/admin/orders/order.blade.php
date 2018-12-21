@@ -1,7 +1,7 @@
 @extends('JornSchalkwijk\LaravelCMS::admin.layout')
 @section('content')
 <div class="container">
-    <form action="#" method="post">
+    <form action="{{route('order.create')}}" method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
@@ -92,12 +92,12 @@
             <?php Session::forget('error');?>
         @endif
 
-        <form class="w3-container w3-display-middle w3-card-4 w3-padding-16" method="POST" id="payment-form"
-              action="{{route('payment.paypal')}}">
-            {{method_field('POST')}}
-            {{ csrf_field() }}
-            <button class="w3-btn w3-blue">Pay with PayPal</button>
-        </form>
+        {{--<form class="w3-container w3-display-middle w3-card-4 w3-padding-16" method="POST" id="payment-form"--}}
+              {{--action="{{route('payment.paypal')}}">--}}
+            {{--{{method_field('POST')}}--}}
+            {{--{{ csrf_field() }}--}}
+            {{--<button class="w3-btn w3-blue">Pay with PayPal</button>--}}
+        {{--</form>--}}
 
     </div>
 </div>

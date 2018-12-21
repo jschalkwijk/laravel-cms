@@ -25,7 +25,8 @@
         "laravel/tinker": "^1.0",
         "jornschalkwijk/laravelcms":"dev-master",
         "enyo/dropzone": "^5.5",
-        "paypal/rest-api-sdk-php": "^1.13"
+        "paypal/rest-api-sdk-php": "^1.13",
+        "mollie/laravel-mollie": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
