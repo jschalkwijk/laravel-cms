@@ -49,6 +49,11 @@ class Product extends Model
         return $this->hasOne(Folder::class,'folder_id','folder_id');
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Product::class,'orders_products','product_id','order_id');
+    }
+
     # Getters
     public function id()
     {

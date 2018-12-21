@@ -18,10 +18,10 @@
                         @endif
                     @endfor
                 </select>
-                <button type="submit" class="update">Update</button>
+                {{--<button type="submit" class="update">Update</button>--}}
             </form>
         </td>
-        <td>{{$product->tax_value * $product->getQuantity()}}</td>
+        <td class="align-middle">{{$product->tax_value * $product->getQuantity()}}</td>
         <td class="align-middle">{{$product->productTotal()}}</td>
         <td class="align-middle"><a href="{{route('cart.destroy',$product->product_id)}}" class="remove form-action btn btn-sm btn-danger">X</a></td>
     </tr>
@@ -36,5 +36,3 @@
         </tr>
     @endif
 @endforeach
-<tr style="height: 15px !important"></tr>
-<tr><td></td><td></td><td></td><td></td><td>{{$cart->totalQuantity()}}</td><td>{{$cart->totalTax}}</td><td class="alert-info">{{$cart->subTotal()}}</td></tr>

@@ -122,7 +122,8 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart').html(result.cart);
+                    $('#cart-summary').html(result.summary);
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -155,9 +156,17 @@ function Cart(options = {}) {
         let url = $(this).attr("href");
         _this.refresh(url);
     });
-    setInterval(function () {
-        _this.refresh('/admin/cart/refresh')
-    },30000);
+
+    if(window.location.pathname === '/admin/order'){
+        setInterval(function () {
+            _this.refresh('/admin/order/refresh')
+        },10000);
+    }
+    if(window.location.pathname === '/admin/cart'){
+        setInterval(function () {
+            _this.refresh('/admin/cart/refresh')
+        },30000);
+    }
 }
 function CartInit() {
     new Cart();

@@ -170,7 +170,15 @@
                 Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
                 Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
                 Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
+            });
 
+            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index']);
+            Route::group(['prefix' => '/order'],function(){
+                Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@add')->name('order.add');
+                Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@update')->name('order.update');
+                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@destroy')->name('order.destroy');
+                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@empty')->name('order.empty');
+                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@refresh')->name('order.refresh');
             });
             
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);

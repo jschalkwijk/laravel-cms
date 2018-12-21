@@ -12,7 +12,7 @@ class Cart
     public $subTotal = 0;
     public $totalTax;
     public $totalQuantity;
-
+    public $shipping = 5;
     public function __construct(StorageInterface $storage,Product $product)
     {
         $this->storage = $storage;
@@ -132,6 +132,11 @@ class Cart
 
     }
 
+    public function refresh()
+    {
+       $this->all();
+    }
+
     public function itemCount(){
         return $this->storage->count();
     }
@@ -139,6 +144,10 @@ class Cart
     public function subTotal(){
 
         return $this->subTotal;
+    }
+    public function total(){
+
+        return $this->subTotal()+$this->shipping;
     }
 
     public function totalQuantity(){
