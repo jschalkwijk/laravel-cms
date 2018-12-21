@@ -76,27 +76,6 @@ class Cart
         $this->storage->clear();
     }
 
-    public function refresh(){
-        $count = 0;
-        $message = 'Someone else purchased the same item(\'s) as you, we updated your cart with the maximum
-        available stock. ';
-//        foreach ($this->all() as $item){
-//            if (!$item->hasStock($this->get($item)['quantity'])){
-//                $count++;
-//                $message .= $item->name;
-//                $this->update($item,$item->stock);
-//                die('hello');
-//            }
-//        }
-
-        if($count === 0){
-            $message = "Refresh";
-        }
-
-        return $message;
-
-    }
-
     public function all(){
 
         $ids = [];
@@ -130,6 +109,7 @@ class Cart
                     $product->setQuantity($this->get($product)['quantity']);
                 } else {
                     $this->update($product,$product->stock);
+                    $product->setQuantity($product->stock);
                     Session::flash($product->product_id, 'The quantity of '.$product->name .' had been decreased because someone else placed an order');
                 }
 

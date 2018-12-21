@@ -28,7 +28,7 @@
                     </table>
                     <div class="d-flex justify-content-center">
                         <button class="btn btn-md btn-success">Place Order</button>
-                        <a href="{{route('cart.refresh')}}" id="refresh" class="btn btn-sm btn-danger">Refresh</a>
+                        <a href="{{route('cart.refresh')}}" id="refresh" class="btn btn-sm btn-danger justify-content-center">Refresh</a>
                     </div>
                 </div>
 

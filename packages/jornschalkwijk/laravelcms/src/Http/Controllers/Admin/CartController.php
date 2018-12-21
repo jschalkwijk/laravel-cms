@@ -25,8 +25,7 @@ class CartController extends Controller
      */
     public function index(Request $r)
     {
-        $message = $this->cart->refresh();
-        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'message' => $message,'template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.cart.cart')->with(['cart'=> $this->cart,'template' => $this->adminTemplate()]);
     }
 
     /**
@@ -107,9 +106,8 @@ class CartController extends Controller
      public function refresh(Request $r){
 
          if($r->ajax()){
-             $message = $this->cart->refresh();
              $cart = $this->cart;
-             $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart,'message' => $message])->render();
+             $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
              return response()->json(['success' => true,'html' => $html]);
          } else {
              return back();

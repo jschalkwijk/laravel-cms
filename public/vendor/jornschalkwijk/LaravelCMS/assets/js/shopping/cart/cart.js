@@ -155,9 +155,11 @@ function Cart(options = {}) {
         let url = $(this).attr("href");
         _this.refresh(url);
     });
+    setInterval(function () {
+        _this.refresh('/admin/cart/refresh')
+    },30000);
 }
 function CartInit() {
-
     new Cart();
 }
 addLoadEvent(CartInit);
