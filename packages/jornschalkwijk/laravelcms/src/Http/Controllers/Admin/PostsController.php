@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use JornSchalkwijk\LaravelCMS\Models\Post;
 use JornSchalkwijk\LaravelCMS\Models\Category;
 
+use Illuminate\Support\Facades\Validator;
+
 class PostsController extends Controller
 {
     use ControllerActionsTrait;
@@ -55,10 +57,13 @@ class PostsController extends Controller
     public function store(Request $r)
 
     {
-        $this->validate($r, [
-            'title' => 'required|min:4',
-            'content' => 'required|min:5',
-        ]);
+        $validator =  Validator::make(
+            $r->all(),
+            $rules = [
+                'title' => 'required|min:4',
+                'content' => 'required|min:5',
+            ]
+        )->validate();
 
         $post = new Post($r->all());
         $post->user_id = Auth::user()->user_id;

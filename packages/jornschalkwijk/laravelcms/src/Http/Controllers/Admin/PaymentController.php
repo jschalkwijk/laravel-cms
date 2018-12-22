@@ -39,6 +39,16 @@ class PaymentController extends Controller
         );
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
+
+    public function index()
+    {
+//        if($this->order->refresh()) {
+//            return back();
+//        }
+
+        return view('JornSchalkwijk\LaravelCMS::admin.payment.payment')->with(['template' => $this->adminTemplate()]);
+
+    }
     public function payWithPaypal(Request $request)
     {
         $payer = new Payer();
@@ -117,9 +127,9 @@ class PaymentController extends Controller
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
             Session::put('success', 'Payment success');
-            return redirect()->route('order.index');
+            return redirect()->route('payment.index');
         }
         Session::put('error', 'Payment failed');
-        return redirect()->route('order.index');
+        return redirect()->route('payment.index');
     }
 }

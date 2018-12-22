@@ -1,7 +1,7 @@
 <?php
 
 namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth;
-
+use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Controller;
 use JornSchalkwijk\LaravelCMS\Models\User;
 use Illuminate\Support\Facades\Validator;
 
