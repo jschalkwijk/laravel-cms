@@ -171,6 +171,7 @@ function FileManager(options = {}) {
 
     this.removeImageFromGallery = function (e) {
         e.preventDefault();
+        console.log('remove from gallary');
         const images = [];
         $.each($("select#gallery-image-selector option:selected"), function () {
             images.push($(this).attr('id'));
@@ -371,11 +372,11 @@ function FileManagerController(fileManager) {
         fileManager.showGallery(e);
     });
 
-    fileManager.opt.selectedGallery.on('click', fileManager.opt.addToGallery, function (e) {
+    fileManager.opt.selectedGallery.on('click', '#add-to-gallery', function (e) {
         fileManager.addImageToGallery(e);
     });
 
-    fileManager.opt.selectedGallery.on('click', fileManager.opt.removeFromGallery, function (e) {
+    fileManager.opt.selectedGallery.on('click', '#remove-from-gallery', function (e) {
         fileManager.removeImageFromGallery(e);
     });
 

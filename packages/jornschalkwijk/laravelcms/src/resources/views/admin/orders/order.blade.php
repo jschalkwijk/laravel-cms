@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <form action="{{route('order.store')}}" method="post">
-        {{method_field('POST')}}
+        {{method_field('POST')}}k
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-8">

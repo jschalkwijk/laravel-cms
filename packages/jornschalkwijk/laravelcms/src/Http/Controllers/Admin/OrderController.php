@@ -72,6 +72,8 @@
                 ]
             )->validate();
 
+            $order = new Order();
+
             return redirect()->route('payment.index');
         }
         public function update()
