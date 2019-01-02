@@ -46,43 +46,31 @@
 
         public function store(Request $r,Cart $cart)
         {
-//            if($cart->refresh()){
-//                return back();
-//            }
-            $validator =  Validator::make(
+            if($cart->refresh()){
+                return back();
+            }
+
+            $validator = Validator::make(
                 $r->all(),
                 $rules = [
-                    'name' => 'required|min:4',
-                    'email' => 'required|min:5',
+                    'name'         => [
+                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
+                    ],
+                    'email'        => [
+                        'required', 'email', 'max:255',
+                        Rule::unique('customers'),
+                    ],
+                    'password'     => 'required_with:create-account|min:8|alpha_num|confirmed',
+                    'address1'     => 'required|min:3|alpha',
+                    'address2'     => 'min:3|alpha',
+                    'postal'       => 'required|min:3|alpha_num',
+                    'city'         => 'required|min:3|alpha',
+                    'billing_address1' => 'required_without:billing_same|min:3|alpha',
+                    'billing_address2' => 'min:3|alpha',
+                    'billing_postal' => 'required_without:billing_same|min:3|alpha_num',
+                    'billing_city' => 'required_without:billing_same|min:3|alpha',
                 ]
             )->validate();
-//            $validator = Validator::make(
-//                $r->all(),
-//                $rules = [
-//                    'name'         => [
-//                        'required', 'alpha', 'max:255',
-//                    ],
-//                    'email'        => [
-//                        'required', 'email', 'max:255',
-//                        Rule::unique('customers'),
-//                    ],
-//                    'password'     => 'required|min:8|alpha_num|confirmed',
-//                    'address1'     => 'required|min:3|alpha',
-//                    'address2'     => 'min:3|alpha',
-//                    'postal'       => 'required|min:3|alpha_num',
-//                    'city'         => 'required|min:3|alpha',
-////                    'billing_same' => 'accepted',
-////                    'billing_address1' => 'required_unless:billing_same,accepted|min:3|alpha',
-////                    'billing_address2' => 'min:3|alpha',
-////                    'billing_postal' => 'required_unless:billing_same,accepted|min:3|alpha_num',
-////                    'billing_city' => 'required_unless:billing_same,accepted|min:3|alpha',
-//                ]
-//            )->validate();
-//            if ($validator->fails()) {
-//                return redirect()->back()
-//                                 ->withErrors($validator)
-//                                 ->withInput();
-//            }
 
             return redirect()->route('payment.index');
         }

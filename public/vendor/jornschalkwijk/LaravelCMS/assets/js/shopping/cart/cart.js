@@ -167,6 +167,9 @@ function Cart(options = {}) {
             _this.refresh('/admin/cart/refresh')
         },30000);
     }
+    // $('#billing_same').on('click', function() {
+    //     $(this).attr('checked', 'checked');
+    // })
 }
 function CartInit() {
     new Cart();
