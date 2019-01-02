@@ -15,16 +15,12 @@ class SessionStorage implements Store, Countable
     {
         $this->r = $r;
         if ($r->session()->exists($bucket)) {
-            $this->bucket = $bucket;
+            $this->r->bucket = $bucket;
         } else {
-            $r->session()->put($bucket);
+            $this->r->session()->put($bucket);
         }
-
-        $r->session()->save();
-        // Create new session ['default']
-//        if(!isset($_SESSION[$bucket])){
-//            $_SESSION[$bucket] = [];
-//        }
+// this creates problems when using a class that need this class. it will save the session so old data is maintained.
+//        $this->r->session()->save();
 
         $this->bucket = $bucket;
     }
@@ -32,22 +28,13 @@ class SessionStorage implements Store, Countable
     public function set($index,$value)
     {
         $item[$index] = $value;
-//        foreach ($item as $key => $value){
-//            Session::get($this->bucket)[$key] = $value;
-//        }
 
         // Set new product to current bucket session which holds the ID as key, and as values, the ID and quantity
 //        $_SESSION['default'] = ['10' => [ 'product_id' => 10, 'quantity' => 1,]];
 //        $_SESSION[$this->bucket][$index] = $value;
 
-//        $bucket = Session::get($this->bucket);
-//        $bucket[$index] = $value;
-//        Session::put($this->bucket,$bucket);
         $this->r->session()->put($this->bucket.'.'.$index, $value);
-//        $this->r->session()->push($this->bucket.'.'.$index, $value );
-//        print_r($this->r->session()->get($this->bucket));
-//        print_r($_SESSION);
-//        die('oops');
+
         $this->r->session()->save();
     }
 

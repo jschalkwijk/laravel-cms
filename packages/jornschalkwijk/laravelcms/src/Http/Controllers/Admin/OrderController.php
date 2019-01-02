@@ -46,9 +46,9 @@
 
         public function store(Request $r,Cart $cart)
         {
-            if($cart->refresh()){
-                return back();
-            }
+//            if($cart->refresh()){
+//                return back();
+//            }
             $validator =  Validator::make(
                 $r->all(),
                 $rules = [

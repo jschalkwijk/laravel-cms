@@ -11,7 +11,6 @@ class Cart
     protected $product;
     public $subTotal = 0;
     public $totalTax;
-    public $totalQuantity;
     public $shipping = 5;
     public $refreshed = false;
     public function __construct(StorageInterface $storage)

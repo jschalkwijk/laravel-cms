@@ -91,10 +91,10 @@
                     </div>
                 </div>
             </div>
-            <pre>
-            @php(print_r(\Illuminate\Support\Facades\Session::all()))
+            {{--<pre>--}}
+            {{--@php(print_r(\Illuminate\Support\Facades\Session::all()))--}}
 
-            </pre>
+            {{--</pre>--}}
             <div class="col-md-4">
                 <div class="row">
                     <div class="well">
