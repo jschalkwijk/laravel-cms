@@ -17,22 +17,20 @@ class ProductsController extends Controller
     use ControllerActionsTrait;
 
     protected $model = Product::class;
-    protected $cart;
 
-    public function __construct(Cart $cart)
-    {
-        $this->cart = $cart;
-    }
     public function index()
     {
         $products = Product::with('category')->where('trashed',0)->orderBy('product_id','desc')->get();
         return view('JornSchalkwijk\LaravelCMS::admin.products.products')->with(['template'=>$this->adminTemplate(),'products'=>$products,'trashed' => 0]);
     }
 
-    public function show(Product $product)
+    public function show(Product $product,Cart $cart)
     {
         // calc quantity left when user already has added the item to its cart before so he cant exceed the amount in stock.
-        $cart_quantity = $this->cart->get($product)['quantity'];
+
+        $cart_quantity = $cart->get($product)['quantity'];
+        print_r($cart_quantity);
+
         $quantity_left = $product->stock - $cart_quantity;
         return view('JornSchalkwijk\LaravelCMS::admin.products.show')->with(['quantity_left'=>$quantity_left,'template'=>$this->adminTemplate(),'product'=>$product]);
     }

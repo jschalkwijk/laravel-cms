@@ -2,6 +2,7 @@
 
 namespace JornSchalkwijk\LaravelCMS;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelCMSServiceProvider extends ServiceProvider

@@ -20,11 +20,11 @@
                         <h3>Your Details</h3>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
+                            <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
                         </div>
                         <div class="form-group">
                             <label for="email">E-Mail</label>
-                            <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}" required>
+                            <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}">
                         </div>
                         <div class="form-group">
                             <input type="checkbox" name="create-account" id="create-account" data-toggle='collapse' data-target='#password-field'/>
@@ -91,10 +91,10 @@
                     </div>
                 </div>
             </div>
-            {{--<pre>--}}
-            {{--@php(print_r(\Illuminate\Support\Facades\Session::all()))--}}
+            <pre>
+            @php(print_r(\Illuminate\Support\Facades\Session::all()))
 
-            {{--</pre>--}}
+            </pre>
             <div class="col-md-4">
                 <div class="row">
                     <div class="well">

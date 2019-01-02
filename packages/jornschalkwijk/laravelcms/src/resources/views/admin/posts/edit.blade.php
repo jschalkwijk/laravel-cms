@@ -19,10 +19,14 @@
     <div class="container-fluid">
         <div class="row">
             <div id="errors" class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
-                @if (count($errors))
-                    @foreach($errors->all() as $error)
-                        <div class="alert alert-warning">{{ $error }}</div>
-                    @endforeach
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
         </div>

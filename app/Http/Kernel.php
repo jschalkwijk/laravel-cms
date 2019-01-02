@@ -6,6 +6,7 @@ use CMS\Http\Middleware\PermissionMiddleware;
 use CMS\Http\Middleware\RoleMiddleware;
 use CMS\Http\Middleware\RoleOrPermission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use CMS\Http\Middleware\CartMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -19,6 +20,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
     ];
 
     /**
@@ -30,11 +32,9 @@ class Kernel extends HttpKernel
         'web' => [
             \CMS\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \CMS\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
+    ],
 
         'api' => [
             'throttle:60,1',

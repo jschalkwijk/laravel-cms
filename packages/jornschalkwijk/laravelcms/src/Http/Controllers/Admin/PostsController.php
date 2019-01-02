@@ -44,8 +44,10 @@ class PostsController extends Controller
         return view('JornSchalkwijk\LaravelCMS::admin.posts.posts')->with(['template'=>$this->adminTemplate(),'posts'=>$posts,'trashed' => 1]);
     }
 
-    public function create()
+    public function create(Request $r)
     {
+//        print_r($r->session());
+//        die('session');
         // Get all the categories associated with Post
         $categories = Category::where('type','post')->get();
         $tags = Tag::where('type','post')->get();
@@ -101,10 +103,13 @@ class PostsController extends Controller
     public function update(Request $r, Post $post)
     {
         if($r['confirm']) {
-            $this->validate($r, [
-                'title' => 'required|min:4',
-                'content' => 'required|min:5',
-            ]);
+            $validator =  Validator::make(
+                $r->all(),
+                $rules = [
+                    'title' => 'required|min:4',
+                    'content' => 'required|min:5',
+                ]
+            )->validate();
 
             $post->user_id = Auth::user()->user_id;
 
