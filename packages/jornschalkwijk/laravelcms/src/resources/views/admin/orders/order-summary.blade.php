@@ -11,15 +11,16 @@
                 <td>{{$product->name}}</td>
                 <td>{{$product->quantity}}</td>
             </tr>
-            @if(Session::has($product->product_id))
+            @if(Session::has('refreshed.'.$product->product_id))
                 <tr class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <td colspan="7" class="alert alert-warning">{{Session::get($product->product_id) }}</td>
+                    <td colspan="7" class="alert alert-warning">{{Session::get('refreshed.'.$product->product_id) }}</td>
                     <td colspan="1">
-                            <span class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </span>
+                <span class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </span>
                     </td>
                 </tr>
+                @php(Session::forget('refreshed.'.$product->product_id))
             @endif
         @endforeach
         </tbody>

@@ -35,7 +35,7 @@ class SessionStorage implements Store, Countable
 
         $this->r->session()->put($this->bucket.'.'.$index, $value);
 
-        $this->r->session()->save();
+//        $this->r->session()->save();
     }
 
     public function get($index)
@@ -66,14 +66,14 @@ class SessionStorage implements Store, Countable
         // Remove a product from the session by it's ID, if it exist
         if($this->exists($index)){
             $this->r->session()->pull($this->bucket.'.'.$index);
-            $this->r->session()->save();
+//            $this->r->session()->save();
         }
     }
 
     public function clear(){
         // Remove entire bucket session by it's name
         $this->r->session()->forget($this->bucket);
-        $this->r->session()->save();
+//        $this->r->session()->save();
     }
 
     public function count(){
