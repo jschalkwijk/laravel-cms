@@ -46,7 +46,7 @@ class PaymentController extends Controller
 //            return back();
 //        }
 
-        return view('JornSchalkwijk\LaravelCMS::admin.payment.payment')->with(['template' => $this->adminTemplate()]);
+        return view('JornSchalkwijk\LaravelCMS::admin.payment.payment')->with(['order' => $this->order->get,'template' => $this->adminTemplate()]);
 
     }
     public function payWithPaypal(Request $request)

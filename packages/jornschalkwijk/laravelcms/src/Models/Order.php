@@ -21,6 +21,7 @@
             'paid',
             'customer_id',
             'address_id',
+            'billing_address_id',
             'created_at',
             'updated_at',
         ];
@@ -74,5 +75,14 @@
         public function customer()
         {
             return $this->belongsTo(Customer::class,'customer_id');
+        }
+
+        public function address()
+        {
+            $this->hasOne(Address::class,'address_id','address_id');
+        }
+        public function billing_address()
+        {
+            $this->hasOne(Address::class,'address_id','billing_address_id');
         }
     }

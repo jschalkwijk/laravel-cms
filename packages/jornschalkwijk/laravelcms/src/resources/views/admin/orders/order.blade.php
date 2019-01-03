@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <form action="{{route('order.store')}}" method="post">
-        {{method_field('POST')}}k
+        {{method_field('POST')}}
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-8">
@@ -10,25 +10,33 @@
                     <div class="col-md-6">
                         <h3>Your Details</h3>
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
-                            @if($errors->has('name'))
-                                <div class="alert alert-warning">{{ $errors->first('name') }} </div>
+                            <label for="name">First Name</label>
+                            <input type="text" name="first_name" id="first_name" class="form-control" value="{{old('first_name')}}">
+                            @if($errors->has('first_name'))
+                                <div class="alert alert-warning">{{ $errors->first('first_name') }} </div>
+                            @endif 
+                            <label for="name">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" class="form-control" value="{{old('last_name')}}">
+                            @if($errors->has('last_name'))
+                                <div class="alert alert-warning">{{ $errors->first('last_name') }} </div>
                             @endif
-                        </div>
-                        <div class="form-group">
                             <label for="email">E-Mail</label>
                             <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}">
                             @if($errors->has('email'))
                                 <div class="alert alert-warning">{{ $errors->first('email') }} </div>
                             @endif
+                            <label for="email">Phone</label>
+                            <input type="tel" name="phone_1" id="phone_1" class="form-control" value="{{old('phone_1')}}">
+                            @if($errors->has('phone_1'))
+                                <div class="alert alert-warning">{{ $errors->first('phone_1') }} </div>
+                            @endif
+                            <label for="email">Date of Birth</label>
+                            <input type="date" name="dob" id="dob" class="form-control" value="{{old('dob')}}">
+                            @if($errors->has('dob'))
+                                <div class="alert alert-warning">{{ $errors->first('dob') }} </div>
+                            @endif
                         </div>
-                        <div class="form-group">
-                            {{--<input type="checkbox" name="create-account" id="create-account"/>--}}
-                            <input type="checkbox" name="create-account" id="create-account" value="1" data-toggle='collapse' data-target='#password-field' @if(old('create-account') === '1') checked @endif/>
-                            <label for="create-account">Create Account</label>
-                        </div>
-                        <div id="password-field" class="collapse @if(old('create-account') === '1') show @else hide @endif form-group">
+                        <div id="password-field" class="form-group">
                             <label for="password">Password  </label>
                             <input type="password" name="password" id="password" class="form-control"/>
                             @if($errors->has('password'))
@@ -44,12 +52,12 @@
                                 <h3>Shipping Address</h3>
                                 <div class="form-group">
                                     <label for="address1"> Address Line 1</label>
-                                    <input type="text" name="address1" id="address1" value="{{old('address1')}}" class="form-control">
-                                    @if($errors->has('address1'))
-                                        <div class="alert alert-warning">{{ $errors->first('address1') }} </div>
+                                    <input type="text" name="address_1" id="address_1" value="{{old('address_1')}}" class="form-control">
+                                    @if($errors->has('address_1'))
+                                        <div class="alert alert-warning">{{ $errors->first('address_1') }} </div>
                                     @endif
                                     <label for="address2"> Address Line 2</label>
-                                    <input type="text" name="address2" id="address2" value="{{old('address2')}}" class="form-control">
+                                    <input type="text" name="address_2" id="address_2" value="{{old('address_2')}}" class="form-control">
                                     <label for="city"> City</label>
                                     <input type="text" name="city" id="city" value="{{old('city')}}" class="form-control" >
                                     @if($errors->has('city'))
@@ -74,12 +82,12 @@
                                 <h3>Billing Address</h3>
                                 <div class="form-group">
                                     <label for="billing_address1">Address Line 1</label>
-                                    <input type="text" name="billing_address1" id="billing_address1" value="{{old('billing_address1')}}" class="form-control">
-                                    @if($errors->has('billing_address1'))
-                                        <div class="alert alert-warning">{{ $errors->first('billing_address1') }} </div>
+                                    <input type="text" name="billing_address_1" id="billing_address_1" value="{{old('billing_address_1')}}" class="form-control">
+                                    @if($errors->has('billing_address_1'))
+                                        <div class="alert alert-warning">{{ $errors->first('billing_address_1') }} </div>
                                     @endif
                                     <label for="billing_address2"> Address Line 2</label>
-                                    <input type="text" name="billing_address2" id="billing_address2" value="{{old('billing_address2')}}" class="form-control">
+                                    <input type="text" name="billing_address_2" id="billing_address_2" value="{{old('billing_address_2')}}" class="form-control">
                                     <label for="billing_city"> City</label>
                                     <input type="text" name="billing_city" id="billing_city" value="{{old('billing_city')}}" class="form-control">
                                             @if($errors->has('billing_city'))

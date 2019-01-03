@@ -20,7 +20,15 @@ class Customer extends Model
         'updated_at',
     ];
 
-    public $table = "orders";
+//    public $table = "customers";
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     #relations
     public function orders()
@@ -28,8 +36,8 @@ class Customer extends Model
         return $this->hasMany(Order::class,'customer_id','customer_id');
     }
 
-    public function address()
+    public function addresses()
     {
-        return $this->hasOne(Address::class,'customer_id','customer_id');
+        return $this->belongsToMany(Address::class,'addresses_customers','customer_id','address_id');
     }
 }

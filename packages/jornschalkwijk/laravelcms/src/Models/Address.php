@@ -13,25 +13,21 @@ class Address extends Model
         'address_2',
         'postal',
         'city',
-        'billing_address_1',
-        'billing_address_2',
-        'billing_postal',
-        'billing_city',
         'customer_id',
         'created_at',
         'updated_at',
     ];
 
-    public $table = "orders";
+//    public $table = "addresses";
 
     #relations
     public function orders()
     {
-        return $this->hasMany(Order::class,'address_id','address_id');
+        return $this->belongsTo(Order::class,'address_id','order_id');
     }
 
     public function customers()
     {
-        return $this->hasMany(Customer::class,'address_id','address_id');
+        return $this->belongsToMany(Customer::class,'addresses_customers','address_id','customer_id');
     }
 }
