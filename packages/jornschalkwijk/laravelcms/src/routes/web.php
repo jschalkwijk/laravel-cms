@@ -187,7 +187,7 @@
                 Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
             });
 
-            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create','store']);
+            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create','store','show']);
             Route::group(['prefix' => '/order'],function(){
                 Route::get('/payment/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@payment')->name('order.payment');
                 Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@add')->name('order.add');

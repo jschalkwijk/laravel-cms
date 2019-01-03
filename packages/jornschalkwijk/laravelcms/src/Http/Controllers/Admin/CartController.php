@@ -113,8 +113,12 @@ class CartController extends Controller
     public function refresh(Cart $cart,Request $r){
 
         if($r->ajax()){
-            $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
-            $summary = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')->with(['cart' => $cart])->render();
+            $html = '';
+            $summary = '';
+            if (count($cart->all()) != 0) {
+                $html = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-content')->with(['cart' => $cart])->render();
+                $summary = view('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')->with(['cart' => $cart])->render();
+            }
             return response()->json(['success' => true,'cart' => $html,'summary' => $summary]);
         } else {
             return back();

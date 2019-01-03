@@ -3,6 +3,19 @@
 <div class="container">
     @if(!empty($customer))
         <div class="row">
+            <div class="col-lg">
+                <p>Hello {{$customer->first_name}}, please check your order details before confirming</p>
+                <a href="{{ route('customers.logout') }}"
+                   onclick="event.preventDefault();
+                document.getElementById('customer-logout-form').submit();">
+                    Logout
+                </a>
+                <form id="customer-logout-form" action="{{ route('customers.logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="well">
                     @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
@@ -26,7 +39,7 @@
                             <tbody>
                                 @foreach($addresses as $adrs)
                                     <tr>
-                                        <td><input type="radio" name="shipping_address" class="shipping_address" value="{{$adrs->address_id}}" {{ $adrs->pivot->type === "primary" ? "checked" : "" }}/></td>
+                                        <td><input type="radio" name="shipping_address" class="shipping_address" value="{{$adrs->address_id}}" {{ ($adrs->pivot->primary) ? "checked" : "" }}/></td>
                                         <td>{{$adrs->address_1}}</td>
                                         <td>{{$adrs->address_2}}</td>
                                         <td>{{$adrs->postal}}</td>
@@ -90,7 +103,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" name="confirm" id="confirm" value="{{old('confirm')}}">
+                        <input type="checkbox" name="confirm" id="confirm" value="{{old('confirm') || 1}}">
                         <lable for="confirm"> I hereby confirm with the <a href="#">Terms & Conditions</a>, and understand that I'm placing an order with paying obligations</lable>
                     </div>
                     <button class="btn btn-default btn-success">Confirm and Pay</button>
@@ -99,7 +112,7 @@
         </div>
     @else
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
 
@@ -108,7 +121,7 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                <label for="email" class="col-sm-3 col-form-label">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
@@ -122,7 +135,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                <label for="password" class="col-sm-3">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>

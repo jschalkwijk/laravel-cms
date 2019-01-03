@@ -4,12 +4,10 @@
 
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
-    use JornSchalkwijk\LaravelCMS\Models\Address;
     use JornSchalkwijk\LaravelCMS\Models\Cart;
     use JornSchalkwijk\LaravelCMS\Models\Order;
     use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Support\Facades\Validator;
-    use Illuminate\Validation\Rule;
 
     class OrderController extends Controller
     {
@@ -20,28 +18,17 @@
                 return back();
             }
             $customer = auth()->guard('customer')->user();
-            $addresses =  $customer->addresses()->withPivot('type')->get();
-            return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'customer'=> $customer,'addresses'=> $addresses,'template' => $this->adminTemplate()]);
+            if(!empty($customer)){
+                $addresses =  $customer->addresses()->withPivot('primary')->get();
+                return view('JornSchalkwijk\LaravelCMS::admin.orders.orcder')->with(['cart' => $cart,'customer'=> $customer,'addresses'=> $addresses,'template' => $this->adminTemplate()]);
+            } else {
+                return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'customer'=> $customer,'template' => $this->adminTemplate()]);
+            }
         }
 
-        public function confirm(){
-
-            $customer = auth()->guard('customer')->user();
-
-            return view('JornSchalkwijk\LaravelCMS::admin.orders.confirm')->with(['customer' => $customer,'template' => $this->adminTemplate()]);
-        }
-
-
-        public function payment($hash){
-
-            $order = Order::with('products')->where('hash',$hash)->first();
-
-            return view('JornSchalkwijk\LaravelCMS::admin.orders.payment')->with(['order' => $order,'template' => $this->adminTemplate()]);
-        }
-
-        public function show(Request $r,Order $order)
+        public function show(Order $order)
         {
-
+            return view('JornSchalkwijk\LaravelCMS::admin.orders.show')->with(['order' => $order,'template' => $this->adminTemplate()]);
         }
 
         public function create(Request $r,Cart $cart)
@@ -63,44 +50,12 @@
 
         public function store(Request $r,Cart $cart)
         {
-            if($cart->refresh()){
+            if($cart->refresh() || (empty($customer = Auth::guard('customer')->user()))){
                 return back();
             }
-            $customer = Auth::guard('customer')->user();
-//            $this->validator($r->all())->validate();
-//
-//            // remove product stock
-//
-//            $address = Address::where([['address_1', '=', $r->address_1],['address_2', '=', $r->address_2],['postal', '=', $r->postal]])->first();
-//            if ($address === null) {
-//                // Create Address
-//                $address = new Address();
-//                $address->address_1 = $r->address_1;
-//                $address->address_2 = $r->address_2;
-//                $address->postal = $r->postal;
-//                $address->city = $r->city;
-//
-//                $address->save();
-//            }
-//
-//            // Create Customer
-//
-//            $customer = new Customer();
-//            $customer->first_name = $r->first_name;
-//            $customer->last_name = $r->last_name;
-//            $customer->email = $r->email;
-//            $customer->password = bcrypt($r->password);
-//            $customer->phone_1 = $r->phone_1;
-//            $customer->phone_2 = $r->phone_2;
-//            $customer->dob = $r->dob;
-//
-//            $customer->save();
-//            $customer->addresses()->attach($address->address_id);
-//
-//            event(new Registered($customer));
-//
-//            Auth::guard('customer')->login($customer);
-            // After saving update the customer and address tables with the saved id
+//            print_r($r->all());
+//            die('hello');
+            $this->validator($r->all())->validate();
 
 
             // Create Order
@@ -109,25 +64,8 @@
             $order->total = $cart->total();
             $order->paid =  false;
             $order->customer_id = $customer->customer_id;
-            $order->address_id = $customer->addresses()->wherePivot('type','=','primary')->address_id;
-
-            // Create Billing address
-            if (!$r->billing_same){
-                $billing_address = Address::firstOrCreate(
-                    [
-                        ['address_1', '=', $r->billing_address_1],
-                        ['address_2', '=', $r->billing_address_2],
-                        ['postal', '=', $r->billing_postal],
-                        ['city', '=', $r->billing_city],
-                    ]
-                );
-                // Set order billing address
-                $order->billing_address_id = $billing_address->address_id;
-                $billing_address->customers()->attach($customer->customer_id);
-            } else {
-                // if address is the same set the shipping address as billing
-                $order->billing_address_id = $order->address_id;
-            }
+            $order->address_id = $r->shipping_address;
+            $order->billing_address_id = !$r->billing_same ? $r->billing_address : $order->address_id;
 
             $order->save();
 
@@ -142,7 +80,7 @@
             // empty cart
             $cart->clear();
 
-            return redirect()->route('order.payment',[$order->hash]);
+            return redirect()->route('order.show',[$order->hash]);
         }
         public function update()
         {
@@ -177,25 +115,9 @@
             return Validator::make(
                 $data,
                 $rules = [
-                    'first_name'         => [
-                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
-                    ],
-                    'last_name'         => [
-                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
-                    ],
-                    'email'        => [
-                        'required', 'email', 'max:255',
-                        Rule::unique('customers'),
-                    ],
-                    'password'     => 'min:8|alpha_num|confirmed',
-                    'address_1'     => 'required|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'address_2'     => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'postal'       => 'required|min:3|alpha_num',
-                    'city'         => 'required|min:3|alpha',
-                    'billing_address_1' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_address_2' => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_postal' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_city' => 'required_without:billing_same|min:3|alpha',
+                    'shipping_address' => 'required',
+                    'billing_address' => 'required_without:billing_same',
+                    'confirm' => 'required',
                 ]
             );
         }

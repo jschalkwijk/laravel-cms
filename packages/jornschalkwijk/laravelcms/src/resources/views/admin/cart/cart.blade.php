@@ -35,9 +35,11 @@
             </div>
             <div id="cart-table" class="col-6 col-md-4">
                 <h1 class="d-flex justify-content-center">Summary</h1>
-                @if(count($cart->all()) != 0)
-                    @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
-                @endif
+                <div id="cart-summary">
+                    @if(count($cart->all()) != 0)
+                        @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
+                    @endif
+                </div>
             </div>
         </div>
 

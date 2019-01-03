@@ -81,12 +81,12 @@
 
                 </div>
             </div>
-            <div id="cart-table" class="col-6 col-md-4">
-                <h1 class="d-flex justify-content-center">Summary</h1>
-                @if(count($order->products) != 0)
-                    @include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')
-                @endif
-            </div>
+            {{--<div id="cart-table" class="col-6 col-md-4">--}}
+                {{--<h1 class="d-flex justify-content-center">Summary</h1>--}}
+                {{--@if(count($order->products) != 0)--}}
+                    {{--@include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')--}}
+                {{--@endif--}}
+            {{--</div>--}}
         </div>
     </div>
 @stop

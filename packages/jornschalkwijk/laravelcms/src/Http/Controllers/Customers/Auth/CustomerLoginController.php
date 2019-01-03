@@ -6,6 +6,7 @@ use JornSchalkwijk\LaravelCMS\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class CustomerLoginController extends Controller
 {
@@ -56,11 +57,12 @@ class CustomerLoginController extends Controller
             return redirect()->back();
         }
         // if unsuccessful, then redirect back to the login with the form data
-        return redirect()->back()->withInput($request->only('email', 'remember'));
+        return $this->sendFailedLoginResponse($request);
     }
+
     public function logout()
     {
-        Auth::guard('customer')->user()->logout();
-        return redirect()->route('/');
+        Auth::guard('customer')->logout();
+        return redirect('/');
     }
 }

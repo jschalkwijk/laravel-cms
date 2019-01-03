@@ -94,7 +94,7 @@ class CustomerRegisterController extends Controller
         $customer->save();
 
         // After saving update the customer and address tables with the saved id
-        $customer->addresses()->attach([$address->address_id => ['type' => 'primary']]);
+        $customer->addresses()->attach([$address->address_id => ['type' => true]]);
 
         return $customer;
     }

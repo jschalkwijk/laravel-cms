@@ -32,6 +32,12 @@ class RouteServiceProvider extends ServiceProvider
                        ->orWhere('slug', $value)
                        ->first();
         });
+
+        Route::bind('order', function ($value) {
+            return \JornSchalkwijk\LaravelCMS\Models\Order::where('order_id', $value)
+                                                          ->orWhere('hash', $value)
+                                                          ->first();
+        });
     }
 
     /**
