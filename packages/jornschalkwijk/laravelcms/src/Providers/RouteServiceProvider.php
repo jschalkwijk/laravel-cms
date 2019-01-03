@@ -3,6 +3,7 @@
 namespace CMS\Providers;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -15,6 +16,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'CMS\Http\Controllers';
+    protected $packageMamespace = 'JornSchalkwijk\LaravelCMS\Http\Controllers';
+
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -39,11 +42,18 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
+    public function map(Router $router)
     {
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+
+        $router->group(['namespace' => $this->packageMamespace], function ($router) {
+
+            foreach (glob(base_path('routes/*.php')) as $eachRoute) {
+                require $eachRoute;
+            }
+        });
 
         //
     }
