@@ -115,6 +115,8 @@ class CustomerRegisterController extends Controller
 
         // After saving update the customer and address tables with the saved id
         $customer->addresses()->attach($address->address_id);
+
+        return $customer;
     }
     /**
      * Show the application registration form.
@@ -143,6 +145,24 @@ class CustomerRegisterController extends Controller
         return $this->registered($request, $customer)
             ?: redirect($this->redirectTo);
     }
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function registerFromOrder(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($customer = $this->create($request->all())));
+
+        $this->guard()->login($customer);
+
+        return $this->registered($request, $customer) ?: redirect(route('order.store'));
+    }
+
+
 
     /**
      * Get the guard to be used during registration.

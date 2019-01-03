@@ -3,6 +3,8 @@
     namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
+    use JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController;
     use JornSchalkwijk\LaravelCMS\Models\Address;
     use JornSchalkwijk\LaravelCMS\Models\Cart;
     use JornSchalkwijk\LaravelCMS\Models\Customer;
@@ -10,6 +12,7 @@
     use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
+    use Illuminate\Auth\Events\Registered;
 
     class OrderController extends Controller
     {
@@ -58,30 +61,7 @@
                 return back();
             }
 
-            $validator = Validator::make(
-                $r->all(),
-                $rules = [
-                    'first_name'         => [
-                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
-                    ],
-                    'last_name'         => [
-                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
-                    ],
-                    'email'        => [
-                        'required', 'email', 'max:255',
-                        Rule::unique('customers'),
-                    ],
-                    'password'     => 'min:8|alpha_num|confirmed',
-                    'address_1'     => 'required|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'address_2'     => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'postal'       => 'required|min:3|alpha_num',
-                    'city'         => 'required|min:3|alpha',
-                    'billing_address_1' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_address_2' => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_postal' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
-                    'billing_city' => 'required_without:billing_same|min:3|alpha',
-                ]
-            )->validate();
+            $this->validator($r->all())->validate();
 
             // remove product stock
 
@@ -109,9 +89,13 @@
             $customer->dob = $r->dob;
 
             $customer->save();
-
-            // After saving update the customer and address tables with the saved id
             $customer->addresses()->attach($address->address_id);
+
+            event(new Registered($customer));
+
+            Auth::guard('customer')->login($customer);
+            // After saving update the customer and address tables with the saved id
+
 
             // Create Order
             $order = new Order();
@@ -185,6 +169,47 @@
             } else {
                 return back();
             }
+        }
+
+        /**
+         * @param array $data
+         */
+        public function validator(Array $data)
+        {
+            return Validator::make(
+                $data,
+                $rules = [
+                    'first_name'         => [
+                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
+                    ],
+                    'last_name'         => [
+                        'required', 'regex:/^[\pL\s\-]+$/u', 'max:255',
+                    ],
+                    'email'        => [
+                        'required', 'email', 'max:255',
+                        Rule::unique('customers'),
+                    ],
+                    'password'     => 'min:8|alpha_num|confirmed',
+                    'address_1'     => 'required|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
+                    'address_2'     => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
+                    'postal'       => 'required|min:3|alpha_num',
+                    'city'         => 'required|min:3|alpha',
+                    'billing_address_1' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
+                    'billing_address_2' => 'min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
+                    'billing_postal' => 'required_without:billing_same|min:3|regex:/^[a-zA-Z\d\-\s]+$/i',
+                    'billing_city' => 'required_without:billing_same|min:3|alpha',
+                ]
+            );
+        }
+
+        /**
+         * Get the guard to be used during registration.
+         *
+         * @return \Illuminate\Contracts\Auth\StatefulGuard
+         */
+        protected function guard()
+        {
+            return Auth::guard();
         }
         
     }

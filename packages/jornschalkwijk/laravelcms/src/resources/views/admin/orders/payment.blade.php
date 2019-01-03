@@ -1,6 +1,7 @@
 @extends('JornSchalkwijk\LaravelCMS::admin.layout')
 @section('content')
     <div class="container">
+        {{  Auth::guard('customer')->user()}}
         <div class="row">
             <div class="col-md">
                 <div class="row">
