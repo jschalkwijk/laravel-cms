@@ -118,7 +118,7 @@ class Product extends Model
     }
     // total of the product price * the quantity orderd.
     public function productTotal(){
-        return $this->getQuantity() * $this->Total();
+        return $this->getQuantity() * $this->total();
     }
 
     public function setMaxStock($num){

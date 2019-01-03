@@ -26,9 +26,17 @@
             return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'template' => $this->adminTemplate()]);
         }
 
+        public function confirm(){
+
+            $customer = auth()->guard('customer')->user();
+
+            return view('JornSchalkwijk\LaravelCMS::admin.orders.confirm')->with(['customer' => $customer,'template' => $this->adminTemplate()]);
+        }
+
+
         public function payment($hash){
 
-            $order = Order::where('hash',$hash)->first();
+            $order = Order::with('products')->where('hash',$hash)->first();
 
             return view('JornSchalkwijk\LaravelCMS::admin.orders.payment')->with(['order' => $order,'template' => $this->adminTemplate()]);
         }
@@ -60,40 +68,40 @@
             if($cart->refresh()){
                 return back();
             }
-
-            $this->validator($r->all())->validate();
-
-            // remove product stock
-
-            $address = Address::where([['address_1', '=', $r->address_1],['address_2', '=', $r->address_2],['postal', '=', $r->postal]])->first();
-            if ($address === null) {
-                // Create Address
-                $address = new Address();
-                $address->address_1 = $r->address_1;
-                $address->address_2 = $r->address_2;
-                $address->postal = $r->postal;
-                $address->city = $r->city;
-
-                $address->save();
-            }
-
-            // Create Customer
-
-            $customer = new Customer();
-            $customer->first_name = $r->first_name;
-            $customer->last_name = $r->last_name;
-            $customer->email = $r->email;
-            $customer->password = bcrypt($r->password);
-            $customer->phone_1 = $r->phone_1;
-            $customer->phone_2 = $r->phone_2;
-            $customer->dob = $r->dob;
-
-            $customer->save();
-            $customer->addresses()->attach($address->address_id);
-
-            event(new Registered($customer));
-
-            Auth::guard('customer')->login($customer);
+            $customer = Auth::guard('customer')->user();
+//            $this->validator($r->all())->validate();
+//
+//            // remove product stock
+//
+//            $address = Address::where([['address_1', '=', $r->address_1],['address_2', '=', $r->address_2],['postal', '=', $r->postal]])->first();
+//            if ($address === null) {
+//                // Create Address
+//                $address = new Address();
+//                $address->address_1 = $r->address_1;
+//                $address->address_2 = $r->address_2;
+//                $address->postal = $r->postal;
+//                $address->city = $r->city;
+//
+//                $address->save();
+//            }
+//
+//            // Create Customer
+//
+//            $customer = new Customer();
+//            $customer->first_name = $r->first_name;
+//            $customer->last_name = $r->last_name;
+//            $customer->email = $r->email;
+//            $customer->password = bcrypt($r->password);
+//            $customer->phone_1 = $r->phone_1;
+//            $customer->phone_2 = $r->phone_2;
+//            $customer->dob = $r->dob;
+//
+//            $customer->save();
+//            $customer->addresses()->attach($address->address_id);
+//
+//            event(new Registered($customer));
+//
+//            Auth::guard('customer')->login($customer);
             // After saving update the customer and address tables with the saved id
 
 
@@ -103,7 +111,7 @@
             $order->total = $cart->total();
             $order->paid =  false;
             $order->customer_id = $customer->customer_id;
-            $order->address_id = $address->address_id;
+            $order->address_id = $customer->addresses()->wherePivot('type','=','primary')->address_id;
 
             // Create Billing address
             if (!$r->billing_same){
@@ -128,7 +136,7 @@
                 $billing_address->customers()->attach($customer->customer_id);
             } else {
                 // if address is the same set the shipping address as billing
-                $order->billing_address_id = $address->address_id;
+                $order->billing_address_id = $order->address_id;
             }
 
             $order->save();

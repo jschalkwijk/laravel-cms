@@ -35,16 +35,6 @@ class CustomerRegisterController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -81,21 +71,21 @@ class CustomerRegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  $data
      * @return Customer
      */
-    protected function create(array $data)
+    protected function create($data)
     {
         // remove product stock
 
-        $address = Address::where([['address_1', '=', $data->address_1],['address_2', '=', $data->address_2],['postal', '=', $data->postal]])->first();
+        $address = Address::where([['address_1', '=', $data['address_1']],['address_2', '=', $data['address_2']],['postal', '=', $data['postal']]])->first();
         if ($address === null) {
             // Create Address
             $address = new Address();
-            $address->address_1 = $data->address_1;
-            $address->address_2 = $data->address_2;
-            $address->postal = $data->postal;
-            $address->city = $data->city;
+            $address->address_1 = $data['address_1'];
+            $address->address_2 = $data['address_2'];
+            $address->postal = $data['postal'];
+            $address->city = $data['city'];
 
             $address->save();
         }
@@ -103,13 +93,13 @@ class CustomerRegisterController extends Controller
         // Create Customer
 
         $customer = new Customer();
-        $customer->first_name = $data->first_name;
-        $customer->last_name = $data->last_name;
-        $customer->email = $data->email;
-        $customer->password = bcrypt($data->password);
-        $customer->phone_1 = $data->phone_1;
-        $customer->phone_2 = $data->phone_2;
-        $customer->dob = $data->dob;
+        $customer->first_name = $data['first_name'];
+        $customer->last_name = $data['last_name'];
+        $customer->email = $data['email'];
+        $customer->password = bcrypt($data['password']);
+        $customer->phone_1 = $data['phone_1'];
+//        $customer->phone_2 = $data['phone_2'];
+        $customer->dob = $data['dob'];
 
         $customer->save();
 
@@ -138,7 +128,7 @@ class CustomerRegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($customer = $this->create($request->all())));
+        event(new Registered($customer = $this->create($request)));
 
         $this->guard()->login($customer);
 
@@ -157,9 +147,9 @@ class CustomerRegisterController extends Controller
 
         event(new Registered($customer = $this->create($request->all())));
 
-        $this->guard()->login($customer);
+        Auth::guard('customer')->login($customer);
 
-        return $this->registered($request, $customer) ?: redirect(route('order.store'));
+        return $this->registered($request, $customer) ?: redirect(route('order.confirm'));
     }
 
 
@@ -183,6 +173,6 @@ class CustomerRegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        //
+        return redirect(route('order.confirm'));
     }
 }

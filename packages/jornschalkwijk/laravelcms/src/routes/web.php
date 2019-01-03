@@ -18,13 +18,14 @@
         Route::post('/logout', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerLoginController@logout')->name('customers.logout');
         // Registration Routes...
         Route::get('/register', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController@showRegistrationForm');
-        Route::post('/register', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController@register');
+        Route::post('/register', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController@registerFromOrder')->name('customers.register');
         // Password Reset Routes...
         Route::get('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerForgotPasswordController@customer.showLinkRequestForm')->name('customers.password.request');
         Route::post('/password/email', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerForgotPasswordController@customer.sendResetLinkEmail');
         Route::post('/password/reset/{token}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerResetPasswordController@customer.showResetForm');
         Route::post('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerResetPasswordController@customer.reset')->name('customers.password.request');
     });
+
     Route::group(['prefix' => '/admin','middleware' => ['web']], function (){
         // Authentication Routes...
         Route::get('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');

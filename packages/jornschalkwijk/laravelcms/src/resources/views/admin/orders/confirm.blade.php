@@ -1,7 +1,6 @@
 @extends('JornSchalkwijk\LaravelCMS::admin.layout')
 @section('content')
     <div class="container">
-        {{  Auth::guard('customer')->user()}}
         <div class="row">
             <div class="col-md">
                 <div class="row">
@@ -17,7 +16,7 @@
                         <th>Total</th>
                         </thead>
                         <tbody id="cart">
-                        @foreach($order->products as $item)
+                        @foreach($cart->all() as $item)
                             <tr id="product-{{$item->product_id}}">
                                 <td class="align-middle">{{$loop->iteration}}</td>
 
@@ -27,7 +26,7 @@
                                 <td class="align-middle">{{$item->total()}}</td>
                                 <td class="align-middle">{{$item->tax_value}}</td>
                                 <td class="align-middle">
-                                    {{$item->pivot->quantity}}
+                                    {{$item->quantity}}
                                 </td>
                                 <td class="align-middle">{{$item->tax_value * $item->pivot->quantity}}</td>
                                 <td class="align-middle">{{$item->pivot->quantity * $item->total()}}</td>
@@ -49,42 +48,12 @@
                 </div>
                 <div class="row">
 
-                    @if ($message = Session::get('success'))
-                        <div class="w3-panel w3-green w3-display-container">
-                            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-green w3-large w3-display-topright">&times;</span>
-                            <p>{!! $message !!}</p>
-                        </div>
-                        <?php Session::forget('success');?>
-                    @endif
-
-                    @if ($message = Session::get('error'))
-                        <div class="w3-panel w3-red w3-display-container">
-            <span onclick="this.parentElement.style.display='none'"
-                  class="w3-button w3-red w3-large w3-display-topright">&times;</span>
-                            <p>{!! $message !!}</p>
-                        </div>
-                        <?php Session::forget('error');?>
-                    @endif
-
-                    @if (!$order->paid)
-                        <form class="w3-container w3-display-middle w3-card-4 w3-padding-16" method="POST" id="payment-form"
-                              action="{{route('payment.paypal',[$order->hash])}}">
-                            {{method_field('POST')}}
-                            {{ csrf_field() }}
-                            <button class="w3-btn w3-blue">Pay with PayPal</button>
-                        </form>
-                    @else
-                        <div class="alert alert-success">
-                            You have paid this order.
-                        </div>
-                    @endif
-
                 </div>
             </div>
             <div id="cart-table" class="col-6 col-md-4">
                 <h1 class="d-flex justify-content-center">Summary</h1>
-                @if(count($order->products) != 0)
-                    @include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')
+                @if(count($cart->all()) != 0)
+                    @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
                 @endif
             </div>
         </div>
