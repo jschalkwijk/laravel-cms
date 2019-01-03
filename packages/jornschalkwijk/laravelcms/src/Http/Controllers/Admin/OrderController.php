@@ -20,7 +20,7 @@
             $customer = auth()->guard('customer')->user();
             if(!empty($customer)){
                 $addresses =  $customer->addresses()->withPivot('primary')->get();
-                return view('JornSchalkwijk\LaravelCMS::admin.orders.orcder')->with(['cart' => $cart,'customer'=> $customer,'addresses'=> $addresses,'template' => $this->adminTemplate()]);
+                return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'customer'=> $customer,'addresses'=> $addresses,'template' => $this->adminTemplate()]);
             } else {
                 return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'customer'=> $customer,'template' => $this->adminTemplate()]);
             }

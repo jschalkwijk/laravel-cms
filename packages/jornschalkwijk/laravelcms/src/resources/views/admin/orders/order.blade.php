@@ -5,12 +5,12 @@
         <div class="row">
             <div class="col-lg">
                 <p>Hello {{$customer->first_name}}, please check your order details before confirming</p>
-                <a href="{{ route('customers.logout') }}"
+                <a href="{{ route('customer.logout') }}"
                    onclick="event.preventDefault();
                 document.getElementById('customer-logout-form').submit();">
                     Logout
                 </a>
-                <form id="customer-logout-form" action="{{ route('customers.logout') }}" method="POST" style="display: none;">
+                <form id="customer-logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>
             </div>
@@ -117,7 +117,7 @@
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('customers.login') }}" aria-label="{{ __('Login') }}">
+                        <form method="POST" action="{{ route('customer.login') }}" aria-label="{{ __('Login') }}">
                             @csrf
 
                             <div class="form-group row">
@@ -166,7 +166,7 @@
                                         {{ __('Login') }}
                                     </button>
 
-                                    <a class="btn btn-link" href="{{ route('customers.password.request') }}">
+                                    <a class="btn btn-link" href="{{ route('customer.password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 </div>
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{route('customers.register')}}" method="post">
+        <form action="{{route('customer.register')}}" method="post">
             {{method_field('POST')}}
             {{csrf_field()}}
             <div class="row">
@@ -243,46 +243,11 @@
                                         @if($errors->has('postal'))
                                             <div class="alert alert-warning">{{ $errors->first('postal') }} </div>
                                         @endif
-                                        {{--<input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" @if(old('billing_same') === '1') checked @endif/>--}}
-                                        {{--<label for="billing-same">Billing address is the same as shipping address</label>--}}
-                                        {{--<div class="form-group">--}}
-                                            {{--<input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" @if(old('billing_same') === '1') checked @endif data-toggle='collapse' data-target='#billing' aria-expanded="false" aria-controls="billing"/>--}}
-                                            {{--<label for="billing-same">Billing address is the same as shipping address</label>--}}
-                                        {{--</div>--}}
                                     </div>
                                 </div>
                             </div>
-                            {{--<div id="billing" class="collapse @if(old('billing_same') === '1') hide @else show @endif row">--}}
-                                {{--<div class="col">--}}
-                                    {{--<h3>Billing Address</h3>--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label for="billing_address1">Address Line 1</label>--}}
-                                        {{--<input type="text" name="billing_address_1" id="billing_address_1" value="{{old('billing_address_1')}}" class="form-control">--}}
-                                        {{--@if($errors->has('billing_address_1'))--}}
-                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_address_1') }} </div>--}}
-                                        {{--@endif--}}
-                                        {{--<label for="billing_address2"> Address Line 2</label>--}}
-                                        {{--<input type="text" name="billing_address_2" id="billing_address_2" value="{{old('billing_address_2')}}" class="form-control">--}}
-                                        {{--<label for="billing_city"> City</label>--}}
-                                        {{--<input type="text" name="billing_city" id="billing_city" value="{{old('billing_city')}}" class="form-control">--}}
-                                        {{--@if($errors->has('billing_city'))--}}
-                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_city') }} </div>--}}
-                                        {{--@endif--}}
-                                        {{--<label for="billing_postal"> Postal/Zip</label>--}}
-                                        {{--<input type="text" name="billing_postal" id="billing_postal" value="{{old('billing_postal')}}" class="form-control">--}}
-                                        {{--@if($errors->has('billing_postal'))--}}
-                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_postal') }} </div>--}}
-                                        {{--@endif--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
                     </div>
                 </div>
-                {{--<pre>--}}
-                {{--@php(print_r(\Illuminate\Support\Facades\Session::all()))--}}
-
-                {{--</pre>--}}
                 <div class="col-md-4">
                     <div class="row">
                         <div class="well">

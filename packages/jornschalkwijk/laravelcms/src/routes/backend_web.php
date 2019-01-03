@@ -10,7 +10,6 @@
 |
 */
 
-/* Backend Routes */
     Route::group(['prefix' => '/admin','middleware' => ['web']], function (){
         // Authentication Routes...
         Route::get('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');
@@ -167,6 +166,25 @@
             Route::group(['prefix' => '/cart'],function(){
                 Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@add')->name('cart.add');
                 Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@update')->name('cart.update');
+                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
+                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
+                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
+            });
+
+            Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create','store','show']);
+            Route::group(['prefix' => '/order'],function(){
+                Route::get('/payment/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@payment')->name('order.payment');
+                Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@add')->name('order.add');
+                Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@update')->name('order.update');
+                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@destroy')->name('order.destroy');
+                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@empty')->name('order.empty');
+                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@refresh')->name('order.refresh');
+            });
+
+            Route::group(['prefix' => '/payment'],function(){
+                Route::get('/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@index')->name('payment.index');
+                Route::post('/paywithpaypal/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@payWithPaypal')->name('payment.paypal');
+                Route::get('/paypalstatus/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@getPaymentStatus')->name('payment.paypalstatus');
             });
             
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);

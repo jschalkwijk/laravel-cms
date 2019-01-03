@@ -5,7 +5,7 @@
 function requestStatusError(x, e) {
     if (x.status === 0) {
         alert('You are offline!!\n Please Check Your Network.');
-    } else if (x.status === 404) {
+    } else if (x.status === 404) {w
         alert('Requested URL not found.');
     } else if (x.status === 500) {
         alert('Internel Server Error.');
