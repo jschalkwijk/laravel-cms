@@ -69,14 +69,14 @@
 
             $order->save();
 
-            // Add products to orders_products pivot table
+            // Add products to orders_products pivot table and update stock value
             $products = [];
             foreach ($cart->all() as $product) {
                 $products[$product->product_id] = ['quantity' => $product->getQuantity()];
+                $product->decrement('stock', $product->getQuantity());
             }
 
             $order->products()->attach($products);
-
             // empty cart
             $cart->clear();
 

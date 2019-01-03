@@ -5,8 +5,8 @@ namespace JornSchalkwijk\LaravelCMS\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
-use JornSchalkwijk\LaravelCMS\Models\Cart;
 use JornSchalkwijk\LaravelCMS\Models\Order;
+use JornSchalkwijk\LaravelCMS\Models\Payment as RegisterPayment;
 
 //PayPal
 use PayPal\Rest\ApiContext;
@@ -119,17 +119,29 @@ class PaymentController extends Controller
         Session::forget('paypal_payment_id');
         if (empty($r->get('PayerID')) || empty($r->get('token'))) {
             Session::put('error', 'Payment failed');
-            return redirect()->route('order.payment',$hash);
+            return redirect()->route('order.show',$hash);
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
         $execution->setPayerId($r->get('PayerID'));
         /**Execute the payment **/
         $result = $payment->execute($execution, $this->_api_context);
+        $order = Order::where('hash',$hash)->first();
+        $order->update(['paid' => true]);
         if ($result->getState() == 'approved') {
             Session::put('success', 'Payment success');
-            Order::where('hash',$hash)->first()->update(['paid' => true]);
+
+            RegisterPayment::create([
+                'order_id'  => $order->order_id,
+                'failed' => 0,
+                'transaction_id' => $payment->getId()
+            ]);
         } else {
+            RegisterPayment::create([
+                'order_id'  => $order->order_id,
+                'failed' => 1,
+                'transaction_id' => $payment->getId()
+            ]);
             Session::put('error', 'Payment failed');
         }
         return redirect()->route('order.payment',$hash);

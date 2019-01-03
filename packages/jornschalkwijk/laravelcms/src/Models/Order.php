@@ -76,6 +76,10 @@
         {
             return $this->belongsTo(Customer::class,'customer_id');
         }
+        public function order()
+        {
+            $this->hasOne(Payment::class,'payment_id','payment_id');
+        }
 
         public function address()
         {

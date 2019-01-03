@@ -127,4 +127,5 @@ class Product extends Model
     public function maxStock(){
         return $this->maxStock;
     }
+
 }
