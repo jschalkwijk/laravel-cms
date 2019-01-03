@@ -1,16 +1,100 @@
 @extends('JornSchalkwijk\LaravelCMS::admin.layout')
 @section('content')
 <div class="container">
-    @if(auth()->guard('customer')->user())
-        @php
-            $route = route('order.store');
-        @endphp
+    @if(!empty($customer))
         <div class="row">
             <div class="col-md-4">
                 <div class="well">
                     @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
-                    <button class="btn btn-default btn-success">Confirm and Pay</button>
+                    @include('JornSchalkwijk\LaravelCMS::admin.orders.order-summary')
                 </div>
+            </div>
+            <div class="col-md-4">
+                <form action="{{route('order.store')}}" method="post">
+                    {{method_field('POST')}}
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <h3>Select shipping Address</h3>
+                        <table class="table table-sm table-striped" id="shipping_address">
+                            <thead class="thead-default">
+                                <th>#</th>
+                                <th>Address</th>
+                                <th></th>
+                                <th>Postal</th>
+                                <th>City</th>
+                            </thead>
+                            <tbody>
+                                @foreach($addresses as $adrs)
+                                    <tr>
+                                        <td><input type="radio" name="shipping_address" class="shipping_address" value="{{$adrs->address_id}}" {{ $adrs->pivot->type === "primary" ? "checked" : "" }}/></td>
+                                        <td>{{$adrs->address_1}}</td>
+                                        <td>{{$adrs->address_2}}</td>
+                                        <td>{{$adrs->postal}}</td>
+                                        <td>{{$adrs->city}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" {{ old('billing_same') ? old('billing_same') : "checked"  }} data-toggle='collapse' data-target='#billing' aria-expanded="false" aria-controls="billing"/>
+                        <label for="billing-same">Billing address is the same as shipping address</label>
+                    </div>
+                    <div id="billing" class="collapse @if(old('billing_same') === '1') show @else hide @endif row">
+                        <div class="col">
+                            <div class="form-group">
+                                <h3>Select Billing Address</h3>
+                                <table class="table table-sm table-striped">
+                                    <thead class="thead-default">
+                                    <th>#</th>
+                                    <th>Address</th>
+                                    <th></th>
+                                    <th>Postal</th>
+                                    <th>City</th>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($addresses as $adrs)
+                                        <tr>
+                                            <td><input type="radio" name="billing_address" class="billing_address" value="{{$adrs->address_id}}"/></td>
+                                            <td>{{$adrs->address_1}}</td>
+                                            <td>{{$adrs->address_2}}</td>
+                                            <td>{{$adrs->postal}}</td>
+                                            <td>{{$adrs->city}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h3>Billing Address</h3>
+                            <div class="form-group">
+                                <label for="billing_address_1">Address Line 1</label>
+                                <input type="text" name="billing_address_1" id="billing_address_1" value="{{old('billing_address_1')}}" class="form-control">
+                                @if($errors->has('billing_address_1'))
+                                    <div class="alert alert-warning">{{ $errors->first('billing_address_1') }} </div>
+                                @endif
+                                <label for="billing_address_2"> Address Line 2</label>
+                                <input type="text" name="billing_address_2" id="billing_address_2" value="{{old('billing_address_2')}}" class="form-control">
+                                <label for="billing_city"> City</label>
+                                <input type="text" name="billing_city" id="billing_city" value="{{old('billing_city')}}" class="form-control">
+                                @if($errors->has('billing_city'))
+                                    <div class="alert alert-warning">{{ $errors->first('billing_city') }} </div>
+                                @endif
+                                <label for="billing_postal"> Postal/Zip</label>
+                                <input type="text" name="billing_postal" id="billing_postal" value="{{old('billing_postal')}}" class="form-control">
+                                @if($errors->has('billing_postal'))
+                                    <div class="alert alert-warning">{{ $errors->first('billing_postal') }} </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="confirm" id="confirm" value="{{old('confirm')}}">
+                        <lable for="confirm"> I hereby confirm with the <a href="#">Terms & Conditions</a>, and understand that I'm placing an order with paying obligations</lable>
+                    </div>
+                    <button class="btn btn-default btn-success">Confirm and Pay</button>
+                </form>
             </div>
         </div>
     @else
@@ -148,38 +232,38 @@
                                         @endif
                                         {{--<input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" @if(old('billing_same') === '1') checked @endif/>--}}
                                         {{--<label for="billing-same">Billing address is the same as shipping address</label>--}}
-                                        <div class="form-group">
-                                            <input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" @if(old('billing_same') === '1') checked @endif data-toggle='collapse' data-target='#billing' aria-expanded="false" aria-controls="billing"/>
-                                            <label for="billing-same">Billing address is the same as shipping address</label>
-                                        </div>
+                                        {{--<div class="form-group">--}}
+                                            {{--<input type="checkbox" name="billing_same" id="billing_same" value="{{1}}" @if(old('billing_same') === '1') checked @endif data-toggle='collapse' data-target='#billing' aria-expanded="false" aria-controls="billing"/>--}}
+                                            {{--<label for="billing-same">Billing address is the same as shipping address</label>--}}
+                                        {{--</div>--}}
                                     </div>
                                 </div>
                             </div>
-                            <div id="billing" class="collapse @if(old('billing_same') === '1') hide @else show @endif row">
-                                <div class="col">
-                                    <h3>Billing Address</h3>
-                                    <div class="form-group">
-                                        <label for="billing_address1">Address Line 1</label>
-                                        <input type="text" name="billing_address_1" id="billing_address_1" value="{{old('billing_address_1')}}" class="form-control">
-                                        @if($errors->has('billing_address_1'))
-                                            <div class="alert alert-warning">{{ $errors->first('billing_address_1') }} </div>
-                                        @endif
-                                        <label for="billing_address2"> Address Line 2</label>
-                                        <input type="text" name="billing_address_2" id="billing_address_2" value="{{old('billing_address_2')}}" class="form-control">
-                                        <label for="billing_city"> City</label>
-                                        <input type="text" name="billing_city" id="billing_city" value="{{old('billing_city')}}" class="form-control">
-                                        @if($errors->has('billing_city'))
-                                            <div class="alert alert-warning">{{ $errors->first('billing_city') }} </div>
-                                        @endif
-                                        <label for="billing_postal"> Postal/Zip</label>
-                                        <input type="text" name="billing_postal" id="billing_postal" value="{{old('billing_postal')}}" class="form-control">
-                                        @if($errors->has('billing_postal'))
-                                            <div class="alert alert-warning">{{ $errors->first('billing_postal') }} </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            {{--<div id="billing" class="collapse @if(old('billing_same') === '1') hide @else show @endif row">--}}
+                                {{--<div class="col">--}}
+                                    {{--<h3>Billing Address</h3>--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<label for="billing_address1">Address Line 1</label>--}}
+                                        {{--<input type="text" name="billing_address_1" id="billing_address_1" value="{{old('billing_address_1')}}" class="form-control">--}}
+                                        {{--@if($errors->has('billing_address_1'))--}}
+                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_address_1') }} </div>--}}
+                                        {{--@endif--}}
+                                        {{--<label for="billing_address2"> Address Line 2</label>--}}
+                                        {{--<input type="text" name="billing_address_2" id="billing_address_2" value="{{old('billing_address_2')}}" class="form-control">--}}
+                                        {{--<label for="billing_city"> City</label>--}}
+                                        {{--<input type="text" name="billing_city" id="billing_city" value="{{old('billing_city')}}" class="form-control">--}}
+                                        {{--@if($errors->has('billing_city'))--}}
+                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_city') }} </div>--}}
+                                        {{--@endif--}}
+                                        {{--<label for="billing_postal"> Postal/Zip</label>--}}
+                                        {{--<input type="text" name="billing_postal" id="billing_postal" value="{{old('billing_postal')}}" class="form-control">--}}
+                                        {{--@if($errors->has('billing_postal'))--}}
+                                            {{--<div class="alert alert-warning">{{ $errors->first('billing_postal') }} </div>--}}
+                                        {{--@endif--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
                 {{--<pre>--}}

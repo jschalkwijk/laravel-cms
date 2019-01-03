@@ -78,17 +78,7 @@ class CustomerRegisterController extends Controller
     {
         // remove product stock
 
-        $address = Address::where([['address_1', '=', $data['address_1']],['address_2', '=', $data['address_2']],['postal', '=', $data['postal']]])->first();
-        if ($address === null) {
-            // Create Address
-            $address = new Address();
-            $address->address_1 = $data['address_1'];
-            $address->address_2 = $data['address_2'];
-            $address->postal = $data['postal'];
-            $address->city = $data['city'];
-
-            $address->save();
-        }
+        $address = Address::firstOrCreate([['address_1', '=', $data['address_1']],['address_2', '=', $data['address_2']],['postal', '=', $data['postal']],['city','=',$data['city']]])->get();
 
         // Create Customer
 
@@ -104,7 +94,7 @@ class CustomerRegisterController extends Controller
         $customer->save();
 
         // After saving update the customer and address tables with the saved id
-        $customer->addresses()->attach($address->address_id);
+        $customer->addresses()->attach([$address->address_id => ['type' => 'primary']]);
 
         return $customer;
     }

@@ -52,7 +52,8 @@ class CustomerLoginController extends Controller
         // Attempt to log the user in
         if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             // if successful, then redirect to their intended location
-            return redirect()->intended('/');
+//            return redirect()->intended('/');
+            return redirect()->back();
         }
         // if unsuccessful, then redirect back to the login with the form data
         return redirect()->back()->withInput($request->only('email', 'remember'));

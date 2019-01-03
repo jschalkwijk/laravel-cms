@@ -4,15 +4,12 @@
 
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
-    use JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController;
     use JornSchalkwijk\LaravelCMS\Models\Address;
     use JornSchalkwijk\LaravelCMS\Models\Cart;
-    use JornSchalkwijk\LaravelCMS\Models\Customer;
     use JornSchalkwijk\LaravelCMS\Models\Order;
     use JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Traits\ControllerActionsTrait;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
-    use Illuminate\Auth\Events\Registered;
 
     class OrderController extends Controller
     {
@@ -22,8 +19,9 @@
             if($cart->refresh() || !$cart->subTotal()) {
                 return back();
             }
-
-            return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'template' => $this->adminTemplate()]);
+            $customer = auth()->guard('customer')->user();
+            $addresses =  $customer->addresses()->withPivot('type')->get();
+            return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'customer'=> $customer,'addresses'=> $addresses,'template' => $this->adminTemplate()]);
         }
 
         public function confirm(){
@@ -115,22 +113,14 @@
 
             // Create Billing address
             if (!$r->billing_same){
-                $billing_address = Address::where(
+                $billing_address = Address::firstOrCreate(
                     [
                         ['address_1', '=', $r->billing_address_1],
                         ['address_2', '=', $r->billing_address_2],
                         ['postal', '=', $r->billing_postal],
                         ['city', '=', $r->billing_city],
                     ]
-                )->first();
-                if($billing_address === null) {
-                    $billing_address = new Address();
-                    $billing_address->address_1 = $r->billing_address_1;
-                    $billing_address->address_2 = $r->billing_address_2;
-                    $billing_address->postal = $r->billing_postal;
-                    $billing_address->city = $r->billing_city;
-                    $billing_address->save();
-                }
+                );
                 // Set order billing address
                 $order->billing_address_id = $billing_address->address_id;
                 $billing_address->customers()->attach($customer->customer_id);
