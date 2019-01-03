@@ -1,5 +1,6 @@
 @extends($template.'.layout')
 @section('content')
+	{{  Auth::guard('customer')->user()}}
 <div class="container-fluid">
 	<div class="display top-margin">
 		<div class="row">

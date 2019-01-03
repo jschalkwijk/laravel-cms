@@ -26,9 +26,8 @@ use PayPal\Api\RedirectUrls;
 class PaymentController extends Controller
 {
     protected $_api_context;
-    public function __construct(Order $order)
+    public function __construct()
     {
-        $this->order = $order;
         /** PayPal api context **/
         $paypal_conf = Config::get('paypal');
 //        print_r($paypal_conf);
@@ -40,16 +39,18 @@ class PaymentController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
-    public function index()
+    public function index($hash)
     {
 //        if($this->order->refresh()) {
 //            return back();
 //        }
-
-        return view('JornSchalkwijk\LaravelCMS::admin.payment.payment')->with(['order' => $this->order->get,'template' => $this->adminTemplate()]);
+        $order = Order::where('hash',$hash)->first();
+//        print_r($order);
+//        die('rape');
+        return view('JornSchalkwijk\LaravelCMS::admin.payment.payment')->with(['order' => $order,'template' => $this->adminTemplate()]);
 
     }
-    public function payWithPaypal(Request $request)
+    public function payWithPaypal(Request $request,$hash)
     {
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
@@ -75,8 +76,8 @@ class PaymentController extends Controller
                     ->setItemList($item_list)
                     ->setDescription('Your transaction description');
         $redirect_urls = new RedirectUrls();
-        $redirect_urls->setReturnUrl(url()->route('payment.paypalstatus')) /** Specify return URL **/
-                      ->setCancelUrl(url()->route('payment.paypal'));
+        $redirect_urls->setReturnUrl(url()->route('payment.paypalstatus',$hash)) /** Specify return URL **/
+                      ->setCancelUrl(url()->route('order.payment',$hash));
         $payment = new Payment();
         $payment->setIntent('Sale')
                 ->setPayer($payer)
@@ -110,7 +111,7 @@ class PaymentController extends Controller
         return redirect()->route('paywithpaypal');
     }
 
-    public function getPaymentStatus(Request $r)
+    public function getPaymentStatus(Request $r,$hash)
     {
         /** Get the payment ID before session clear **/
         $payment_id = Session::get('paypal_payment_id');
@@ -118,7 +119,7 @@ class PaymentController extends Controller
         Session::forget('paypal_payment_id');
         if (empty($r->get('PayerID')) || empty($r->get('token'))) {
             Session::put('error', 'Payment failed');
-            return redirect()->route('order.index');
+            return redirect()->route('order.payment',$hash);
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
@@ -127,9 +128,10 @@ class PaymentController extends Controller
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
             Session::put('success', 'Payment success');
-            return redirect()->route('payment.index');
+            Order::where('hash',$hash)->first()->update(['paid' => true]);
+        } else {
+            Session::put('error', 'Payment failed');
         }
-        Session::put('error', 'Payment failed');
-        return redirect()->route('payment.index');
+        return redirect()->route('order.payment',$hash);
     }
 }

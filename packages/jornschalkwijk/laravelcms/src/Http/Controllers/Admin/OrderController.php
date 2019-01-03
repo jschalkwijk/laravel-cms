@@ -23,6 +23,13 @@
             return view('JornSchalkwijk\LaravelCMS::admin.orders.order')->with(['cart' => $cart,'template' => $this->adminTemplate()]);
         }
 
+        public function payment($hash){
+
+            $order = Order::where('hash',$hash)->first();
+
+            return view('JornSchalkwijk\LaravelCMS::admin.orders.payment')->with(['order' => $order,'template' => $this->adminTemplate()]);
+        }
+
         public function show(Request $r,Order $order)
         {
 
@@ -78,18 +85,24 @@
 
             // remove product stock
 
-            // Create Address
-            $address = new Address();
-            $address->address_1 = $r->address_1;
-            $address->address_2 = $r->address_2;
-            $address->postal = $r->postal;
-            $address->city = $r->city;
+            $address = Address::where([['address_1', '=', $r->address_1],['address_2', '=', $r->address_2],['postal', '=', $r->postal]])->first();
+            if ($address === null) {
+                // Create Address
+                $address = new Address();
+                $address->address_1 = $r->address_1;
+                $address->address_2 = $r->address_2;
+                $address->postal = $r->postal;
+                $address->city = $r->city;
 
-            $address->save();
+                $address->save();
+            }
+
             // Create Customer
+
             $customer = new Customer();
             $customer->first_name = $r->first_name;
             $customer->last_name = $r->last_name;
+            $customer->email = $r->email;
             $customer->password = bcrypt($r->password);
             $customer->phone_1 = $r->phone_1;
             $customer->phone_2 = $r->phone_2;
@@ -102,7 +115,7 @@
 
             // Create Order
             $order = new Order();
-            $order->hash = 'hash';
+            $order->hash = bin2hex(random_bytes(32));
             $order->total = $cart->total();
             $order->paid =  false;
             $order->customer_id = $customer->customer_id;
@@ -110,16 +123,28 @@
 
             // Create Billing address
             if (!$r->billing_same){
-                $billing_address = new Address();
-                $billing_address->address_1 = $r->billing_address_1;
-                $billing_address->address_2 = $r->billing_address_2;
-                $billing_address->postal = $r->billing_postal;
-                $billing_address->city = $r->billing_city;
-
-                $billing_address->save();
+                $billing_address = Address::where(
+                    [
+                        ['address_1', '=', $r->billing_address_1],
+                        ['address_2', '=', $r->billing_address_2],
+                        ['postal', '=', $r->billing_postal],
+                        ['city', '=', $r->billing_city],
+                    ]
+                )->first();
+                if($billing_address === null) {
+                    $billing_address = new Address();
+                    $billing_address->address_1 = $r->billing_address_1;
+                    $billing_address->address_2 = $r->billing_address_2;
+                    $billing_address->postal = $r->billing_postal;
+                    $billing_address->city = $r->billing_city;
+                    $billing_address->save();
+                }
                 // Set order billing address
                 $order->billing_address_id = $billing_address->address_id;
                 $billing_address->customers()->attach($customer->customer_id);
+            } else {
+                // if address is the same set the shipping address as billing
+                $order->billing_address_id = $address->address_id;
             }
 
             $order->save();
@@ -132,7 +157,10 @@
 
             $order->products()->attach($products);
 
-            return redirect()->route('payment.index');
+            // empty cart
+            $cart->clear();
+
+            return redirect()->route('order.payment',[$order->hash]);
         }
         public function update()
         {

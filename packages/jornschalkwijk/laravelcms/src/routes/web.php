@@ -11,6 +11,20 @@
 */
 
 /* Backend Routes */
+    Route::group(['middleware' => ['web']], function (){
+        // Authentication Routes...
+        Route::get('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerLoginController@showLoginForm')->name('customers.login');
+        Route::post('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerLoginController@login');
+        Route::post('/logout', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerLoginController@logout')->name('customers.logout');
+        // Registration Routes...
+        Route::get('/register', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController@showRegistrationForm');
+        Route::post('/register', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerRegisterController@register');
+        // Password Reset Routes...
+        Route::get('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerForgotPasswordController@customer.showLinkRequestForm')->name('customers.password.request');
+        Route::post('/password/email', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerForgotPasswordController@customer.sendResetLinkEmail');
+        Route::post('/password/reset/{token}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerResetPasswordController@customer.showResetForm');
+        Route::post('/password/reset', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerResetPasswordController@customer.reset')->name('customers.password.request');
+    });
     Route::group(['prefix' => '/admin','middleware' => ['web']], function (){
         // Authentication Routes...
         Route::get('/login', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');
@@ -174,6 +188,7 @@
 
             Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create','store']);
             Route::group(['prefix' => '/order'],function(){
+                Route::get('/payment/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@payment')->name('order.payment');
                 Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@add')->name('order.add');
                 Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@update')->name('order.update');
                 Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@destroy')->name('order.destroy');
@@ -181,10 +196,10 @@
                 Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@refresh')->name('order.refresh');
             });
 
-            Route::resource('payment','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController')->only(['index']);
             Route::group(['prefix' => '/payment'],function(){
-                Route::post('/paywithpaypal', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@payWithPaypal')->name('payment.paypal');
-                Route::get('/paypalstatus', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@getPaymentStatus')->name('payment.paypalstatus');
+                Route::get('/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@index')->name('payment.index');
+                Route::post('/paywithpaypal/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@payWithPaypal')->name('payment.paypal');
+                Route::get('/paypalstatus/{hash}', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\PaymentController@getPaymentStatus')->name('payment.paypalstatus');
             });
             
 //            Route::resource('contacts','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ContactsController',['except' => ['show']]);

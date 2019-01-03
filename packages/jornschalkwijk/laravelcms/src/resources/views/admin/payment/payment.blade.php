@@ -15,7 +15,7 @@
                     <th>Total</th>
                     </thead>
                     <tbody id="cart">
-                    @foreach($order->products() as $order)
+                    @foreach($order->products as $order)
                         <tr id="product-{{$order->product_id}}">
                             <td class="align-middle">{{$loop->iteration}}</td>
 
@@ -61,12 +61,12 @@
                 </div>
 
             </div>
-            <div id="cart-table" class="col-6 col-md-4">
-                <h1 class="d-flex justify-content-center">Summary</h1>
-                @if(count($cart->all()) != 0)
-                    @include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')
-                @endif
-            </div>
+            {{--<div id="cart-table" class="col-6 col-md-4">--}}
+                {{--<h1 class="d-flex justify-content-center">Summary</h1>--}}
+                {{--@if(count($cart->all()) != 0)--}}
+                    {{--@include('JornSchalkwijk\LaravelCMS::admin.cart.cart-summary')--}}
+                {{--@endif--}}
+            {{--</div>--}}
         </div>
 
     </div>
@@ -90,7 +90,7 @@
         @endif
 
         <form class="w3-container w3-display-middle w3-card-4 w3-padding-16" method="POST" id="payment-form"
-        action="{{route('payment.paypal')}}">
+        action="{{route('payment.paypal',$order->hash)}}">
         {{method_field('POST')}}
         {{ csrf_field() }}
         <button class="w3-btn w3-blue">Pay with PayPal</button>
