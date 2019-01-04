@@ -5,7 +5,7 @@
 function requestStatusError(x, e) {
     if (x.status === 0) {
         alert('You are offline!!\n Please Check Your Network.');
-    } else if (x.status === 404) {w
+    } else if (x.status === 404) {
         alert('Requested URL not found.');
     } else if (x.status === 500) {
         alert('Internel Server Error.');
@@ -25,7 +25,8 @@ function Cart(options = {}) {
     this.defaults = {
         update: $('.update'),
         form: $('form'),
-        cart: $('#cart'),
+        cart: $('#cart-content'),
+        table: $('#cart-table'),
         quantity: $('.quantity'),
         empty: $('#empty'),
         remove: $('.remove'),
@@ -47,7 +48,7 @@ function Cart(options = {}) {
             data:$(form).serialize(),
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                     if(result.success) {
                         console.log(result);
                         console.log(this.data);
@@ -74,7 +75,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                     if(result.success) {
                         console.log(result);
                     }
@@ -99,7 +100,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -121,9 +122,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.cart);
-                    $('#cart-summary').html(result.summary);
-                    $('select').niceSelect();
+                    $('#cart-content').html(result.cart);
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -151,7 +150,7 @@ function Cart(options = {}) {
         //remove update button when javascript is enabled
         $(".update").hide();
     };
-    this.opt.refresh.on('click',function (e) {
+    this.opt.cart.on('click','#refresh',function (e) {
         e.preventDefault();
         let url = $(this).attr("href");
         _this.refresh(url);

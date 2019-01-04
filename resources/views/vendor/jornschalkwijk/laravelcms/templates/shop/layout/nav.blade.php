@@ -2,7 +2,7 @@
 <header class="header_area">
 	<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 		<!-- Classy Menu -->
-		<nav class="classy-navbar" id="essenceNav">
+		<nav class="classy-navbar" id="templateNav">
 			<!-- Logo -->
 			<a class="nav-brand" href="../index"><img src="/vendor/jornschalkwijk/laravelcms/templates/shop/img/core-img/logo.png" alt=""></a>
 			<!-- Navbar Toggler -->
@@ -88,7 +88,7 @@
 			</div>
 			<!-- Cart Area -->
 			<div class="cart-area">
-				<a href="#" id="essenceCartBtn"><img src="/vendor/jornschalkwijk/laravelcms/templates/shop/img/cart/bag.svg" alt=""> <span>{{$cart->itemCount()}}</span></a>
+				<a href="#" id="templateCartBtn"><img src="/vendor/jornschalkwijk/laravelcms/templates/shop/img/cart/bag.svg" alt=""> <span>{{$cart->itemCount()}}</span></a>
 			</div>
 		</div>
 

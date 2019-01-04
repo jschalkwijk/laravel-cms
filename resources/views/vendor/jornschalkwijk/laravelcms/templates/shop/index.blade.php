@@ -6,7 +6,7 @@
                     <div class="hero-content">
                         <h6>asoss</h6>
                         <h2>New Collection</h2>
-                        <a href="#" class="btn essence-btn">view collection</a>
+                        <a href="#" class="btn template-btn">view collection</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                             <div class="cta--text">
                                 <h6>-60%</h6>
                                 <h2>Global Sale</h2>
-                                <a href="#" class="btn essence-btn">Buy Now</a>
+                                <a href="#" class="btn template-btn">Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="#" class="btn template-btn">Add to Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="#" class="btn template-btn">Add to Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +174,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="#" class="btn template-btn">Add to Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="#" class="btn template-btn">Add to Cart</a>
                                     </div>
                                 </div>
                             </div>

@@ -8,17 +8,9 @@
         <a href="#" id="rightSideCart"><img src="/vendor/jornschalkwijk/LaravelCMS/templates/shop/img/cart/bag.svg" alt=""> <span>{{$cart->itemCount()}}</span></a>
     </div>
 
-    <div class="cart-content d-flex">
+    <div id="cart-content" class="cart-content d-flex">
 
-        <!-- Cart List Area -->
-        <div id="cart" class="cart-list">
-            @each(  'vendor.jornschalkwijk.laravelcms.templates.shop.cart.single-cart-item',$cart->all(), 'product')
-        </div>
-        <div id="cart-summary" class="cart-amount-summary">
-            @if(count($cart->all()) != 0)
-                @include('vendor.jornschalkwijk.laravelcms.templates.shop.cart.cart-summary')
-            @endif
-        </div>
+       @include('vendor.jornschalkwijk.laravelcms.templates.shop.cart.cart-content')
     </div>
 </div>
 

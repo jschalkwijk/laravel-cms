@@ -11,7 +11,7 @@
             <div class="contact-address mt-50">
                 <p><span>address:</span> 10 Suffolk st Soho, London, UK</p>
                 <p><span>telephone:</span> +12 34 567 890</p>
-                <p><a href="mailto:contact@essence.com">contact@essence.com</a></p>
+                <p><a href="mailto:contact@template.com">contact@template.com</a></p>
             </div>
         </div>
 

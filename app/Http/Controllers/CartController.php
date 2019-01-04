@@ -103,7 +103,6 @@ class CartController extends Controller
             $summary = '';
             if (count($this->cart->all()) != 0) {
                 $html = view('vendor.jornschalkwijk.laravelcms.templates.shop.cart.cart-content')->with(['cart' => $this->cart])->render();
-                $summary = view('vendor.jornschalkwijk.laravelcms.templates.shop.cart.cart-summary')->with(['cart' => $this->cart])->render();
             }
             return response()->json(['success' => true,'cart' => $html,'summary' => $summary]);
         } else {

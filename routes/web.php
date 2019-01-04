@@ -54,4 +54,5 @@
             Route::get('/empty', 'CartController@empty')->name('cart.empty');
             Route::get('refresh', 'CartController@refresh')->name('cart.refresh');
         });
+        Route::resource('shop','ShopController')->only(['index']);
     });

@@ -140,7 +140,7 @@ class Category extends Model
         return $this->hasOne(Category::class,'category_id','parent_id');
     }
     public function children() {
-        return $this->hasMany(Category::class,'parent_id','category_id');
+        return $this->hasMany(Category::class,'parent_id','category_id')->with('children');
     }
 //	public function categoryable()
 //	{
@@ -230,6 +230,32 @@ class Category extends Model
 
         $html .= '</ul>' ;
 
+        return $html;
+    }
+    /**
+     * @param $array
+     * @return string
+     *
+     * Takes an array with the first chidren of the Object, then if those children have children
+     * it wil cascade over them en create a list output.
+     */
+    public function subMenuList($children)
+    {
+        $html = '';
+        foreach ($children as $value)
+        {
+            if (!$value->children->isEmpty())
+            {
+                $html .= '<li data-toggle="collapse" data-target="#'.$value->title.'"><a>'.$value->title.'</a>';
+                $html .= '<ul class="sub-menu collapse" id="'.$value->title.'">';
+                $html .= $this->subMenuList($value->children,$value->title);
+                $html .= '</ul>';
+            } else {
+                $html .= '<li><a>'.$value->title.'</a>';
+                $html .= $this->subMenuList($value->children);
+            }
+            $html .= '</li>';
+        }
         return $html;
     }
 

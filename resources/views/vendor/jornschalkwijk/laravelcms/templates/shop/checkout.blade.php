@@ -164,7 +164,7 @@
                             </div>
                         </div>
 
-                        <a href="#" class="btn essence-btn">Place Order</a>
+                        <a href="#" class="btn template-btn">Place Order</a>
                     </div>
                 </div>
             </div>

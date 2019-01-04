@@ -5,7 +5,7 @@
 
     // :: Nav Active Code
     if ($.fn.classyNav) {
-        $('#essenceNav').classyNav();
+        $('#templateNav').classyNav();
     }
 
     // :: Sliders Active Code
@@ -48,7 +48,7 @@
     }
 
     // :: Header Cart Active Code
-    var cartbtn1 = $('#essenceCartBtn');
+    var cartbtn1 = $('#templateCartBtn');
     var cartOverlay = $(".cart-bg-overlay");
     var cartWrapper = $(".right-side-cart-area");
     var cartbtn2 = $("#rightSideCart");

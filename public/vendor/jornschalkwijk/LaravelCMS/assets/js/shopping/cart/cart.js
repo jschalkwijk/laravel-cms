@@ -25,7 +25,7 @@ function Cart(options = {}) {
     this.defaults = {
         update: $('.update'),
         form: $('form'),
-        cart: $('#cart'),
+        cart: $('#cart-content'),
         table: $('#cart-table'),
         quantity: $('.quantity'),
         empty: $('#empty'),
@@ -151,7 +151,7 @@ function Cart(options = {}) {
         //remove update button when javascript is enabled
         $(".update").hide();
     };
-    this.opt.refresh.on('click',function (e) {
+    this.opt.cart.on('click','#refresh',function (e) {
         e.preventDefault();
         let url = $(this).attr("href");
         _this.refresh(url);
