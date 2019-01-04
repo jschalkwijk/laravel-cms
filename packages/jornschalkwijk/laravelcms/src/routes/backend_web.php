@@ -162,14 +162,14 @@
                 Route::get('/{id}/restore', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\ProductsController@trash')->name('products.restore');
             }); 
             
-            Route::resource('cart','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController')->only(['index']);
-            Route::group(['prefix' => '/cart'],function(){
-                Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@add')->name('cart.add');
-                Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@update')->name('cart.update');
-                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
-                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
-                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
-            });
+//            Route::resource('cart','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController')->only(['index']);
+//            Route::group(['prefix' => '/cart'],function(){
+//                Route::post('/add', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@add')->name('cart.add');
+//                Route::post('/update', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@update')->name('cart.update');
+//                Route::get('/{id}/destroy', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@destroy')->name('cart.destroy');
+//                Route::get('/empty', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@empty')->name('cart.empty');
+//                Route::get('refresh', 'JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\CartController@refresh')->name('cart.refresh');
+//            });
 
             Route::resource('order','JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','create','store','show']);
             Route::group(['prefix' => '/order'],function(){

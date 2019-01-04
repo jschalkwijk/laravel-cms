@@ -1,0 +1,20 @@
+{
+  "name": "cache",
+  "version": "1.0.0",
+  "description": "Caching ajax responses and/or other data into local- or sessionStorage",
+  "main": "cache.js",
+  "author": "Jorn Schalkwijk <jornschalkwijk@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jschalkwijk/cache.git"
+  },
+  "keywords": [
+    "javascript",
+    "cache",
+    "ajax",
+    "localstorage",
+    "sessonstorage"
+  ]
+}

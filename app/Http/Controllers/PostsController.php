@@ -4,13 +4,12 @@ namespace CMS\Http\Controllers;
 
 use JornSchalkwijk\LaravelCMS\Models\Post;
 
-class Posts extends Controller
+class PostsController extends Controller
 {
-
 
     public function index()
     {
-        $posts = Post::all()->take(10);
+        $posts = Post::all();
         return view('vendor.jornschalkwijk.laravelcms.templates.shop.blog')->with(['posts' => $posts]);
     }
     public function show(Post $post){

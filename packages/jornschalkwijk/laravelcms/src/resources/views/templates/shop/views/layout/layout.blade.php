@@ -14,6 +14,7 @@
 
 
 @include('vendor.jornschalkwijk.laravelcms.templates.shop.layout.nav')
+@include('vendor.jornschalkwijk.laravelcms.templates.shop.layout.cart')
 
 @yield('content')
 

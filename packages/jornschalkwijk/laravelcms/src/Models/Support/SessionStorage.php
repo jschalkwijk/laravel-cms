@@ -77,7 +77,10 @@ class SessionStorage implements Store, Countable
     }
 
     public function count(){
-        // ount all bucket items in the session
+        // count all bucket items in the session
+        if(empty($this->all())) {
+            return 0;
+        }
         return count($this->all());
     }
     public static function getByName ($bucket){

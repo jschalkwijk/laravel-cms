@@ -33,28 +33,28 @@
         <div class="related-blog-post">
             <!-- Single Related Blog Post -->
             <div class="single-related-blog-post">
-                <img src="img/bg-img/rp1.jpg" alt="">
+                <img src="/vendor/jornschalkwijk/laravelcms/templates/shop/img/bg-img/rp1.jpg" alt="">
                 <a href="#">
                     <h5>Cras lobortis nisl nec libero pulvinar lacinia. Nunc sed ullamcorper massa</h5>
                 </a>
             </div>
             <!-- Single Related Blog Post -->
             <div class="single-related-blog-post">
-                <img src="img/bg-img/rp2.jpg" alt="">
+                <img src="/vendor/jornschalkwijk/LaravelCMS/templates/shop/img/bg-img/rp2.jpg" alt="">
                 <a href="#">
                     <h5>Fusce tincidunt nulla magna, ac euismod quam viverra id. Fusce eget metus feugiat</h5>
                 </a>
             </div>
             <!-- Single Related Blog Post -->
             <div class="single-related-blog-post">
-                <img src="img/bg-img/rp3.jpg" alt="">
+                <img src="/vendor/jornschalkwijk/LaravelCMS/templates/shop/img/bg-img/rp3.jpg" alt="">
                 <a href="#">
                     <h5>Etiam leo nibh, consectetur nec orci et, tempus tempus ex</h5>
                 </a>
             </div>
             <!-- Single Related Blog Post -->
             <div class="single-related-blog-post">
-                <img src="img/bg-img/rp4.jpg" alt="">
+                <img src="/vendor/jornschalkwijk/LaravelCMS/templates/shop/img/bg-img/rp4.jpg" alt="">
                 <a href="#">
                     <h5>Sed viverra pellentesque dictum. Aenean ligula justo, viverra in lacus porttitor</h5>
                 </a>

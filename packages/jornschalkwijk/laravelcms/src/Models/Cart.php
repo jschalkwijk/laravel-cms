@@ -152,7 +152,7 @@ class Cart
     }
 
     public function itemCount(){
-        return $this->storage->count();
+        return (!$this->storage->count()) ? 0 : $this->storage->count() ;
     }
 
     public function subTotal(){

@@ -1,0 +1,1 @@
+@each( 'vendor.jornschalkwijk.laravelcms.templates.shop.cart.single-cart-item',$cart->all(), 'product')

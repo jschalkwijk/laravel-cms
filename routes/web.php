@@ -15,11 +15,11 @@
     Route::group(['middleware' => ['web']], function()
     {
 
-        Route::resource('order','\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','store']);
+        Route::resource('order','\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController')->only(['index','store']);
         Route::group(['prefix' => '/order'],function(){
-            Route::get('/{order}', '\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@show')->name('order.show')->middleware(['auth:customer']);
-            Route::get('/empty', '\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@empty')->name('order.empty');
-            Route::get('refresh', '\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@refresh')->name('order.refresh');
+            Route::get('/{order}', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@show')->name('order.show')->middleware(['auth:customer']);
+            Route::get('/empty', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@empty')->name('order.empty');
+            Route::get('refresh', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@refresh')->name('order.refresh');
         });
 
         // Authentication Routes...
@@ -40,9 +40,18 @@
         Route::get('/about','PagesController@about');
         Route::get('/skills','PagesController@skills');
 
-        Route::get('/blog', 'Posts@index');
-        Route::resource('post','Posts')->only(['show']);
+        Route::get('/blog', 'PostsController@index');
+        Route::resource('post','PostsController')->only(['show']);
 
         Route::get('/categories', 'Categories@index');
         Route::get('/categories/{category}', 'Categories@show');
+
+        Route::resource('cart','CartController')->only(['index']);
+        Route::group(['prefix' => '/cart'],function(){
+            Route::post('/add', 'CartController@add')->name('cart.add');
+            Route::post('/update', 'CartController@update')->name('cart.update');
+            Route::get('/{id}/destroy', 'CartController@destroy')->name('cart.destroy');
+            Route::get('/empty', 'CartController@empty')->name('cart.empty');
+            Route::get('refresh', 'CartController@refresh')->name('cart.refresh');
+        });
     });
