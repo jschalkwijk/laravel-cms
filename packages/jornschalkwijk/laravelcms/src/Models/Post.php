@@ -153,6 +153,27 @@ class Post extends Model
     {
         return $this->morphToMany('JornSchalkwijk\LaravelCMS\Models\Tag', 'taggable',null,null,'tag_id');
     }
+
+    /**
+     * @return Post|null
+     */
+    public function getFeatured()
+    {
+        if ( $this->getAttribute('upload_id') === null) {
+            return null;
+        }
+        return $this->getAttribute('featured_image');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+    public function featured_image(){
+        return $this->hasOne(Upload::class,'upload_id','upload_id');
+    }
     # Getters
     public function id()
     {

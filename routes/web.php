@@ -11,8 +11,10 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+
     Route::group(['middleware' => ['web']], function()
     {
+
         Route::resource('order','\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController')->only(['index','store']);
         Route::group(['prefix' => '/order'],function(){
             Route::get('/{order}', '\JornSchalkwijk\LaravelCMS\Http\Controllers\Admin\OrderController@show')->name('order.show')->middleware(['auth:customer']);
@@ -39,7 +41,7 @@
         Route::get('/skills','PagesController@skills');
 
         Route::get('/blog', 'Posts@index');
-        Route::get('/blog/{post}', 'Posts@show');
+        Route::resource('post','Posts')->only(['show']);
 
         Route::get('/categories', 'Categories@index');
         Route::get('/categories/{category}', 'Categories@show');

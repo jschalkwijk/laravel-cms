@@ -6,18 +6,18 @@
 
 <head>
 
-    @include('JornSchalkwijk\LaravelCMS::layout.head')
+    @include('vendor.jornschalkwijk.laravelcms.templates.shop.layout.head')
 
 </head>
 
 <body>
 
 
-@include('JornSchalkwijk\LaravelCMS::templates.shop.layout.nav')
+@include('vendor.jornschalkwijk.laravelcms.templates.shop.layout.nav')
 
 @yield('content')
 
-@include('JornSchalkwijk\LaravelCMS::templates.shop.layout.footer')
+@include('vendor.jornschalkwijk.laravelcms.templates.shop.layout.footer')
 
 </body>
 

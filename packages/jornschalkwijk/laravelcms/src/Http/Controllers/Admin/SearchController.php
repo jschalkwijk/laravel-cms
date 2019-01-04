@@ -40,7 +40,7 @@ class SearchController extends Controller
         $this->validate($r, [
             'search' => 'min:3',
         ]);
-        $posts = Post::search($r['search'])->get();
+        $posts = Post::search($r['search']);
 
         return view('JornSchalkwijk\LaravelCMS::admin.search.show')->with(['posts' => $posts,'template' => $this->adminTemplate()]);
     }
