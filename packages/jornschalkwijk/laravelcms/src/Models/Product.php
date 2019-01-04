@@ -54,7 +54,18 @@ class Product extends Model
         return $this->belongsToMany(Product::class,'orders_products','product_id','order_id')->withPivot(['quantity']);
     }
 
+    public function featuredImage(){
+        return $this->hasOne(Upload::class,'upload_id','upload_id');
+    }
     # Getters
+
+    public function getFeatured()
+    {
+        if ( $this->getAttribute('upload_id') === null) {
+            return null;
+        }
+        return $this->getAttribute('featuredImage');
+    }
     public function id()
     {
         return $this->product_id;

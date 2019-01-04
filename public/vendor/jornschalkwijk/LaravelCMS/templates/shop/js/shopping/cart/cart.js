@@ -34,6 +34,7 @@ function Cart(options = {}) {
     };
     // merge values from the options object to the defaults object and create new object
     this.opt = Object.assign({}, this.defaults, options)
+
     this.update = function (form,e) {
         e.preventDefault();
         $.ajaxSetup({
@@ -49,6 +50,7 @@ function Cart(options = {}) {
             success: function (result) {
                 if(result.success === true){
                     $('#cart-content').html(result.html);
+                    $('select').niceSelect();
                     if(result.success) {
                         console.log(result);
                         console.log(this.data);
@@ -76,6 +78,7 @@ function Cart(options = {}) {
             success: function (result) {
                 if(result.success === true){
                     $('#cart-content').html(result.html);
+                    $('select').niceSelect();
                     if(result.success) {
                         console.log(result);
                     }
@@ -123,6 +126,7 @@ function Cart(options = {}) {
             success: function (result) {
                 if(result.success === true){
                     $('#cart-content').html(result.cart);
+                    $('select').niceSelect();
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -154,6 +158,11 @@ function Cart(options = {}) {
         e.preventDefault();
         let url = $(this).attr("href");
         _this.refresh(url);
+    });
+    $('.add-to-cart-btn').on('click','button',function (e) {
+        console.log('hello');
+        e.preventDefault();
+        _this.update($(this).parent('form'),e);
     });
 }
 function CartInit() {

@@ -25,7 +25,7 @@ function Cart(options = {}) {
     this.defaults = {
         update: $('.update'),
         form: $('form'),
-        cart: $('#cart'),
+        cart: $('#cart-content'),
         table: $('#cart-table'),
         quantity: $('.quantity'),
         empty: $('#empty'),
@@ -42,13 +42,13 @@ function Cart(options = {}) {
             }
         });
         $.ajax({
-            url: "/admin/cart/update",
+            url: "/cart/update",
             method: 'post',
             cache: false,
             data:$(form).serialize(),
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                     if(result.success) {
                         console.log(result);
                         console.log(this.data);
@@ -75,7 +75,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                     if(result.success) {
                         console.log(result);
                     }
@@ -100,7 +100,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.html);
+                    $('#cart-content').html(result.html);
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -122,8 +122,7 @@ function Cart(options = {}) {
             cache: false,
             success: function (result) {
                 if(result.success === true){
-                    $('#cart').html(result.cart);
-                    $('#cart-summary').html(result.summary);
+                    $('#cart-content').html(result.cart);
                 } else {
                     $('#errors').html(result.message);
                 }
@@ -151,27 +150,13 @@ function Cart(options = {}) {
         //remove update button when javascript is enabled
         $(".update").hide();
     };
-    this.opt.refresh.on('click',function (e) {
+    this.opt.cart.on('click','#refresh',function (e) {
         e.preventDefault();
         let url = $(this).attr("href");
         _this.refresh(url);
     });
-
-    if(window.location.pathname === '/admin/order'){
-        setInterval(function () {
-            _this.refresh('/admin/order/refresh')
-        },10000);
-    }
-    if(window.location.pathname === '/admin/cart'){
-        setInterval(function () {
-            _this.refresh('/admin/cart/refresh')
-        },30000);
-    }
-    // $('#billing_same').on('click', function() {
-    //     $(this).attr('checked', 'checked');
-    // })
 }
-function CartInit() {
-    new Cart();
-}
-addLoadEvent(CartInit);
+// function CartInit() {
+//     new Cart();
+// }
+// addLoadEvent(CartInit);

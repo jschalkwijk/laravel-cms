@@ -20,7 +20,7 @@
             <div class="row">
                
                 <!-- Single Blog Area -->
-                @foreach($posts as $post)
+                @foreach($posts as $post)Post
                 <div class="col-12 col-lg-6">
 
                         @if($post->getFeatured() !== null)

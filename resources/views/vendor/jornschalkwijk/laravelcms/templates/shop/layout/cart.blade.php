@@ -16,6 +16,6 @@
 
 @push('scripts')
 <script src="{{ asset('/vendor/jornschalkwijk/LaravelCMS/templates/shop/js/shopping/cart/cart.js') }}"></script>
-@end
+@endpush
 
 <!-- ##### Right Side Cart End ##### -->

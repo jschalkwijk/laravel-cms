@@ -83,3 +83,4 @@
 <script src="{{asset("vendor/jornschalkwijk/laravelcms/templates/shop/js/classy-nav.min.js")}}"></script>
 <!-- Active js -->
 <script src="{{asset("vendor/jornschalkwijk/laravelcms/templates/shop/js/active.js")}}"></script>
+<script src="{{asset("vendor/jornschalkwijk/laravelcms/templates/shop/js/shopping/cart/cart.js")}}"></script>

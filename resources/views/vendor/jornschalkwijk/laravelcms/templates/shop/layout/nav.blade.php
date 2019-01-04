@@ -4,7 +4,7 @@
 		<!-- Classy Menu -->
 		<nav class="classy-navbar" id="templateNav">
 			<!-- Logo -->
-			<a class="nav-brand" href="../index"><img src="/vendor/jornschalkwijk/laravelcms/templates/shop/img/core-img/logo.png" alt=""></a>
+			<a class="nav-brand" href="../index"><img src="#" alt=""></a>
 			<!-- Navbar Toggler -->
 			<div class="classy-navbar-toggler">
 				<span class="navbarToggler"><span></span><span></span><span></span></span>

@@ -15,12 +15,12 @@
     Route::group(['middleware' => ['web']], function()
     {
 
-        Route::resource('order','\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController')->only(['index','store']);
-        Route::group(['prefix' => '/order'],function(){
-            Route::get('/{order}', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@show')->name('order.show')->middleware(['auth:customer']);
-            Route::get('/empty', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@empty')->name('order.empty');
-            Route::get('refresh', '\\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@refresh')->name('order.refresh');
-        });
+//        Route::resource('order','\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController')->only(['index','store']);
+//        Route::group(['prefix' => '/order'],function(){
+//            Route::get('/{order}', '\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@show')->name('order.show')->middleware(['auth:customer']);
+//            Route::get('/empty', '\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@empty')->name('order.empty');
+//            Route::get('refresh', '\JornSchalkwijk\LaravelCMS\Http\Controllers\OrderController@refresh')->name('order.refresh');
+//        });
 
         // Authentication Routes...
         Route::get('/login', '\JornSchalkwijk\LaravelCMS\Http\Controllers\Customers\Auth\CustomerLoginController@showLoginForm')->name('customer.login');

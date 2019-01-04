@@ -28,7 +28,7 @@ class FoldersController extends Controller
             $folders = Folder::all();
         }
 
-        return view("admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
+        return view("JornSchalkwijk\LaravelCMS::admin.uploads.folders.folders",['template'=>$this->adminTemplate(),'folders' => $folders]);
     }
 
     public function show(Folder $folder,Request $r)

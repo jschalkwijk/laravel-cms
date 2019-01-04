@@ -9,8 +9,6 @@
             <h6><a href="{{route('products.show',$product->product_id)}}">{{ $product->name }}</a></h6>
             <p class="cart-item-size">Size: S</p>
             <p class="cart-item-color">Color: Red</p>
-            <p class="cart-item-price">€ {{$product->total()}}</p><p class="cart-item-size">Size: S</p>
-            <p class="cart-item-color">Color: Red</p>
             <p class="cart-item-price">€ {{$product->total()}}</p>
             <div><form method="post" action="{{route('cart.update')}}">
                 {{ csrf_field() }}
@@ -26,6 +24,7 @@
                 </select>
             </form>
             </div>
+            <br>
             <p class="cart-price"> € {{$product->productTotal()}}</p>
         </div>
     </div>
